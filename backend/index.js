@@ -23,8 +23,9 @@ io.on("connection", (socket) => {
   socket.emit("message", "Hello there from server");
 });
 
-httpServer.listen(process.env.PORT, () => {
-  console.log(`listening on *:${process.env.PORT}`);
+const port = process.env.PORT || 3000;
+httpServer.listen(port, () => {
+  console.log("server online")
 });
 
 app.post("/webhook", (req, res) => {
