@@ -24,7 +24,7 @@ io.on("connection", (socket) => {
 });
 
 httpServer.listen(process.env.PORT, () => {
-  console.log("listening on *:".process.env.PORT);
+  console.log(`listening on *:${process.env.PORT}`);
 });
 
 app.post("/webhook", (req, res) => {
