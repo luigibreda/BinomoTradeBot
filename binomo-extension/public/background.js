@@ -1,13 +1,3 @@
-let currentStatus = {
-  startedListening: false,
-};
-
-const set = (newState) => {
-  currentStatus = { ...currentStatus, ...newState };
-};
-const getAllState = () => currentStatus;
-const get = (key) => currentStatus[key];
-
 const notifyWebhook = (data) => {
   try {
     fetch("http://localhost:3000/webhook", {
@@ -22,26 +12,44 @@ const notifyWebhook = (data) => {
   }
 };
 
-const sendMessageToCurrentTab = (message) => {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    chrome.tabs.sendMessage(tabs[0].id, message);
-  });
+const sendMessageToCurrentTab = async (message) => {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  const response = await chrome.tabs.sendMessage(tab.id, message);
+  return response;
 };
 
 const actions = {
-  START: () => {
+  OPEN_BINOMO: () => {
+    chrome.tabs.create({ url: "https://binomo.com/trading" });
+  },
+  ADD_LISTENER: () => {
     sendMessageToCurrentTab({ type: "START" });
-    set({ startedListening: true });
   },
-  STOP: () => {
+  REMOVE_LISTENER: () => {
     sendMessageToCurrentTab({ type: "STOP" });
-    set({ startedListening: false });
-  },
-  GET_STATUS: (data, sendResponse) => {
-    sendResponse(getAllState());
   },
   NOTIFY: (data) => {
     notifyWebhook(data);
+    chrome.storage.session.get(["extensionStore"], (result) => {
+      const allDataInJSObject = JSON.parse(result.extensionStore);
+
+      const updatedData = {
+        ...allDataInJSObject,
+        state: {
+          ...allDataInJSObject.state,
+          plays: allDataInJSObject.state.plays + 1,
+        },
+      };
+
+      chrome.storage.session.set(
+        {
+          extensionStore: JSON.stringify(updatedData),
+        },
+        () => {
+          console.log("Data successfully saved");
+        }
+      );
+    });
   },
 };
 

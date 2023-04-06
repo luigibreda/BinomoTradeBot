@@ -3,6 +3,7 @@ import { createServer } from "http";
 import cors from "cors";
 import express from "express";
 
+const port = process.env.PORT || 3000;
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
@@ -20,17 +21,20 @@ app.use(
 app.use(express.json());
 
 io.on("connection", (socket) => {
-  socket.emit("message", "Hello there from server");
+  io.emit("online-users", io.engine.clientsCount - 1);
+
+  socket.on("disconnect", () => {
+    io.emit("online-users", io.engine.clientsCount - 1);
+  });
 });
 
-const port = process.env.PORT || 3000;
 httpServer.listen(port, () => {
-  console.log("server online")
+  console.log("listening on *:" + port);
 });
 
 app.post("/webhook", (req, res) => {
-  const { message } = req.body;
+  const { message, tradingAsset } = req.body;
 
-  io.emit("message", message);
+  io.emit("direction", `${message} ${tradingAsset}`);
   res.json({ message: "ok" });
 });
