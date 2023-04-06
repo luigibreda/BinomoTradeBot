@@ -13,6 +13,7 @@ const buttons = [
     callback: () => {
       notifyBackground({
         message: "UP",
+        tradingAsset: document.querySelector(".title").innerText,
       });
     },
   },
@@ -21,6 +22,7 @@ const buttons = [
     callback: () => {
       notifyBackground({
         message: "DOWN",
+        tradingAsset: document.querySelector(".title").innerText,
       });
     },
   },
@@ -43,10 +45,11 @@ const actions = {
   },
 };
 
-chrome.runtime.onMessage.addListener((request) => {
+chrome.runtime.onMessage.addListener((request, sender) => {
   try {
     const { type } = request;
     const callback = actions[type];
+    if (!callback) return;
     callback();
   } catch (error) {
     console.log("Error in content.js", error);

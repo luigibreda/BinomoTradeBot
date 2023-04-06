@@ -1,5 +1,5 @@
 {
-  "name": "binomo-extension",
+  "name": "binomo-extension-client",
   "private": true,
   "version": "0.0.0",
   "type": "module",
