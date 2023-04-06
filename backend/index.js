@@ -35,6 +35,9 @@ httpServer.listen(port, () => {
 app.post("/webhook", (req, res) => {
   const { message, tradingAsset } = req.body;
 
-  io.emit("direction", `${message} ${tradingAsset}`);
+  io.emit("direction", {
+    message,
+    tradingAsset,
+  });
   res.json({ message: "ok" });
 });
