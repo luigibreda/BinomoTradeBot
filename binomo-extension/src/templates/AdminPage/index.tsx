@@ -1,4 +1,4 @@
-import { ActionButton } from "./components/ActionButton";
+import { ActionButton } from "../../components/ActionButton";
 import { Statistics } from "./components/Statistics";
 import { useAdmin } from "./hooks/useAdmin";
 
