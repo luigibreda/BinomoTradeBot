@@ -18,12 +18,16 @@ app.use(
   })
 );
 
-
-
 app.use(express.json());
 
+let operatorOnline;
+
 io.on("connection", (socket) => {
-  io.emit("online-users", io.engine.clientsCount - 1);
+  socket.emit("online-users", io.engine.clientsCount - 1);
+
+  socket.emit("operator-online", {
+    online: operatorOnline,
+  });
 
   socket.on("disconnect", () => {
     io.emit("online-users", io.engine.clientsCount - 1);
@@ -35,11 +39,15 @@ httpServer.listen(port, () => {
 });
 
 app.post("/webhook", (req, res) => {
-  const { message, tradingAsset } = req.body;
+  const { emit, data } = req.body;
 
-  io.emit("direction", {
-    message,
-    tradingAsset,
-  });
+  io.emit(emit, data);
+  res.json({ message: "ok" });
+});
+
+app.post("/operator-online", (req, res) => {
+  const { online } = req.body;
+  operatorOnline = online;
+  io.emit("operator-online", { online });
   res.json({ message: "ok" });
 });

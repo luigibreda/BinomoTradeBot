@@ -19,7 +19,9 @@ const sendMessageToCurrentTab = async (message) => {
 };
 
 const actions = {
- 
+  DIRECTION: (data) => {
+    sendMessageToCurrentTab({ type: data });
+  },
 };
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {

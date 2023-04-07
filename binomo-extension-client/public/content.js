@@ -7,41 +7,25 @@ const notifyBackground = (data) => {
   });
 };
 
-const buttons = [
-  {
+const buttons = {
+  UP: {
     query: "#qa_trading_dealUpButton",
-    callback: () => {
-      notifyBackground({
-        message: "UP",
-        tradingAsset: document.querySelector(".title").innerText,
-      });
-    },
   },
-  {
+  DOWN: {
     query: "#qa_trading_dealDownButton",
-    callback: () => {
-      notifyBackground({
-        message: "DOWN",
-        tradingAsset: document.querySelector(".title").innerText,
-      });
-    },
   },
-];
+};
 
 const actions = {
-  START: () => {
-    buttons.forEach((button) => {
-      console.log("Adding event listener to button");
-      const element = document.querySelector(button.query);
-      element.addEventListener("click", button.callback);
-    });
+  UP: () => {
+    const button = buttons["UP"];
+    const element = document.querySelector(button.query);
+    element.click();
   },
-  STOP: () => {
-    buttons.forEach((button) => {
-      console.log("Removing event listener from button");
-      const element = document.querySelector(button.query);
-      element.removeEventListener("click", button.callback);
-    });
+  DOWN: () => {
+    const button = buttons["DOWN"];
+    const element = document.querySelector(button.query);
+    element.click();
   },
 };
 

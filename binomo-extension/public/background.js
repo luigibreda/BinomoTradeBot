@@ -1,11 +1,30 @@
-const notifyWebhook = (data) => {
+const notifyWebhook = (emit, data) => {
   try {
     fetch("http://localhost:3000/webhook", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        emit,
+        data,
+      }),
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const handleOperatorOnline = (online) => {
+  try {
+    fetch("http://localhost:3000/operator-online", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        online,
+      }),
     });
   } catch (error) {
     console.log(error);
@@ -23,13 +42,15 @@ const actions = {
     chrome.tabs.create({ url: "https://binomo.com/trading" });
   },
   ADD_LISTENER: () => {
+    handleOperatorOnline(true);
     sendMessageToCurrentTab({ type: "START" });
   },
   REMOVE_LISTENER: () => {
+    handleOperatorOnline(false);
     sendMessageToCurrentTab({ type: "STOP" });
   },
   NOTIFY: (data) => {
-    notifyWebhook(data);
+    notifyWebhook("direction", data);
     chrome.storage.session.get(["extensionStore"], (result) => {
       const allDataInJSObject = JSON.parse(result.extensionStore);
 
