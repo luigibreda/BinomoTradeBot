@@ -1,4 +1,4 @@
-import { Bagde } from "../../../../../../components/Bagde";
+import { Bagde } from "../Bagde";
 
 type LabelProps = {
   label: string;

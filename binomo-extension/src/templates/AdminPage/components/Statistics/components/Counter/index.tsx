@@ -1,4 +1,4 @@
-import { Label } from "../Label";
+import { Label } from "../../../../../../components/Label";
 import { useCounter } from "./hooks/useCounter";
 
 export const Counter = () => {

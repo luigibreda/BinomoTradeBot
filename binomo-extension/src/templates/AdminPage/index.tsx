@@ -1,9 +1,12 @@
-import { ActionButton } from "../../components/ActionButton";
+import { useOnlineUsers } from "../../hooks/useOnlineUsers";
+import { useExtensionStore } from "../../store/extensionStore";
+import { Actions } from "./components/Actions";
 import { Statistics } from "./components/Statistics";
-import { useAdmin } from "./hooks/useAdmin";
 
 export const AdminPage = () => {
-  const { startedMirroring, handleMirror, isInBinomoTradingPage } = useAdmin();
+  const onlineUsers = useOnlineUsers();
+  const startedMirroring = useExtensionStore((state) => state.startedMirroring);
+  const plays = useExtensionStore((state) => state.plays);
 
   return (
     <div className="mt-2 flex flex-col gap-20">
@@ -12,23 +15,13 @@ export const AdminPage = () => {
           <h1 className="font-bold text-lg">Binomo CopyTrader</h1>
           <p className="text-sm font-light text-neutral-400">Area do Admin</p>
         </div>
-        <Statistics />
-      </div>
-      <div className="flex flex-col gap-3">
-        <ActionButton
-          disabled={!isInBinomoTradingPage}
-          onClick={handleMirror}
-          color={startedMirroring ? "rose" : "emerald"}
-          placeholder={
-            startedMirroring ? "Parar espelhamento" : "Iniciar espelhamento"
-          }
+        <Statistics
+          onlineUsers={onlineUsers}
+          startedMirroring={startedMirroring}
+          plays={plays}
         />
-        <p className="text-xs font-light text-neutral-400">
-          {!isInBinomoTradingPage
-            ? "Você precisa estar na página de negociação do Binomo para inicia o espelhamento. (caso não esteja, clique no icone do Binomo CopyTrader)"
-            : "Clique no botão para iniciar o espelhamento."}
-        </p>
       </div>
+      <Actions startedMirroring={startedMirroring} />
     </div>
   );
 };

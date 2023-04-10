@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useExtensionStore } from "../../../store/extensionStore";
+import { useExtensionStore } from "../../../../../store/extensionStore";
 
-export const useAdmin = () => {
+export const useActions = () => {
   const [isInBinomoTradingPage, setIsInBinomoTradingPage] = useState(false);
   const startedMirroring = useExtensionStore((state) => state.startedMirroring);
   const setStartedMirroring = useExtensionStore(

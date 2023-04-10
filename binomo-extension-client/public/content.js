@@ -1,30 +1,12 @@
-console.log("Hello from content.js");
-
-const notifyBackground = (data) => {
-  chrome.runtime.sendMessage({
-    type: "NOTIFY",
-    data,
-  });
-};
-
-const buttons = {
-  UP: {
-    query: "#qa_trading_dealUpButton",
-  },
-  DOWN: {
-    query: "#qa_trading_dealDownButton",
-  },
-};
+console.log("Hello from client extension binomo");
 
 const actions = {
   UP: () => {
-    const button = buttons["UP"];
-    const element = document.querySelector(button.query);
+    const element = document.querySelector("#qa_trading_dealUpButton");
     element.click();
   },
   DOWN: () => {
-    const button = buttons["DOWN"];
-    const element = document.querySelector(button.query);
+    const element = document.querySelector("#qa_trading_dealDownButton");
     element.click();
   },
 };

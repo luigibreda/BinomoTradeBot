@@ -19,8 +19,8 @@ const sendMessageToCurrentTab = async (message) => {
 };
 
 const actions = {
-  DIRECTION: (data) => {
-    sendMessageToCurrentTab({ type: data });
+  DIRECTION: (direction) => {
+    sendMessageToCurrentTab({ type: direction });
   },
 };
 
@@ -28,7 +28,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   try {
     const { type, data } = request;
     const callback = actions[type];
-    callback(data, sendResponse);
+    callback(data);
   } catch (error) {
     console.log("Error in background.js", error);
   }

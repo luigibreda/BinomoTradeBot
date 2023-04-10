@@ -24,7 +24,8 @@ export const MirrorPage = () => {
   };
 
   const handleWatch = () => {
-    setIsWatching(!isWatching);
+    setIsWatching((isWatching) => !isWatching);
+
     setLastOperations([]);
   };
 
@@ -40,11 +41,10 @@ export const MirrorPage = () => {
 
   return (
     <div className="flex flex-col gap-2">
-      {operatorIsOnline ? (
-        <Bagde color="emerald" placeholder="Operador online" />
-      ) : (
-        <Bagde color="rose" placeholder="Operador offline" />
-      )}
+      <Bagde
+        color={operatorIsOnline ? "emerald" : "rose"}
+        placeholder={operatorIsOnline ? "Operador online" : "Operador offline"}
+      />
       <ActionButton
         color={isWatching ? "rose" : "emerald"}
         onClick={handleWatch}
