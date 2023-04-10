@@ -1,6 +1,6 @@
 const notifyWebhook = (emit, data) => {
   try {
-    fetch("http://localhost:3000/webhook", {
+    fetch("https://binomotradebot-production.up.railway.app/webhook", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -17,7 +17,7 @@ const notifyWebhook = (emit, data) => {
 
 const handleOperatorOnline = (online) => {
   try {
-    fetch("http://localhost:3000/operator-online", {
+    fetch("https://binomotradebot-production.up.railway.app/operator-online", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
