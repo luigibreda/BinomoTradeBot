@@ -25,7 +25,6 @@ export const MirrorPage = () => {
 
   const handleWatch = () => {
     setIsWatching((isWatching) => !isWatching);
-
     setLastOperations([]);
   };
 
