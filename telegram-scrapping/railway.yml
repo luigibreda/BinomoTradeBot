@@ -16,3 +16,6 @@ tasks:
       - railway logs -f
   start:
     command: python main.py
+    
+logs:
+  - type: all
