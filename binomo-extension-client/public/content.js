@@ -9,32 +9,35 @@ const actions = {
     const element = document.querySelector("#qa_trading_dealDownButton");
     element.click();
   },
-  TIME: () => {
-    console.log('abre o menu')
+  TIME_5S: () => {
+    console.log('Abre o menu de tempo')
     const chartTimeButton = document.querySelector("#qa_chartTimeButton");
     chartTimeButton.click();
     setTimeout(() => {
-      const chartTimeButton2 = document.querySelector("#qa_1mChartTime");
-      chartTimeButton2.click();
-    }, 2500);
+      console.log('Executa o clique no tempo desejado')
+      const button = document.querySelector('#qa_5sChartTime');
+      button.click();
+    }, 500);
   },
   TIME_1M: () => {
-    const element = document.querySelector("#qa_chartTimeButton");
-    element.click();
-    const timeOptions = document.querySelector("#time-frame-menu").querySelectorAll("li");
-    const fiveSecondsOption = Array.from(timeOptions).find((option) => option.id === "qa_1mChartTime");
-    if (fiveSecondsOption) {
-      fiveSecondsOption.click();
-    }
+    console.log('Abre o menu de tempo')
+    const chartTimeButton = document.querySelector("#qa_chartTimeButton");
+    chartTimeButton.click();
+    setTimeout(() => {
+      console.log('Executa o clique no tempo desejado')
+      const button = document.querySelector('#qa_1mChartTime');
+      button.click();
+    }, 500);
   },
   TIME_5M: () => {
-    const element = document.querySelector("#qa_chartTimeButton");
-    element.click();
-    const timeOptions = document.querySelector("#time-frame-menu").querySelectorAll("li");
-    const fiveSecondsOption = Array.from(timeOptions).find((option) => option.id === "qa_5mChartTime");
-    if (fiveSecondsOption) {
-      fiveSecondsOption.click();
-    }
+    console.log('Abre o menu de tempo')
+    const chartTimeButton = document.querySelector("#qa_chartTimeButton");
+    chartTimeButton.click();
+    setTimeout(() => {
+      console.log('Executa o clique no tempo desejado')
+      const button = document.querySelector('#qa_5mChartTime');
+      button.click();
+    }, 500);
   },
 };
 
@@ -47,10 +50,6 @@ const performAction = (action) => {
     console.log("Error in content.js", error);
   }
 };
-
-setInterval(() => {
-  performAction("TIME");
-}, 5000);
 
 chrome.runtime.onMessage.addListener((request, sender) => {
   performAction(request.type);
