@@ -24,13 +24,15 @@ export const register = async (req, res) => {
       username,
       plan,
       password: hashedPassword,
+      expiresAt: new Date(
+        new Date().getTime() + expiresIn * 24 * 60 * 60 * 1000
+      ),
     });
 
     res.status(201).json({
       username: newUser.username,
       plan: newUser.plan,
       token: await genJWT({ id: newUser._id }),
-      expiresAt: new Date(Date.now() + expiresIn * 24 * 60 * 60 * 1000),
     });
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -43,13 +45,16 @@ export const login = async (req, res) => {
 
     const user = await User.findOne({ username });
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "Invalid password or username" });
     }
 
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
-      return res.status(400).json({ message: "Invalid password" });
+      return res.status(400).json({ message: "Invalid password or username" });
     }
+
+    if (user.expiresAt < new Date())
+      return res.status(400).json({ message: "Your subscription has expired" });
 
     res.status(200).json({
       username: user.username,

@@ -3,6 +3,7 @@ import { createServer } from "http";
 import cors from "cors";
 import express from "express";
 import dotenv from "dotenv";
+import { connectDb } from "./db";
 
 dotenv.config();
 
@@ -38,6 +39,7 @@ io.on("connection", (socket) => {
 });
 
 httpServer.listen(port, () => {
+  connectDb();
   console.log("listening on *:" + port);
 });
 
