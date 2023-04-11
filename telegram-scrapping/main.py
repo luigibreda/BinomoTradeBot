@@ -1,5 +1,3 @@
-
-
 import telegram
 import asyncio
 import aiohttp
