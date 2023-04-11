@@ -14,6 +14,7 @@ tasks:
       - pip install python-telegram-bot # Install python-telegram-bot
       - pip install telegram==0.0.1 # Install python-telegram-bot
       - pip install Telethon==1.28.2 # Install python-telegram-bot
+      - pip install telegram aiohttp
       # Add any other necessary build commands here
       - railway logs -f
   start:
