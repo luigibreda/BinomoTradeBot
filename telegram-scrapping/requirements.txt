@@ -1,9 +1,10 @@
-aiohttp==3.7.4.post0
+aiohttp==3.8.4
 asyncio==3.4.3
+async-timeout==4.0.2
 certifi==2021.5.30
 chardet==4.0.0
 idna==2.10
 multidict==5.1.0
-python-telegram-bot==13.8
+python-telegram-bot==20.2
 typing-extensions==3.10.0.2
 yarl==1.7.0
