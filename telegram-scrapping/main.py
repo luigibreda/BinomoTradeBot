@@ -48,7 +48,7 @@ async def main():
             offset = update.update_id + 1
             if update.message.chat_id == group_id:
                 logger.info('Nova mensagem recebida: %s', update.message.text)
-                payload = json.dumps({'emit': 'testeluigi', 'data': update.message.text})
+                payload = json.dumps({'emit': 'direction-auto', 'data': {'message': 'UP', 'tradingAsset': 'EURUSD'}})
                 try:
                     async with aiohttp.ClientSession() as session:
                         async with session.post(webhook_url, data=payload, headers={'Content-Type': 'application/json'}) as response:
