@@ -1,0 +1,17 @@
+version: '1.0'
+packages:
+  - python3
+  - pip
+  - libpq-dev
+  - libffi-dev
+env:
+  # Adicione aqui as suas variáveis de ambiente, se houver
+tasks:
+  # Aqui você pode definir as suas tasks do Railway, como "build", "start", etc.
+  build:
+    image: 'python:3.9'
+    script:
+      - pip install -r requirements.txt
+      # Aqui você pode adicionar outros comandos necessários para a build do seu projeto
+  start:
+    command: python main.py
