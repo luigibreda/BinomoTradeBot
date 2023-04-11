@@ -11,7 +11,7 @@ tasks:
     image: 'python:3.0'
     script:
       - pip install -r requirements.txt
-      - pip install python-telegram-bot==13.7 # Install python-telegram-bot
+      - pip install python-telegram-bot # Install python-telegram-bot
       # Add any other necessary build commands here
       - railway logs -f
   start:
