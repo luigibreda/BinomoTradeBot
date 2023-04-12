@@ -1,13 +1,21 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ExtensionWrapper } from "./components/ExtensionWrapper";
+import { AuthProvider } from "./contexts/AuthContext";
 import { useOperatorOnline } from "./hooks/useOperatorOnline";
-import { MirrorPage } from "./templates/MirrorPage";
+import { Router } from "./routes";
+
+const queryClient = new QueryClient();
 
 function App() {
   useOperatorOnline();
   return (
-    <ExtensionWrapper>
-      <MirrorPage />
-    </ExtensionWrapper>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <ExtensionWrapper>
+          <Router />
+        </ExtensionWrapper>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
 

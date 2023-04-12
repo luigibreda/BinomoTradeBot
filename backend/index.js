@@ -42,8 +42,6 @@ io.on("connection", (socket) => {
 app.post("/webhook", (req, res) => {
   const { emit, data } = req.body;
 
-  console.log(req.body);
-
   io.emit(emit, data);
   res.json({ message: "ok" });
 });

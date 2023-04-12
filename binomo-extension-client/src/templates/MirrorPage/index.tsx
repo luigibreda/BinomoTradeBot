@@ -1,48 +1,26 @@
-import { useEffect, useState } from "react";
-import { socket } from "../../libs/socket";
 import { ActionButton } from "../../components/ActionButton";
 import { DirectionsList } from "./components/DirectionList";
-import { useExtensionStore } from "../../store/extensionStore";
 import { Bagde } from "../../components/Bagde";
-
-type Direction = {
-  direction: string;
-  time: string;
-  tradingAsset: string;
-};
+import useMe from "../../hooks/useMe";
+import { useMirror } from "./hooks/useMirror";
+import { Loading } from "../Loading";
+import { daysDifference } from "../../functions";
 
 export const MirrorPage = () => {
-  const [isWatching, setIsWatching] = useState(false);
-  const [lastOperations, setLastOperations] = useState<Direction[]>([]);
-  const operatorIsOnline = useExtensionStore((state) => state.operatorIsOnline);
+  const { data, isLoading } = useMe();
+  const { handleWatch, isWatching, lastOperations, operatorIsOnline } =
+    useMirror();
 
-  const handleDirection = (direction: Direction) => {
-    setLastOperations((lastOperations) => [...lastOperations, direction]);
-    chrome.runtime.sendMessage({
-      type: "DIRECTION",
-      data: direction,
-    });
-  };
-
-  const handleWatch = () => {
-    setIsWatching((isWatching) => !isWatching);
-    setLastOperations([]);
-  };
-
-  useEffect(() => {
-    if (isWatching) {
-      socket.on("direction", handleDirection);
-    } else {
-      socket.off("direction", handleDirection);
-    }
-
-    return () => {
-      socket.off("direction", handleDirection);
-    };
-  }, [isWatching]);
+  if (isLoading) return <Loading />;
 
   return (
     <div className="flex flex-col gap-2">
+      {data && (
+        <p className="text-sm italic text-neutral-500">
+          Sua assinatura expira
+          <span className="font-bold"> {daysDifference(data.expiresAt)}</span>
+        </p>
+      )}
       <Bagde
         color={operatorIsOnline ? "emerald" : "rose"}
         placeholder={operatorIsOnline ? "Operador online" : "Operador offline"}
