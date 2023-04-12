@@ -71,12 +71,6 @@ const execute = async (data) => {
   await makeEntry(data.direction);
 };
 
-execute({
-  direction: "UP",
-  time: "1m",
-  tradingAsset: "EUR/USD",
-});
-
 ////////////////////////
 
 const actions = {
