@@ -11,7 +11,6 @@ export const MirrorPage = () => {
   const { handleWatch, isWatching, lastOperations, operatorIsOnline } =
     useMirror();
 
-  console.log("isLoading", isLoading);
   if (isLoading) return <Loading />;
 
   return (
