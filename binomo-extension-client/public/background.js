@@ -5,8 +5,11 @@ const sendMessageToCurrentTab = async (message) => {
 };
 
 const actions = {
-  DIRECTION: (direction) => {
-    sendMessageToCurrentTab({ type: direction });
+  DIRECTION: async (direction) => {
+    await sendMessageToCurrentTab({
+      type: "DIRECTION",
+      data: direction,
+    });
   },
 };
 
