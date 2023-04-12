@@ -5,9 +5,9 @@ import json
 from telethon import TelegramClient, events
 
 # Configure as variáveis abaixo com suas credenciais do Telegram
-api_id = 18414817
-api_hash = '76a4b4fc17923a688267b9fd55009953'
-phone_number = '+5547936189205'  # Seu número de telefone, incluindo código do país
+api_id = 23916081
+api_hash = '3192725f34fc40a99185242c5c7572e9'
+phone_number = '+5547991049102'  # Seu número de telefone, incluindo código do país
 
 # Configure a sessão abaixo com o nome da sessão que você escolheu anteriormente
 session_name = 'session_name'
@@ -33,11 +33,10 @@ async def main():
 
         # Obter todos os grupos
         async for dialog in client.iter_dialogs():
-            if dialog.is_group:
-                logger.info('Grupo encontrado: %s, ID: %d', dialog.name, dialog.id)
+            logger.info('Grupo encontrado: %s, ID: %d', dialog.name, dialog.id)
 
         # Obter o grupo desejado
-        group_entity = await client.get_entity(-832026570)
+        group_entity = await client.get_entity(-1001756002871)
 
         # Receber e imprimir todas as novas mensagens do grupo
         @client.on(events.NewMessage(chats=group_entity))
