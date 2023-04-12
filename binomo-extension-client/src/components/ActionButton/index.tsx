@@ -1,5 +1,5 @@
 type ActionButtonProps = {
-  onClick: () => void;
+  onClick?: () => void;
   color: string;
   placeholder: string;
   disabled?: boolean;

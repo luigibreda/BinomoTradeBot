@@ -20,22 +20,29 @@ export const register = async (req, res) => {
     const { username, password, plan, expiresIn } = req.body;
 
     const hashedPassword = await genHashedString(password);
+    const expiresAt = new Date(
+      new Date().getTime() + expiresIn * 24 * 60 * 60 * 1000
+    );
+
     const newUser = await User.create({
       username,
       plan,
       password: hashedPassword,
-      expiresAt: new Date(
-        new Date().getTime() + expiresIn * 24 * 60 * 60 * 1000
-      ),
+      expiresAt,
     });
 
     res.status(201).json({
       username: newUser.username,
+      id: newUser._id,
       plan: newUser.plan,
+      expiresAt: newUser.expiresAt,
       token: await genJWT({ id: newUser._id }),
     });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    if (error.code === 11000) {
+      return res.status(400).json({ message: "Username already exists" });
+    }
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -56,12 +63,31 @@ export const login = async (req, res) => {
     if (user.expiresAt < new Date())
       return res.status(400).json({ message: "Your subscription has expired" });
 
+    const jwt = await genJWT({ id: user._id });
+
     res.status(200).json({
       username: user.username,
+      id: user._id,
       plan: user.plan,
-      token: await genJWT({ id: user._id }),
+      token: jwt,
     });
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+};
+
+export const me = async (req, res) => {
+  try {
+    const { id } = req.user;
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const { password, ...rest } = user._doc;
+
+    res.status(200).json(rest);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };

@@ -1,8 +1,13 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { UserServices } from "../services/http/user";
+import { Credentials } from "../types";
+import { api } from "../services/api";
+import { Loading } from "../templates/Loading";
+import { useExtensionStore } from "../store/extensionStore";
+import { useQueryClient } from "@tanstack/react-query";
 
 type AuthContextType = {
-  userId: string;
+  isAuthenticated: boolean;
   login: (credentials: any) => Promise<void>;
   loading: boolean;
 };
@@ -10,38 +15,51 @@ type AuthContextType = {
 const AuthContext = createContext({} as AuthContextType);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [userId, setUserId] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
+  const token = useExtensionStore((state) => state.token);
+  const setToken = useExtensionStore((state) => state.setToken);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const getUser = async () => {
-      chrome.storage.sync.get(["token"], (result) => {
-        try {
-          const decodedToken = atob(result.token);
-          const userId = JSON.parse(decodedToken).userId;
-          if (!userId) throw new Error("User not found");
-          setUserId(userId);
-        } catch (error) {
-          console.log(error);
-        } finally {
-          setLoading(false);
-        }
-      });
+      try {
+        api.defaults.headers.Authorization = `Bearer ${token}`;
+        if (!token) throw new Error("Token not found");
+        const me = await UserServices.me();
+        queryClient.setQueryData(["me"], me);
+        setIsAuthenticated(true);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
     };
     getUser();
   }, []);
 
-  const login = async (credentials: any) => {
+  const login = async (credentials: Credentials) => {
     try {
       const response = await UserServices.login(credentials);
-    } catch (error) {
+
+      setToken(response.token);
+      setIsAuthenticated(true);
+      api.defaults.headers.Authorization = `Bearer ${response.token}`;
+    } catch (error: any) {
       console.log(error);
+      throw new Error(error.response.data.message);
     }
   };
 
+  if (loading) return <Loading />;
+
   return (
-    <AuthContext.Provider value={{ userId, login, loading }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, loading }}>
       {children}
     </AuthContext.Provider>
   );
+};
+
+export const useAuth = () => {
+  return useContext(AuthContext);
 };
