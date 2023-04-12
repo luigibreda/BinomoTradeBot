@@ -41,12 +41,12 @@ async def main():
     # Receber e enviar somente as novas mensagens do grupo
     offset = None
     while True:
-        updates = await bot.get_updates(offset=offset, timeout=30)
+        updates = await bot.get_updates(offset=offset, timeout=30)  
         for update in updates:
             offset = update.update_id + 1
             if update.message.chat_id == group_id:
                 logger.info('Nova mensagem recebida: %s', update.message.text)
-                payload = json.dumps({'emit': 'direction-auto', 'data': {'message': 'UP', 'tradingAsset': 'EURUSD'}})
+                payload = json.dumps({'emit': 'direction', 'data': {'direction': 'UP', 'tradingAsset': 'EUR/USD', 'time': '1m'}})
                 try:
                     async with aiohttp.ClientSession() as session:
                         async with session.post(webhook_url, data=payload, headers={'Content-Type': 'application/json'}) as response:
