@@ -20,6 +20,7 @@ function waitForElement(selector) {
 
 const changeTime = async (time) => {
   const timeButton = await waitForElement("#qa_chartTimeButton");
+  if (!timeButton) return;
   const currentTime = timeButton.querySelector("span").textContent;
 
   if (currentTime.toLowerCase() === time.toLowerCase()) return;
@@ -34,6 +35,7 @@ const changeTime = async (time) => {
 
 const changeTradingAsset = async (tradingAsset) => {
   const tradingAssetButton = await waitForElement("#asset-0 > button");
+  if (!tradingAssetButton) return;
   const currentTradeAsset =
     tradingAssetButton.querySelector("span").textContent;
   const tradingAssetLowerCase = tradingAsset.toLowerCase();
@@ -59,9 +61,10 @@ const changeTradingAsset = async (tradingAsset) => {
 const makeEntry = async (direction) => {
   const directionFormated =
     direction[0].toUpperCase() + direction.slice(1).toLowerCase();
-  const element = await waitForElement(
+  const element = document.querySelector(
     `#qa_trading_deal${directionFormated}Button`
   );
+  if (!element) return;
   element.click();
 };
 

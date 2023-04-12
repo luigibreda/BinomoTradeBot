@@ -32,6 +32,8 @@ export const MirrorPage = () => {
   useEffect(() => {
     if (isWatching) {
       socket.on("direction", handleDirection);
+    } else {
+      socket.off("direction", handleDirection);
     }
 
     return () => {

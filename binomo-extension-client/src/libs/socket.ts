@@ -1,6 +1,11 @@
 import { io } from "socket.io-client";
 
-export const socket = io("https://binomotradebot-production.up.railway.app/");
+const urls = {
+  DEV: "http://localhost:3000",
+  PROD: "https://binomotradebot-production.up.railway.app/",
+};
+
+export const socket = io(urls.DEV);
 
 socket.on("connect", () => {
   console.log("Connected to server");

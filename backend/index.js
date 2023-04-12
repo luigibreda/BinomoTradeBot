@@ -3,10 +3,11 @@ import { createServer } from "http";
 import cors from "cors";
 import express from "express";
 import dotenv from "dotenv";
-import { connectDb } from "./db";
+// import { connectDb } from "./db.js";
 
 dotenv.config();
 
+let operatorOnline;
 const port = process.env.PORT || 3000;
 const app = express();
 const httpServer = createServer(app);
@@ -24,8 +25,6 @@ app.use(
 
 app.use(express.json());
 
-let operatorOnline;
-
 io.on("connection", (socket) => {
   socket.emit("online-users", io.engine.clientsCount - 1);
 
@@ -38,13 +37,10 @@ io.on("connection", (socket) => {
   });
 });
 
-httpServer.listen(port, () => {
-  connectDb();
-  console.log("listening on *:" + port);
-});
-
 app.post("/webhook", (req, res) => {
   const { emit, data } = req.body;
+
+  console.log(req.body);
 
   io.emit(emit, data);
   res.json({ message: "ok" });
@@ -55,4 +51,9 @@ app.post("/operator-online", (req, res) => {
   operatorOnline = online;
   io.emit("operator-online", { online });
   res.json({ message: "ok" });
+});
+
+httpServer.listen(port, () => {
+  // connectDb();
+  console.log("listening on *:" + port);
 });
