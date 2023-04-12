@@ -3,27 +3,29 @@ import { createServer } from "http";
 import cors from "cors";
 import express from "express";
 import dotenv from "dotenv";
-// import { connectDb } from "./db.js";
+import { connectDb } from "./db/index.js";
+import authRoutes from "./routes/authRoutes.js";
 
 dotenv.config();
 
 let operatorOnline;
 const port = process.env.PORT || 3000;
 const app = express();
+
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
     origin: "*",
   },
 });
-
 app.use(
   cors({
     origin: "*",
   })
 );
-
 app.use(express.json());
+
+app.use("/api/auth", authRoutes);
 
 io.on("connection", (socket) => {
   socket.emit("online-users", io.engine.clientsCount - 1);
@@ -54,6 +56,6 @@ app.post("/operator-online", (req, res) => {
 });
 
 httpServer.listen(port, () => {
-  // connectDb();
+  connectDb();
   console.log("listening on *:" + port);
 });
