@@ -1,5 +1,71 @@
 console.log("Hello from client extension binomo");
 
+function waitForElement(selector) {
+  return new Promise((resolve) => {
+    let counter = 0;
+    const interval = setInterval(() => {
+      const element = document.querySelector(selector);
+      counter += 1;
+      if (counter > 100) {
+        clearInterval(interval);
+        resolve(null);
+      }
+      if (element && element.clientHeight > 0) {
+        clearInterval(interval);
+        resolve(element);
+      }
+    }, 100);
+  });
+}
+
+const changeTime = async (time) => {
+  const timeButton = document.querySelector("#qa_chartTimeButton");
+  const currentTime = timeButton.querySelector("span").textContent;
+
+  if (currentTime.toLowerCase() === time.toLowerCase()) return;
+
+  timeButton.click();
+
+  const query = `#qa_${time.toLowerCase()}ChartTime`;
+  const button = await waitForElement(query);
+  if (!button) return;
+  button.click();
+};
+
+const changeTradingAsset = async (tradingAsset) => {
+  const tradingAssetLowerCase = tradingAsset.toLowerCase();
+  const tradingAssetButton = document.querySelector("#asset-0 > button");
+  const currentTradeAsset =
+    tradingAssetButton.querySelector("span").textContent;
+  const isSameAsset = currentTradeAsset.toLowerCase() === tradingAssetLowerCase;
+
+  if (isSameAsset) return;
+
+  tradingAssetButton.click();
+
+  const menuItems = await waitForElement(".asset-body");
+  if (!menuItems) return;
+  const itemToClick = Array.from(menuItems.children).find((item) =>
+    item.textContent.toLowerCase().includes(tradingAssetLowerCase)
+  );
+
+  if (itemToClick) {
+    itemToClick.click();
+  }
+};
+
+const execute = async (data) => {
+  await changeTime(data.time);
+  await changeTradingAsset(data.tradingAsset);
+};
+
+execute({
+  time: "1m",
+  tradingAsset: "EUR/USD",
+});
+
+////////////////////////
+
 const actions = {
   UP: () => {
     const element = document.querySelector("#qa_trading_dealUpButton");
@@ -9,59 +75,42 @@ const actions = {
     const element = document.querySelector("#qa_trading_dealDownButton");
     element.click();
   },
-  TIME_5S: () => {
-    console.log('Abre o menu de tempo')
-    const chartTimeButton = document.querySelector("#qa_chartTimeButton");
-    chartTimeButton.click();
-    setTimeout(() => {
-      console.log('Executa o clique no tempo desejado')
-      const button = document.querySelector('#qa_5sChartTime');
-      button.click();
-    }, 500);
+  TIME: async (time) => {
+    const timeButton = document.querySelector("#qa_chartTimeButton");
+    const currentTime = timeButton.querySelector("span").textContent;
+
+    if (currentTime.toLowerCase() === time.toLowerCase()) return;
+
+    const query = `#qa_${time.toLowerCase()}ChartTime`;
+    const button = waitForElement(query);
+    console.log("button", button);
   },
-  TIME_1M: () => {
-    console.log('Abre o menu de tempo')
-    const chartTimeButton = document.querySelector("#qa_chartTimeButton");
-    chartTimeButton.click();
-    setTimeout(() => {
-      console.log('Executa o clique no tempo desejado')
-      const button = document.querySelector('#qa_1mChartTime');
-      button.click();
-    }, 500);
-  },
-  TIME_5M: () => {
-    console.log('Abre o menu de tempo')
-    const chartTimeButton = document.querySelector("#qa_chartTimeButton");
-    chartTimeButton.click();
-    setTimeout(() => {
-      console.log('Executa o clique no tempo desejado')
-      const button = document.querySelector('#qa_5mChartTime');
-      button.click();
-    }, 500);
-  },
-  EUR_USD: () => {
-    console.log("iniciou")
-    const menuItems = document.querySelectorAll('#qa_trading_assetDialog > lib-platform-scroll > div > div > section > div'); // seleciona todos os itens do menu
-    let itemToClick = null;
-    
-    // varre os itens do menu e encontra o item que contém o texto desejado
-    for (let i = 0; i < menuItems.length; i++) {
-      console.log(menuItems[i].textContent)
-      if (menuItems[i].textContent === 'EUR/USD') {
-        itemToClick = menuItems[i]; // atribui o item a ser clicado à variável
-        break; // interrompe o loop assim que encontrar o item desejado
-      }
-    }
-    
+  TRADDING_ASSET: async (tradingAsset) => {
+    const tradingAssetLowerCase = tradingAsset.toLowerCase();
+    const tradingAssetButton = document.querySelector("#asset-0 > button");
+    const currentTradeAsset =
+      tradingAssetButton.querySelector("span").textContent;
+    const isSameAsset =
+      currentTradeAsset.toLowerCase() === tradingAssetLowerCase;
+
+    if (
+      internalContentState.get("tradingAsset") === tradingAssetLowerCase ||
+      isSameAsset
+    )
+      return;
+
+    tradingAssetButton.click();
+
+    const menuItems = await waitForElement(".asset-body");
+    if (!menuItems) return;
+    const itemToClick = Array.from(menuItems.children).find((item) =>
+      item.textContent.toLowerCase().includes(tradingAssetLowerCase)
+    );
+
     if (itemToClick) {
-      itemToClick.click(); // clica no item desejado
+      itemToClick.click();
+      internalContentState.set("tradingAsset", tradingAssetLowerCase);
     }
-  },
-  ADA_USD: () => {
-    console.log('Abre o menu de ativos')
-    document.querySelector("#asset-0 > button").click()
-    console.log('Cica no ativo ADA/USD')
-    document.querySelector("#qa_trading_assetDialog > lib-platform-scroll > div > div > section > div:nth-child(4)").click()
   },
 };
 
@@ -75,11 +124,6 @@ const performAction = (action) => {
   }
 };
 
-
-setInterval(() => {
-  performAction("EUR_USD");
-}, 3000);
-
 chrome.runtime.onMessage.addListener((request, sender) => {
-  performAction(request.type);
+  performAction(request.type, request.data);
 });
