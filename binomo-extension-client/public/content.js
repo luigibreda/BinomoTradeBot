@@ -74,7 +74,7 @@ const execute = async (data) => {
 ////////////////////////
 
 const actions = {
-  DIRECTION: async (data) => {
+  EXECUTE: async (data) => {
     await execute(data);
   },
 };

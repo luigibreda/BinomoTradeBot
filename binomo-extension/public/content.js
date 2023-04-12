@@ -12,8 +12,9 @@ const buttons = [
     query: "#qa_trading_dealUpButton",
     callback: () => {
       notifyBackground({
-        message: "UP",
+        direction: "UP",
         tradingAsset: document.querySelector(".title").innerText,
+        time: document.querySelector("#qa_chartTimeButton > span").textContent,
       });
     },
   },
@@ -21,8 +22,9 @@ const buttons = [
     query: "#qa_trading_dealDownButton",
     callback: () => {
       notifyBackground({
-        message: "DOWN",
+        direction: "DOWN",
         tradingAsset: document.querySelector(".title").innerText,
+        time: document.querySelector("#qa_chartTimeButton > span").textContent,
       });
     },
   },

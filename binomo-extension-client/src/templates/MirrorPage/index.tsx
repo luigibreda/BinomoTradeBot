@@ -6,7 +6,8 @@ import { useExtensionStore } from "../../store/extensionStore";
 import { Bagde } from "../../components/Bagde";
 
 type Direction = {
-  message: string;
+  direction: string;
+  time: string;
   tradingAsset: string;
 };
 
@@ -19,7 +20,7 @@ export const MirrorPage = () => {
     setLastOperations((lastOperations) => [...lastOperations, direction]);
     chrome.runtime.sendMessage({
       type: "DIRECTION",
-      data: direction.message,
+      data: direction,
     });
   };
 
