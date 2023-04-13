@@ -37,7 +37,7 @@ async def main():
             logger.info('Grupo encontrado: %s, ID: %d', dialog.name, dialog.id)
 
         # Obter o grupo desejado
-        group_entity = await client.get_entity(-832026570)
+        group_entity = await client.get_entity(-1001756002871)
 
         # Receber e imprimir todas as novas mensagens do grupo
         @client.on(events.NewMessage(chats=group_entity))
@@ -90,7 +90,7 @@ async def main():
                                     logger.info('Mensagem enviada com sucesso para o webhook')
                                 else:
                                     logger.warning('Erro ao enviar mensagem para o webhook: %d %s', response.status, response.reason)
-                        await client.send_message(-961285460, nova_mensagem)
+                        await client.send_message(-1001509473574, nova_mensagem)
                 except Exception as e:
                     logger.exception(f'Não foi possível enviar mensagem para o webhook: {str(e)}')
                 # else:
