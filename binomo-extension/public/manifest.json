@@ -11,9 +11,8 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://binomo.com/trading"],
-      "js": ["content.js"],
-      "run_at": "document_end"
+      "matches": ["https://binomo.com/*", "https://www.binomo.com/*"],
+      "js": ["content.js"]
     }
   ],
   "permissions": ["tabs", "activeTab", "storage"]

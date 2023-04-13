@@ -1,6 +1,6 @@
 const urls = {
   DEV: "http://localhost:3000",
-  PRODUCTION: "https://binomotradebot-production.up.railway.app",
+  PROD: "https://binomotradebot-production.up.railway.app",
 };
 
 const notifyWebhook = (emit, data) => {
