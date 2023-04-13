@@ -1,4 +1,4 @@
-type Direction = {
+export type Direction = {
   direction: string;
   time: string;
   tradingAsset: string;

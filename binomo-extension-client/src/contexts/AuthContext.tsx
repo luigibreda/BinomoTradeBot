@@ -42,9 +42,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const response = await UserServices.login(credentials);
 
+      api.defaults.headers.Authorization = `Bearer ${response.token}`;
       setToken(response.token);
       setIsAuthenticated(true);
-      api.defaults.headers.Authorization = `Bearer ${response.token}`;
     } catch (error: any) {
       console.log(error);
       throw new Error(error.response.data.message);

@@ -12,9 +12,10 @@ export const useMirror = () => {
   const [isWatching, setIsWatching] = useState(false);
   const [lastOperations, setLastOperations] = useState<Direction[]>([]);
   const operatorIsOnline = useExtensionStore((state) => state.operatorIsOnline);
+  const [type, setType] = useState<"auto" | "manual">("auto");
 
   const handleDirection = (direction: Direction) => {
-    setLastOperations((lastOperations) => [...lastOperations, direction]);
+    setLastOperations((lastOperations) => [direction, ...lastOperations]);
     chrome.runtime.sendMessage({
       type: "DIRECTION",
       data: direction,
@@ -23,25 +24,27 @@ export const useMirror = () => {
 
   const handleWatch = () => {
     setIsWatching((isWatching) => !isWatching);
-    setLastOperations([]);
   };
 
   useEffect(() => {
+    setLastOperations([]);
     if (isWatching) {
-      socket.on("direction", handleDirection);
-    } else {
-      socket.off("direction", handleDirection);
+      console.log(`watching-${type}`);
+      socket.on(`direction-${type}`, handleDirection);
     }
 
     return () => {
-      socket.off("direction", handleDirection);
+      console.log(`unwatching-${type}`);
+      socket.off(`direction-${type}`, handleDirection);
     };
-  }, [isWatching]);
+  }, [isWatching, type]);
 
   return {
     isWatching,
     handleWatch,
     lastOperations,
     operatorIsOnline,
+    type,
+    setType,
   };
 };
