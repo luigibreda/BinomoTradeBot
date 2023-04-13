@@ -3,6 +3,7 @@ import asyncio
 import aiohttp
 import json
 from telethon import TelegramClient, events
+import re
 
 # Configure as variáveis abaixo com suas credenciais do Telegram
 api_id = 23916081
@@ -41,14 +42,51 @@ async def main():
         # Receber e imprimir todas as novas mensagens do grupo
         @client.on(events.NewMessage(chats=group_entity))
         async def handler(event):
-            logger.info('Nova mensagem recebida: %s', event.message.text)
-            payload = json.dumps({'emit': 'direction', 'data': {'direction': 'UP', 'tradingAsset': 'EUR/USD', 'time': '1m'}})
+            #logger.info('Nova mensagem recebida: %s', event.message.text)
+            logger.info('Nova mensagem recebida.')
+
+            # encontra os links e substitui o texto desejado
+            nova_mensagem = re.sub(r'https://bit\.ly/CriarConta-PocketOption', 'https://bit.ly/FelipeBitcoin', event.message.text)
+            nova_mensagem = re.sub(r'https://bit\.ly/CadastroPocket', 'https://bit.ly/FelipeBitcoin', nova_mensagem)
+
+            # regex para extrair o mercado e a direção da operação
+            mercado_direcao_regex = re.search(r'•\s(.+)\s-\s(.+)\s-\s', event.message.text)
+            mercado = mercado_direcao_regex.group(1)
+            direcao = mercado_direcao_regex.group(2)
+
+            # regex para extrair o tempo de expiração
+            tempo_expiracao_regex = re.search(r'Expiração:\s(\d+)\sminutos\s\((\w+)\)', event.message.text)
+            tempo = tempo_expiracao_regex.group(1)
+            unidade_tempo = tempo_expiracao_regex.group(2)
+
+            # regex para extrair o número de martingale
+            martingale_regex = re.search(r'fazer\saté\s(\d+)\sGale', event.message.text)
+            martingale = martingale_regex.group(1)
+
+            print('Sinal encontrado:')
+            print(f'Mercado: {mercado}')
+            print(f'Direção: {direcao}')
+            print(f'Tempo de expiração: {unidade_tempo}')
+            print(f'Martingale: {martingale}')
+
+            mercado = mercado[:3] + '/' + mercado[3:] if len(mercado) == 6 else mercado
+
+            mercados_validos = ["EUR/USD", "USD/CAD", "USD/JPY", "EUR/MNX", "USD/CHF", "AUD/NZD", "NDX/USD", "EUR/NZD", "EUR/JPY", "EUR IXD", "AUD/USD", "AUD/CAD", "AUD/JPY", "DJI/USD (OTC)", "CHF/JPY", "NZD/USD", "NZD/JPY", "ADA/USD"]
+
+            if mercado in mercados_validos:
+                print("Mercado válido!")
+            else:
+                print("Mercado inválido!")
+
+            payload = json.dumps({'emit': 'direction', 'data': {'direction': direcao, 'tradingAsset': mercado, 'time': unidade_tempo}})
+            print(f'JSON: {payload}')
             try:
                 async with aiohttp.ClientSession() as session:
-                    async with session.post(webhook_url, data=payload, headers={'Content-Type': 'application/json'}) as response:
-                        if response.status != 200:
-                            logger.warning('Erro ao enviar mensagem para o webhook: %d %s', response.status, response.reason)
-                    await client.send_message(-1001509473574, event.message.text)
+                    if mercado in mercados_validos:
+                        async with session.post(webhook_url, data=payload, headers={'Content-Type': 'application/json'}) as response:
+                            if response.status != 200:
+                                logger.warning('Erro ao enviar mensagem para o webhook: %d %s', response.status, response.reason)
+                        await client.send_message(-1001509473574, nova_mensagem)
             except Exception as e:
                 logger.exception(f'Não foi possível enviar mensagem para o webhook: {str(e)}')
             else:
