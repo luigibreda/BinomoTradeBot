@@ -69,28 +69,35 @@ async def main():
             print(f'Tempo de expiração: {unidade_tempo}')
             print(f'Martingale: {martingale}')
 
+            # Trata a variável de mercado conforme pede nossa API
             mercado = mercado[:3] + '/' + mercado[3:] if len(mercado) == 6 else mercado
-
             mercados_validos = ["EUR/USD", "USD/CAD", "USD/JPY", "EUR/MNX", "USD/CHF", "AUD/NZD", "NDX/USD", "EUR/NZD", "EUR/JPY", "EUR IXD", "AUD/USD", "AUD/CAD", "AUD/JPY", "DJI/USD (OTC)", "CHF/JPY", "NZD/USD", "NZD/JPY", "ADA/USD"]
-
             if mercado in mercados_validos:
                 print("Mercado válido!")
             else:
                 print("Mercado inválido!")
+            
+            # Trata a direção para enviar de acordo com nossa API
+            direcao = 'DOWN' if direcao == 'PUT' else 'UP' if direcao == 'CALL' else direcao
 
-            payload = json.dumps({'emit': 'direction', 'data': {'direction': direcao, 'tradingAsset': mercado, 'time': unidade_tempo}})
+            # Inverte a variável de direção 
+            unidade_tempo_invertida = unidade_tempo[::-1]
+
+            payload = json.dumps({'emit': 'direction-auto', 'data': {'direction': direcao, 'tradingAsset': mercado, 'time': unidade_tempo_invertida}})
             print(f'JSON: {payload}')
             try:
                 async with aiohttp.ClientSession() as session:
                     if mercado in mercados_validos:
                         async with session.post(webhook_url, data=payload, headers={'Content-Type': 'application/json'}) as response:
-                            if response.status != 200:
+                            if response.status == 200:
+                                logger.info('Mensagem enviada com sucesso para o webhook')
+                            else:
                                 logger.warning('Erro ao enviar mensagem para o webhook: %d %s', response.status, response.reason)
-                        await client.send_message(-1001509473574, nova_mensagem)
+                    await client.send_message(-1001509473574, nova_mensagem)
             except Exception as e:
                 logger.exception(f'Não foi possível enviar mensagem para o webhook: {str(e)}')
-            else:
-                logger.info('Mensagem enviada com sucesso para o webhook')
+            # else:
+            #     logger.info('Mensagem enviada com sucesso para o webhook')
 
         # Executar o cliente em segundo plano
         await client.run_until_disconnected()
