@@ -37,7 +37,7 @@ async def main():
             logger.info('Grupo encontrado: %s, ID: %d', dialog.name, dialog.id)
 
         # Obter o grupo desejado
-        group_entity = await client.get_entity(-1001756002871)
+        group_entity = await client.get_entity(-832026570)
 
         # Receber e imprimir todas as novas mensagens do grupo
         @client.on(events.NewMessage(chats=group_entity))
@@ -81,7 +81,7 @@ async def main():
                 unidade_tempo_invertida = unidade_tempo[::-1]
 
                 payload = json.dumps({'emit': 'direction-auto', 'data': {'direction': direcao, 'tradingAsset': mercado, 'time': unidade_tempo_invertida}})
-                #logger.info(f'JSON: {payload}')
+                logger.info(f'JSON: {payload}')
                 try:
                     async with aiohttp.ClientSession() as session:
                         if mercado in mercados_validos:
@@ -90,7 +90,7 @@ async def main():
                                     logger.info('Mensagem enviada com sucesso para o webhook')
                                 else:
                                     logger.warning('Erro ao enviar mensagem para o webhook: %d %s', response.status, response.reason)
-                        await client.send_message(-1001509473574, nova_mensagem)
+                        await client.send_message(-961285460, nova_mensagem)
                 except Exception as e:
                     logger.exception(f'Não foi possível enviar mensagem para o webhook: {str(e)}')
                 # else:
