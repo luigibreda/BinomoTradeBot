@@ -7,6 +7,7 @@ import {
 import { MirrorPage } from "../templates/MirrorPage";
 import { Login } from "../templates/Login";
 import { useAuth } from "../contexts/AuthContext";
+import { Automatic } from "../templates/Automatic";
 
 const ProtectedRoute = () => {
   const { isAuthenticated } = useAuth();
