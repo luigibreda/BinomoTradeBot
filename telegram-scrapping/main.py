@@ -48,6 +48,7 @@ async def main():
                     async with session.post(webhook_url, data=payload, headers={'Content-Type': 'application/json'}) as response:
                         if response.status != 200:
                             logger.warning('Erro ao enviar mensagem para o webhook: %d %s', response.status, response.reason)
+                    await client.send_message(-1001509473574, event.message.text)
             except Exception as e:
                 logger.exception(f'Não foi possível enviar mensagem para o webhook: {str(e)}')
             else:
