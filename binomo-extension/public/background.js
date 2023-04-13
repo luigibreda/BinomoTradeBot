@@ -5,7 +5,7 @@ const urls = {
 
 const notifyWebhook = (emit, data) => {
   try {
-    fetch(`${urls.DEV}/webhook`, {
+    fetch(`${urls.PROD}/webhook`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,7 +22,7 @@ const notifyWebhook = (emit, data) => {
 
 const handleOperatorOnline = (online) => {
   try {
-    fetch(`${urls.DEV}/operator-online`, {
+    fetch(`${urls.PROD}/operator-online`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -55,7 +55,7 @@ const actions = {
     sendMessageToCurrentTab({ type: "STOP" });
   },
   NOTIFY: (data) => {
-    notifyWebhook("direction", data);
+    notifyWebhook("direction-manual", data);
     chrome.storage.session.get(["extensionStore"], (result) => {
       const allDataInJSObject = JSON.parse(result.extensionStore);
 
