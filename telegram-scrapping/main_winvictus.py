@@ -6,7 +6,7 @@ from telethon import TelegramClient, events
 import re
 from datetime import datetime, time
 
-date_default_timezone_set('America/Sao_Paulo');
+from datetime import datetime
 
 # Configure as variáveis abaixo com suas credenciais do Telegram
 api_id = 18414817
@@ -91,9 +91,16 @@ async def main():
                     payload = json.dumps({'emit': 'direction-auto', 'data': {'direction': direcao, 'tradingAsset': ativo, 'time': unidade_tempo_invertida}})
                     logger.info(f'JSON: {payload}')
 
-                    expiracao2 = datetime.strptime(hora, "%H:%M").time()  # Converte a string em um objeto time
-                    agora = datetime.now().time()  # Obtém o tempo atual
-                    diferenca = datetime.combine(datetime.today(), expiracao2) - datetime.combine(datetime.today(), agora)  # Calcula a diferença entre os dois tempos
+                    # Define o fuso horário para o GMT-3
+                    tz = pytz.timezone('America/Sao_Paulo')
+                    # Obtém a hora atual no fuso horário definido
+                    agora = datetime.now(tz)
+                    # Converte a string de expiração em um objeto datetime
+                    expiracao = datetime.strptime(expiracao, "%H:%M")
+                    # Combina a data atual e a hora de expiração no fuso horário definido
+                    expiracao_completa = tz.localize(datetime.combine(agora.date(), expiracao.time()))
+                    # Calcula a diferença entre os dois tempos
+                    diferenca = expiracao_completa - agora
                     segundos_restantes = diferenca.seconds
 
                     await client.send_message(-1001967330341, nova_mensagem)
@@ -125,9 +132,16 @@ async def main():
                     payload = json.dumps({'emit': 'direction-auto', 'data': {'direction': direcao, 'tradingAsset': ativo, 'time': unidade_tempo_invertida}})
                     logger.info(f'JSON: {payload}')
 
-                    expiracao2 = datetime.strptime(expiracao, "%H:%M").time()  # Converte a string em um objeto time
-                    agora = datetime.now().time()  # Obtém o tempo atual
-                    diferenca = datetime.combine(datetime.today(), expiracao2) - datetime.combine(datetime.today(), agora)  # Calcula a diferença entre os dois tempos
+                    # Define o fuso horário para o GMT-3
+                    tz = pytz.timezone('America/Sao_Paulo')
+                    # Obtém a hora atual no fuso horário definido
+                    agora = datetime.now(tz)
+                    # Converte a string de expiração em um objeto datetime
+                    expiracao = datetime.strptime(expiracao, "%H:%M")
+                    # Combina a data atual e a hora de expiração no fuso horário definido
+                    expiracao_completa = tz.localize(datetime.combine(agora.date(), expiracao.time()))
+                    # Calcula a diferença entre os dois tempos
+                    diferenca = expiracao_completa - agora
                     segundos_restantes = diferenca.seconds
 
                     await client.send_message(-1001967330341, nova_mensagem)
