@@ -47,8 +47,8 @@ async def main():
                 #logger.info('Nova mensagem recebida: %s', event.message.text)
 
                 # encontra os links e substitui o texto desejado
-                nova_mensagem = re.sub(r'https://bit\.ly/CriarConta-PocketOption', 'https://bit.ly/FelipeBitcoin', event.message.text)
-                nova_mensagem = re.sub(r'https://bit\.ly/CadastroPocket', 'https://bit.ly/FelipeBitcoin', nova_mensagem)
+                nova_mensagem = re.sub(r'https://bit\.ly/CriarConta-PocketOption', 'https://bit.ly/binomo_brazill', event.message.text)
+                nova_mensagem = re.sub(r'https://bit\.ly/CadastroPocket', 'https://bit.ly/binomo_brazill', nova_mensagem)
 
                 # regex para extrair o mercado e a direção da operação
                 mercado_direcao_regex = re.search(r'•\s(.+)\s-\s(.+)\s-\s', event.message.text)

@@ -81,7 +81,7 @@ async def main():
                     direcao = match.group(4).upper().replace(" ", "")
 
                     logger.info(f'Sinal encontrado: Mercado: {ativo} Direção: {direcao} Tempo de expiração: {tempo} Hora: {hora}')
-                    nova_mensagem = f"""📊 SINAL VIP | Estratégia {tempo} 📊 \n\n• {ativo} - {direcao} - {hora} \n• Expiração: {tempo}\n\n📲 [Clique para Abrir a Corretora](https://bit.ly/FelipeBitcoin)"""
+                    nova_mensagem = f"""📊 SINAL VIP | Estratégia {tempo} 📊 \n\n• {ativo} - {direcao} - {hora} \n• Expiração: {tempo}\n\n📲 [Clique para Abrir a Corretora](https://bit.ly/binomo_brazill)"""
                     
                     ativo = ativo[:3] + '/' + ativo[3:] if len(ativo) == 6 else ativo
                     unidade_tempo_invertida = tempo[::-1]
@@ -115,7 +115,7 @@ async def main():
                     direcao = correspondencia.group("direcao").upper().replace(" ", "")
 
                     logger.info(f'Sinal encontrado: Mercado: {ativo} Direção: {direcao} Tempo de expiração: {expiracao} Hora: {tempo}')
-                    nova_mensagem = f"""📊 SINAL VIP | Estratégia {tempo} 📊 \n\n• {ativo} - {direcao} - {expiracao} \n• Expiração: {tempo}\n\n📲 [Clique para Abrir a Corretora](https://bit.ly/FelipeBitcoin)"""
+                    nova_mensagem = f"""📊 SINAL VIP | Estratégia {tempo} 📊 \n\n• {ativo} - {direcao} - {expiracao} \n• Expiração: {tempo}\n\n📲 [Clique para Abrir a Corretora](https://bit.ly/binomo_brazill)"""
 
                     ativo = ativo[:3] + '/' + ativo[3:] if len(ativo) == 6 else ativo
                     unidade_tempo_invertida = tempo[::-1]
