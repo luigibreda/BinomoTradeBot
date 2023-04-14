@@ -6,6 +6,8 @@ from telethon import TelegramClient, events
 import re
 from datetime import datetime, time
 
+date_default_timezone_set('America/Sao_Paulo');
+
 # Configure as variáveis abaixo com suas credenciais do Telegram
 api_id = 18414817
 api_hash = '76a4b4fc17923a688267b9fd55009953'
