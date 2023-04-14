@@ -97,7 +97,7 @@ async def main():
                     # Obtém a hora atual no fuso horário definido
                     agora = datetime.now(tz)
                     # Converte a string de expiração em um objeto datetime
-                    expiracao = datetime.strptime(expiracao, "%H:%M")
+                    expiracao = datetime.strptime(hora, "%H:%M")
                     # Combina a data atual e a hora de expiração no fuso horário definido
                     expiracao_completa = tz.localize(datetime.combine(agora.date(), expiracao.time()))
                     # Calcula a diferença entre os dois tempos
