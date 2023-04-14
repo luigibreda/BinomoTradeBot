@@ -94,7 +94,7 @@ async def main():
                     diferenca = datetime.combine(datetime.today(), expiracao2) - datetime.combine(datetime.today(), agora)  # Calcula a diferença entre os dois tempos
                     segundos_restantes = diferenca.seconds
 
-                    await client.send_message(-814777352, nova_mensagem)
+                    await client.send_message(-1001967330341, nova_mensagem)
                     logger.info('Inicia contador')
                     logger.info(segundos_restantes)
                     await asyncio.sleep(segundos_restantes)
@@ -128,7 +128,7 @@ async def main():
                     diferenca = datetime.combine(datetime.today(), expiracao2) - datetime.combine(datetime.today(), agora)  # Calcula a diferença entre os dois tempos
                     segundos_restantes = diferenca.seconds
 
-                    await client.send_message(-814777352, nova_mensagem)
+                    await client.send_message(-1001967330341, nova_mensagem)
                     logger.info('Inicia contador')
                     logger.info(segundos_restantes)
                     await asyncio.sleep(segundos_restantes)
