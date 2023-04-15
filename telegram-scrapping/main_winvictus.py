@@ -36,7 +36,9 @@ async def post_webhook(payload):
         mercado = ativo[:3] + '/' + ativo[3:]
     else:
         logger.warning(f'O ativo {ativo} não está na lista de mercados válidos')
+        return
 
+    print(mercado)
     if mercado in mercados_validos:
         # Adiciona o mercado modificado ao payload
         payload_dict = json.loads(payload)
@@ -102,7 +104,7 @@ async def main():
                     logger.info(f'Sinal encontrado: Mercado: {ativo} Direção: {direcao} Tempo de expiração: {tempo} Hora: {hora}')
                     nova_mensagem = f"""📊 SINAL VIP | Estratégia {tempo} 📊 \n\n• {ativo} - {direcao} - {hora} \n• Expiração: {tempo}\n\n📲 [Clique para Abrir a Corretora](https://bit.ly/binomo_brazill)"""
                     
-                    ativo = ativo[:3] + '/' + ativo[3:] if len(ativo) == 6 else ativo
+                    # ativo = ativo[:3] + '/' + ativo[3:] if len(ativo) == 6 else ativo
                     unidade_tempo_invertida = tempo[::-1]
                     direcao = 'DOWN' if direcao == 'PUT' else 'UP' if direcao == 'CALL' else direcao
                     payload = json.dumps({'emit': 'direction-auto', 'data': {'direction': direcao, 'tradingAsset': ativo, 'time': unidade_tempo_invertida}})
@@ -143,7 +145,7 @@ async def main():
                     logger.info(f'Sinal encontrado: Mercado: {ativo} Direção: {direcao} Tempo de expiração: {expiracao} Hora: {tempo}')
                     nova_mensagem = f"""📊 SINAL VIP | Estratégia {tempo} 📊 \n\n• {ativo} - {direcao} - {expiracao} \n• Expiração: {tempo}\n\n📲 [Clique para Abrir a Corretora](https://bit.ly/binomo_brazill)"""
 
-                    ativo = ativo[:3] + '/' + ativo[3:] if len(ativo) == 6 else ativo
+                    # ativo = ativo[:3] + '/' + ativo[3:] if len(ativo) == 6 else ativo
                     unidade_tempo_invertida = tempo[::-1]
                     direcao = 'DOWN' if direcao == 'PUT' else 'UP' if direcao == 'CALL' else direcao
                     payload = json.dumps({'emit': 'direction-auto', 'data': {'direction': direcao, 'tradingAsset': ativo, 'time': unidade_tempo_invertida}})
