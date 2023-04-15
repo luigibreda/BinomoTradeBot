@@ -19,7 +19,9 @@ session_name = 'session_telegram_luigi'
 
 # Configure o webhook abaixo com a URL do seu webhook
 webhook_url = 'https://binomotradebot-production.up.railway.app/webhook'
-mercados_validos = ["EUR/USD", "USD/CAD", "USD/JPY", "EUR/MNX", "USD/CHF", "AUD/NZD", "NDX/USD", "EUR/NZD", "EUR/JPY", "EUR IXD", "AUD/USD", "AUD/CAD", "AUD/JPY", "DJI/USD (OTC)", "CHF/JPY", "NZD/USD", "NZD/JPY", "ADA/USD"]
+mercados_validos = ["Crypto IDX", "EUR/USD", "USD/CAD", "USD/JPY", "EUR/MNX", "USD/CHF", "AUD/NZD", "NDX/USD", "EUR/NZD", "EUR/JPY", "EUR IXD", "AUD/USD", "AUD/CAD", "AUD/JPY", "DJI/USD (OTC)", "CHF/JPY", "NZD/USD", "NZD/JPY", "ADA/USD"]
+novos_mercados = ["EUR/USD (OTC)", "GBP/USD (OTC)", "USD/JPY (OTC)", "GBP/JPY (OTC)", "AUD/CAD (OTC)", "EUR/CAD (OTC)", "NDX/USD (OTC)", "DJI/USD (OTC)", "SPX/USD (OTC)"]
+mercados_validos.extend(novos_mercados)
 
 # Configurar o logger
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -27,8 +29,20 @@ logger = logging.getLogger(__name__)
 
 async def post_webhook(payload):
     ativo = json.loads(payload)['data']['tradingAsset']
-    mercado = ativo[:3] + '/' + ativo[3:] if len(ativo) == 6 else ativo
+    if '-OTC' in ativo:
+        ativo = ativo.replace('-OTC', '')
+        mercado = ativo[:3] + '/' + ativo[3:] + ' (OTC)'
+    elif len(ativo) == 6:
+        mercado = ativo[:3] + '/' + ativo[3:]
+    else:
+        logger.warning(f'O ativo {ativo} não está na lista de mercados válidos')
+
     if mercado in mercados_validos:
+        # Adiciona o mercado modificado ao payload
+        payload_dict = json.loads(payload)
+        payload_dict['data']['tradingAsset'] = mercado
+        payload = json.dumps(payload_dict)
+        logger.info(f'JSON: {payload}')
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.post(webhook_url, data=payload, headers={'Content-Type': 'application/json'}) as response:
@@ -39,9 +53,12 @@ async def post_webhook(payload):
         except Exception as e:
             logger.exception(f'Não foi possível enviar mensagem para o webhook: {str(e)}')
     else:
-        logger.warning(f'O ativo {ativo} não está na lista de mercados válidos')
+        logger.warning(f'O ativo {mercado} não está na lista de mercados válidos')
 
 async def main():
+    # payload = json.dumps({'emit': 'direction-auto', 'data': {'direction': "DOWN", 'tradingAsset': "EURUSD", 'time': "1M"}})
+    # await post_webhook(payload)
+    # return
     async with TelegramClient(session_name, api_id, api_hash) as client:
         await client.connect()
         if not await client.is_user_authorized():
@@ -60,7 +77,6 @@ async def main():
         # Obter os grupos desejados
         group_entities = []
         group_entities.append(await client.get_entity(-961285460))
-        group_entities.append(await client.get_entity(-1001709730100))
         group_entities.append(await client.get_entity(-1001858577085))
         group_entities.append(await client.get_entity(-1001935115707))
         group_entities.append(await client.get_entity(-1001922822962))
@@ -90,7 +106,7 @@ async def main():
                     unidade_tempo_invertida = tempo[::-1]
                     direcao = 'DOWN' if direcao == 'PUT' else 'UP' if direcao == 'CALL' else direcao
                     payload = json.dumps({'emit': 'direction-auto', 'data': {'direction': direcao, 'tradingAsset': ativo, 'time': unidade_tempo_invertida}})
-                    logger.info(f'JSON: {payload}')
+                    
 
                     # Define o fuso horário para o GMT-3
                     tz = pytz.timezone('America/Sao_Paulo')
@@ -131,7 +147,7 @@ async def main():
                     unidade_tempo_invertida = tempo[::-1]
                     direcao = 'DOWN' if direcao == 'PUT' else 'UP' if direcao == 'CALL' else direcao
                     payload = json.dumps({'emit': 'direction-auto', 'data': {'direction': direcao, 'tradingAsset': ativo, 'time': unidade_tempo_invertida}})
-                    logger.info(f'JSON: {payload}')
+                    
 
                     # Define o fuso horário para o GMT-3
                     tz = pytz.timezone('America/Sao_Paulo')
