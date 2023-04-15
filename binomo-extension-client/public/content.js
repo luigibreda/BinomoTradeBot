@@ -1,5 +1,43 @@
 console.log("Hello from client extension binomo");
 
+// utils
+
+const clearInput = (element) => {
+  return new Promise((resolve) => {
+    element.value = " ";
+    const eventInput = new Event("input", { bubbles: true });
+    element.dispatchEvent(eventInput);
+
+    const eventMasked = new Event("masked", { bubbles: true });
+    element.dispatchEvent(eventMasked);
+    resolve();
+  });
+};
+
+const writeInput = (element, newValue) => {
+  return new Promise((resolve) => {
+    element.value = String(newValue);
+
+    const eventInput = new Event("input", { bubbles: true });
+    element.dispatchEvent(eventInput);
+
+    const eventMasked = new Event("masked", { bubbles: true });
+    element.dispatchEvent(eventMasked);
+    resolve();
+  });
+};
+
+const type = async (element, newValue) => {
+  await clearInput(element);
+  await writeInput(element, newValue);
+};
+
+function extractNumbers(str) {
+  const regex = /[\d.]+/g;
+  const numbers = str.match(regex)[0].replace(".", "").replace(",", ".");
+  return parseFloat(numbers);
+}
+
 function waitForElement(selector) {
   return new Promise((resolve) => {
     let counter = 0;
@@ -17,6 +55,25 @@ function waitForElement(selector) {
     }, 100);
   });
 }
+
+// funcitions to be executed in the page
+
+const makeMartingale = async () => {
+  const input = document.querySelector(
+    ".input_input-helper__17cT2 .hydrated input"
+  );
+  const currentBalance = extractNumbers(
+    document.querySelector("#qa_trading_balance").textContent
+  );
+  const currentValue = Number(input.value);
+
+  const martingaleValue = currentValue * 2;
+  if (martingaleValue > currentBalance) return;
+
+  console.log("MARTINGALE", Number(martingaleValue));
+
+  await type(input, martingaleValue);
+};
 
 const changeTime = async (time) => {
   const timeButton = await waitForElement("#qa_chartTimeButton");
@@ -79,6 +136,10 @@ const execute = async (data) => {
 const actions = {
   EXECUTE: async (data) => {
     await execute(data);
+  },
+  MARTINGALE: async () => {
+    console.log("MARTINGALE");
+    await makeMartingale();
   },
 };
 

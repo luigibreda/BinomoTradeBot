@@ -3,7 +3,6 @@ import { ExtensionWrapper } from "./components/ExtensionWrapper";
 import { AuthProvider } from "./contexts/AuthContext";
 import { useOperatorOnline } from "./hooks/useOperatorOnline";
 import { Router } from "./routes";
-import { MirrorPage } from "./templates/MirrorPage";
 
 const queryClient = new QueryClient();
 
@@ -14,7 +13,6 @@ function App() {
       <AuthProvider>
         <ExtensionWrapper>
           <Router />
-          {/* <MirrorPage /> */}
         </ExtensionWrapper>
       </AuthProvider>
     </QueryClientProvider>

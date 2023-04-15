@@ -11,6 +11,11 @@ const actions = {
       data,
     });
   },
+  MARTINGALE: async () => {
+    await sendMessageToCurrentTab({
+      type: "MARTINGALE",
+    });
+  },
 };
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
