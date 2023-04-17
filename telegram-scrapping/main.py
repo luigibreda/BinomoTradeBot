@@ -88,56 +88,53 @@ async def main():
             if "SINAL VIP" in event.message.text:
                 #logger.info('Nova mensagem recebida: %s', event.message.text)
 
-                # encontra os links e substitui o texto desejado
-                nova_mensagem = re.sub(r'https://bit\.ly/CriarConta-PocketOption', 'https://bit.ly/binomo_brazill', event.message.text)
-                nova_mensagem = re.sub(r'https://bit\.ly/CadastroPocket', 'https://bit.ly/binomo_brazill', nova_mensagem)
+                # # encontra os links e substitui o texto desejado
+                # nova_mensagem = re.sub(r'https://bit\.ly/CriarConta-PocketOption', 'https://bit.ly/binomo_brazill', event.message.text)
+                # nova_mensagem = re.sub(r'https://bit\.ly/CadastroPocket', 'https://bit.ly/binomo_brazill', nova_mensagem)
 
-                # regex para extrair o mercado e a direção da operação
-                mercado_direcao_regex = re.search(r'•\s(.+)\s-\s(.+)\s-\s', event.message.text)
-                mercado = mercado_direcao_regex.group(1).replace(" ", "")
-                direcao = mercado_direcao_regex.group(2).replace(" ", "")
+                # # regex para extrair o mercado e a direção da operação
+                # mercado_direcao_regex = re.search(r'•\s(.+)\s-\s(.+)\s-\s', event.message.text)
+                # mercado = mercado_direcao_regex.group(1).replace(" ", "")
+                # direcao = mercado_direcao_regex.group(2).replace(" ", "")
 
-                # regex para extrair o tempo de expiração
-                tempo_expiracao_regex = re.search(r'Expiração:\s(\d+)\sminutos\s\((\w+)\)', event.message.text)
-                tempo = tempo_expiracao_regex.group(1)
-                unidade_tempo = tempo_expiracao_regex.group(2)
+                # # regex para extrair o tempo de expiração
+                # tempo_expiracao_regex = re.search(r'Expiração:\s(\d+)\sminutos\s\((\w+)\)', event.message.text)
+                # tempo = tempo_expiracao_regex.group(1)
+                # unidade_tempo = tempo_expiracao_regex.group(2)
 
-                # regex para extrair o número de martingale
-                martingale_regex = re.search(r'fazer\saté\s(\d+)\sGale', event.message.text)
-                martingale = martingale_regex.group(1)
+                # # regex para extrair o número de martingale
+                # martingale_regex = re.search(r'fazer\saté\s(\d+)\sGale', event.message.text)
+                # martingale = martingale_regex.group(1)
 
-                padrao = r'(\d{2}:\d{2})\s'
-                hora_encontrada = re.search(padrao, event.message.text)
-                hora_encontrada = hora_encontrada.group(1)
+                # padrao = r'(\d{2}:\d{2})\s'
+                # hora_encontrada = re.search(padrao, event.message.text)
+                # hora_encontrada = hora_encontrada.group(1)
 
-                logger.info(f'Sinal encontrado: Mercado: {mercado} Direção: {direcao} Tempo de expiração: {unidade_tempo} Martingale: {martingale} Hora: {hora_encontrada}')
+                mensagem_sem_links = replace_links(event.message.text)
+                signal_info = extract_signal_info(mensagem_sem_links)
+                direcao_formatada = format_direction(signal_info['direcao'])
+                unidade_tempo_invertida = invert_time_unit(signal_info['unidade_tempo'])
+                payload = build_payload(direcao_formatada, signal_info['mercado'], unidade_tempo_invertida)
 
-                # Trata a direção para enviar de acordo com nossa API
-                direcao = 'DOWN' if direcao == 'PUT' else 'UP' if direcao == 'CALL' else direcao
+                logger.info(f"Sinal encontrado: Mercado: {signal_info['mercado']} Direção: {direcao_formatada} Tempo de expiração: {unidade_tempo_invertida} Martingale: {signal_info['martingale']} Hora: {signal_info['hora']}")
 
-                # Inverte a variável de direção 
-                unidade_tempo_invertida = unidade_tempo[::-1]
 
-                payload = json.dumps({'emit': 'direction-auto', 'data': {'direction': direcao, 'tradingAsset': mercado, 'time': unidade_tempo_invertida}})
+                # # Trata a direção para enviar de acordo com nossa API
+                # direcao = 'DOWN' if direcao == 'PUT' else 'UP' if direcao == 'CALL' else direcao
+
+                # # Inverte a variável de direção 
+                # unidade_tempo_invertida = unidade_tempo[::-1]
+
+                # payload = json.dumps({'emit': 'direction-auto', 'data': {'direction': direcao, 'tradingAsset': mercado, 'time': unidade_tempo_invertida}})
                 print(payload)
 
-                # Define o fuso horário para o GMT-3
-                tz = pytz.timezone('America/Sao_Paulo')
-                # Obtém a hora atual no fuso horário definido
-                agora = datetime.now(tz)
-                # Converte a string de expiração em um objeto datetime
-                expiracao = datetime.strptime(hora_encontrada, "%H:%M")
-                # Combina a data atual e a hora de expiração no fuso horário definido
-                expiracao_completa = tz.localize(datetime.combine(agora.date(), expiracao.time()))
-                # Calcula a diferença entre os dois tempos
-                diferenca = expiracao_completa - agora
-                segundos_restantes = diferenca.seconds
+                segundos_restantes = calcular_segundos_restantes(signal_info['hora'])
 
-                await client.send_message(-1001509473574, nova_mensagem)
-                logger.info('Inicia contador')
-                logger.info(segundos_restantes)
+                await client.send_message(-1001509473574, mensagem_sem_links)
+                logger.info('Iniciando contagem regressiva para expiração do sinal')
+                logger.info(f'Segundos restantes para expiração: {segundos_restantes}')
                 await asyncio.sleep(segundos_restantes)
-                logger.info('Termina contador')
+                logger.info('Contagem regressiva encerrada')
                 await post_webhook(payload)
                 
             else:
@@ -145,6 +142,67 @@ async def main():
 
         # Executar o cliente em segundo plano
         await client.run_until_disconnected()
+
+def calcular_segundos_restantes(hora_encontrada):
+    # Define o fuso horário para o GMT-3
+    tz = pytz.timezone('America/Sao_Paulo')
+    # Obtém a hora atual no fuso horário definido
+    agora = datetime.now(tz)
+    # Converte a string de expiração em um objeto datetime
+    expiracao = datetime.strptime(hora_encontrada, "%H:%M")
+    # Combina a data atual e a hora de expiração no fuso horário definido
+    expiracao_completa = tz.localize(datetime.combine(agora.date(), expiracao.time()))
+    # Calcula a diferença entre os dois tempos
+    diferenca = expiracao_completa - agora
+    segundos_restantes = diferenca.seconds
+    return segundos_restantes
+
+def replace_links(mensagem):
+    nova_mensagem = re.sub(r'https://bit\.ly/CriarConta-PocketOption', 'https://bit.ly/binomo_brazill', mensagem)
+    nova_mensagem = re.sub(r'https://bit\.ly/CadastroPocket', 'https://bit.ly/binomo_brazill', nova_mensagem)
+    return nova_mensagem
+
+def extract_signal_info(mensagem):
+    signal_info = {}
+
+    mercado_direcao_regex = re.search(r'•\s(.+)\s-\s(.+)\s-\s', mensagem)
+    signal_info['mercado'] = mercado_direcao_regex.group(1).replace(" ", "")
+    signal_info['direcao'] = mercado_direcao_regex.group(2).replace(" ", "")
+
+    tempo_expiracao_regex = re.search(r'Expiração:\s(\d+)\sminutos\s\((\w+)\)', mensagem)
+    signal_info['tempo'] = tempo_expiracao_regex.group(1)
+    signal_info['unidade_tempo'] = tempo_expiracao_regex.group(2)
+
+    martingale_regex = re.search(r'fazer\saté\s(\d+)\sGale', mensagem)
+    signal_info['martingale'] = martingale_regex.group(1)
+
+    padrao = r'(\d{2}:\d{2})\s'
+    hora_encontrada = re.search(padrao, mensagem)
+    signal_info['hora'] = hora_encontrada.group(1)
+
+    return signal_info
+
+def format_direction(direcao):
+    if direcao == 'PUT':
+        return 'DOWN'
+    elif direcao == 'CALL':
+        return 'UP'
+    else:
+        return direcao
+
+def invert_time_unit(unidade_tempo):
+    return unidade_tempo[::-1]
+
+def build_payload(direcao, mercado, unidade_tempo_invertida):
+    payload = json.dumps({
+        'emit': 'direction-auto',
+        'data': {
+            'direction': direcao,
+            'tradingAsset': mercado,
+            'time': unidade_tempo_invertida
+        }
+    })
+    return payload
 
 if __name__ == '__main__':
     asyncio.run(main())
