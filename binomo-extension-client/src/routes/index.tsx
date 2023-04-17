@@ -7,7 +7,9 @@ import {
 import { MirrorPage } from "../templates/MirrorPage";
 import { Login } from "../templates/Login";
 import { useAuth } from "../contexts/AuthContext";
-import { Automatic } from "../templates/Automatic";
+import { History } from "../templates/History";
+import { ExtensionWrapper } from "../components/ExtensionWrapper";
+import { Children } from "react";
 
 const ProtectedRoute = () => {
   const { isAuthenticated } = useAuth();
@@ -23,20 +25,29 @@ const AuthRoute = () => {
 
 const routes = [
   {
-    element: <ProtectedRoute />,
+    element: <ExtensionWrapper header={true} />,
     children: [
       {
-        path: "/",
-        element: <MirrorPage />,
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "/",
+            element: <MirrorPage />,
+          },
+        ],
       },
-    ],
-  },
-  {
-    element: <AuthRoute />,
-    children: [
       {
-        path: "/login",
-        element: <Login />,
+        element: <AuthRoute />,
+        children: [
+          {
+            path: "/login",
+            element: <Login />,
+          },
+        ],
+      },
+      {
+        path: "/history",
+        element: <History />,
       },
     ],
   },

@@ -5,7 +5,8 @@ const useMe = () =>
   useQuery({
     queryKey: ["me"],
     queryFn: UserServices.me,
-    retry: 2,
+    retry: 4,
+    staleTime: 60 * 1000,
   });
 
 export default useMe;

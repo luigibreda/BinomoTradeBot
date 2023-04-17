@@ -5,6 +5,8 @@ import express from "express";
 import dotenv from "dotenv";
 import { connectDb } from "./db/index.js";
 import authRoutes from "./routes/authRoutes.js";
+import entryRoutes from "./routes/entryRoutes.js";
+import { Entry } from "./models/Entry.js";
 
 dotenv.config();
 
@@ -26,6 +28,7 @@ app.use(
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/entry", entryRoutes);
 
 io.on("connection", (socket) => {
   socket.emit("online-users", io.engine.clientsCount - 1);
@@ -39,8 +42,20 @@ io.on("connection", (socket) => {
   });
 });
 
-app.post("/webhook", (req, res) => {
+app.post("/webhook", async (req, res) => {
   const { emit, data } = req.body;
+
+  if (!emit || !data)
+    return res.status(403).json({ message: "Invalid request" });
+
+  if (emit.startsWith("direction")) {
+    const entry = await Entry.create({
+      direction: data.direction,
+      type: emit.split("-")[1],
+      tradingAsset: data.tradingAsset,
+      time: data.time,
+    });
+  }
 
   io.emit(emit, data);
   res.json({ message: "ok" });

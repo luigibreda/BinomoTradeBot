@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useExtensionStore } from "../../../store/extensionStore";
 import { socket } from "../../../libs/socket";
+import { entryServices } from "../../../services/http/entry";
+import useMe from "../../../hooks/useMe";
+import { useQueryClient } from "@tanstack/react-query";
+import { v4 } from "uuid";
 
 type Direction = {
   direction: string;
@@ -10,16 +14,39 @@ type Direction = {
 
 export const useMirror = () => {
   const [isWatching, setIsWatching] = useState(false);
-  const [lastOperations, setLastOperations] = useState<Direction[]>([]);
+  const queryClient = useQueryClient();
   const operatorIsOnline = useExtensionStore((state) => state.operatorIsOnline);
   const [type, setType] = useState<"auto" | "manual">("auto");
 
-  const handleDirection = (direction: Direction) => {
-    setLastOperations((lastOperations) => [direction, ...lastOperations]);
-    chrome.runtime.sendMessage({
-      type: "DIRECTION",
-      data: direction,
-    });
+  const handleDirection = async (direction: Direction) => {
+    try {
+      const id = v4();
+      queryClient.setQueryData(["me"], (oldData: any) => {
+        return {
+          ...oldData,
+          entries: [
+            {
+              ...direction,
+              type,
+              createdAt: new Date().toISOString(),
+              _id: id,
+            },
+            ...oldData.entries,
+          ],
+        };
+      });
+      const res = await entryServices.registerEntry({
+        ...direction,
+        type,
+        _id: id,
+      });
+      chrome.runtime.sendMessage({
+        type: "DIRECTION",
+        data: direction,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleWatch = () => {
@@ -27,7 +54,6 @@ export const useMirror = () => {
   };
 
   useEffect(() => {
-    setLastOperations([]);
     if (isWatching) {
       console.log(`watching-${type}`);
       socket.on(`direction-${type}`, handleDirection);
@@ -42,7 +68,6 @@ export const useMirror = () => {
   return {
     isWatching,
     handleWatch,
-    lastOperations,
     operatorIsOnline,
     type,
     setType,

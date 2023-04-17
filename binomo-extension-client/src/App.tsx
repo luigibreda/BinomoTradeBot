@@ -3,6 +3,8 @@ import { ExtensionWrapper } from "./components/ExtensionWrapper";
 import { AuthProvider } from "./contexts/AuthContext";
 import { useOperatorOnline } from "./hooks/useOperatorOnline";
 import { Router } from "./routes";
+import "moment/dist/locale/pt-br";
+import "moment/locale/pt-br";
 
 const queryClient = new QueryClient();
 
@@ -11,9 +13,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <ExtensionWrapper>
-          <Router />
-        </ExtensionWrapper>
+        <Router />
       </AuthProvider>
     </QueryClientProvider>
   );
