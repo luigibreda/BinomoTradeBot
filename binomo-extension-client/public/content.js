@@ -75,19 +75,51 @@ const makeMartingale = async () => {
   await type(input, martingaleValue);
 };
 
-const changeTime = async (time) => {
-  const timeButton = await waitForElement("#qa_chartTimeButton");
-  if (!timeButton) return;
-  const currentTime = timeButton.querySelector("span").textContent;
+const changeTime = (time) => {
+  const buttons = document.querySelectorAll(".number_icon__1HoIp");
+  const upBtn = buttons[2];
+  const downBtn = buttons[3];
 
-  if (currentTime.toLowerCase() === time.toLowerCase()) return;
+  const hourNow = new Date().toLocaleTimeString("en-US", {
+    hour12: false,
+    hour: "numeric",
+    minute: "numeric",
+  });
 
-  timeButton.click();
+  const timeShouldBe = new Date(
+    new Date().getTime() + Number(time.slice(0, -1)) * 60000
+  ).toLocaleTimeString("en-US", {
+    hour12: false,
+    hour: "numeric",
+    minute: "numeric",
+  });
 
-  const query = `#qa_${time.toLowerCase()}ChartTime`;
-  const button = await waitForElement(query);
-  if (!button) return;
-  button.click();
+  const currentHour = document.querySelectorAll(
+    ".input_input-helper__17cT2 .hydrated input"
+  )[1].value;
+
+  const isSameTime = hourNow === timeShouldBe;
+  if (currentHour === timeShouldBe) return;
+  if (isSameTime) return;
+
+  const distance = Math.abs(
+    Number(currentHour.replace(":", "")) - Number(timeShouldBe.replace(":", ""))
+  );
+
+  for (let i = 0; i < distance; i++) {
+    if (
+      Number(currentHour.replace(":", "")) >
+      Number(timeShouldBe.replace(":", ""))
+    ) {
+      downBtn.click();
+    } else {
+      upBtn.click();
+    }
+  }
+
+  return new Promise((resolve) => {
+    resolve();
+  });
 };
 
 const changeTradingAsset = async (tradingAsset) => {

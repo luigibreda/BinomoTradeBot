@@ -14,7 +14,7 @@ const buttons = [
       notifyBackground({
         direction: "UP",
         tradingAsset: document.querySelector(".title").innerText,
-        time: document.querySelector("#qa_chartTimeButton > span").textContent,
+        time: "1m",
       });
     },
   },
@@ -24,7 +24,7 @@ const buttons = [
       notifyBackground({
         direction: "DOWN",
         tradingAsset: document.querySelector(".title").innerText,
-        time: document.querySelector("#qa_chartTimeButton > span").textContent,
+        time: "1m",
       });
     },
   },
