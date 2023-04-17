@@ -24,6 +24,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const getUser = async () => {
       try {
+        if (!token) throw new Error("Token not found");
+        api.defaults.headers.Authorization = `Bearer ${token}`;
         const me = await UserServices.me();
         if (!me) throw new Error("User not found");
         queryClient.setQueryData(["me"], me);
@@ -49,7 +51,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  if (loading) return <Loading />;
+  if (loading) return null;
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, login, loading }}>
