@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema({
   entries: {
     type: Array,
     required: false,
+    default: [],
     fill: {
       direction: {
         type: String,

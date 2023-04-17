@@ -14,8 +14,6 @@ type Props = {
 };
 
 export const DirectionsList = ({ lastOperations }: Props) => {
-  console.log(lastOperations);
-
   return (
     <div className="flex mt-4 flex-col gap-2">
       {lastOperations.map((operation: any, index: number) => (
