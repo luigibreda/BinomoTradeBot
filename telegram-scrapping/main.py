@@ -134,10 +134,10 @@ async def main():
                 segundos_restantes = diferenca.seconds
 
                 await client.send_message(-1001509473574, nova_mensagem)
-                # logger.info('Inicia contador')
-                # logger.info(segundos_restantes)
+                logger.info('Inicia contador')
+                logger.info(segundos_restantes)
                 await asyncio.sleep(segundos_restantes)
-                # logger.info('Termina contador')
+                logger.info('Termina contador')
                 await post_webhook(payload)
                 
             else:
