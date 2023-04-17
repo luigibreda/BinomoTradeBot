@@ -126,7 +126,7 @@ async def main():
                 # unidade_tempo_invertida = unidade_tempo[::-1]
 
                 # payload = json.dumps({'emit': 'direction-auto', 'data': {'direction': direcao, 'tradingAsset': mercado, 'time': unidade_tempo_invertida}})
-                print(payload)
+                logger.info(payload)
 
                 segundos_restantes = calcular_segundos_restantes(signal_info['hora'])
 
