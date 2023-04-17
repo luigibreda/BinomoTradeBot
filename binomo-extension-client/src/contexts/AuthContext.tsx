@@ -41,6 +41,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const login = async (credentials: Credentials) => {
     try {
+      
       const response = await UserServices.login(credentials);
       api.defaults.headers.Authorization = `Bearer ${response.token}`;
       setToken(response.token);
