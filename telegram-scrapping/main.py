@@ -44,7 +44,7 @@ async def post_webhook(payload):
         payload_dict = json.loads(payload)
         payload_dict['data']['tradingAsset'] = mercado
         payload = json.dumps(payload_dict)
-        logger.info(f'JSON: {payload}')
+        logger.info(f'JSON: {payload}') 
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.post(webhook_url, data=payload, headers={'Content-Type': 'application/json'}) as response:
