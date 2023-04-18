@@ -44,18 +44,18 @@ async def post_webhook(payload):
         payload_dict = json.loads(payload)
         payload_dict['data']['tradingAsset'] = mercado
         payload = json.dumps(payload_dict)
-        logger.info(f'JSON: {payload}')
+        # logger.info(f'JSON: {payload}')
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.post(webhook_url, data=payload, headers={'Content-Type': 'application/json'}) as response:
                     if response.status == 200:
                         logger.info('Mensagem enviada com sucesso para o webhook')
                     else:
-                        logger.warning('Erro ao enviar mensagem para o webhook: %d %s', response.status, response.reason)
+                        logger.error('Erro ao enviar mensagem para o webhook: %d %s', response.status, response.reason)
         except Exception as e:
             logger.exception(f'Não foi possível enviar mensagem para o webhook: {str(e)}')
     else:
-        logger.warning(f'O ativo {mercado} não está na lista de mercados válidos')
+        logger.error(f'O ativo {mercado} não está na lista de mercados válidos')
 
 async def main():
     # payload = json.dumps({"emit": "direction-auto", "data": {"direction": "DOWN", "tradingAsset": "USDCAD ", "time": "5M"}})
@@ -116,7 +116,7 @@ async def main():
                 unidade_tempo_invertida = invert_time_unit(signal_info['unidade_tempo'])
                 payload = build_payload(direcao_formatada, signal_info['mercado'], unidade_tempo_invertida)
 
-                logger.info(f"Sinal encontrado: Mercado: {signal_info['mercado']} Direção: {direcao_formatada} Tempo de expiração: {unidade_tempo_invertida} Martingale: {signal_info['martingale']} Hora: {signal_info['hora']}")
+                logger.warning(f"Sinal encontrado: Mercado: {signal_info['mercado']} Direção: {direcao_formatada} Tempo de expiração: {unidade_tempo_invertida} Martingale: {signal_info['martingale']} Hora: {signal_info['hora']}")
 
 
                 # # Trata a direção para enviar de acordo com nossa API
@@ -132,7 +132,7 @@ async def main():
 
                 await client.send_message(-1001509473574, mensagem_sem_links)
                 # logger.info('Iniciando contagem regressiva para expiração do sinal')
-                logger.info(f'Segundos restantes para expiração: {segundos_restantes}')
+                logger.info(f'Segundos restantes para executar o sinal: {segundos_restantes}')
                 await asyncio.sleep(segundos_restantes)
                 # logger.info('Contagem regressiva encerrada')
                 await post_webhook(payload)
