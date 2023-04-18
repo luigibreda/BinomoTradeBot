@@ -137,7 +137,7 @@ async def main():
                 # logger.info('Contagem regressiva encerrada')
                 await post_webhook(payload)
                 
-            else:
+            # else:
                 # logger.info('Mensagem recebida, mas NÃO é sinal.')
 
         # Executar o cliente em segundo plano
