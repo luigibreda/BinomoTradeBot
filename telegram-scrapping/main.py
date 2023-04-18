@@ -24,7 +24,7 @@ novos_mercados = ["EUR/USD (OTC)", "GBP/USD (OTC)", "USD/JPY (OTC)", "GBP/JPY (O
 mercados_validos.extend(novos_mercados)
 
 # Configurar o logger
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 async def post_webhook(payload):
@@ -126,19 +126,19 @@ async def main():
                 # unidade_tempo_invertida = unidade_tempo[::-1]
 
                 # payload = json.dumps({'emit': 'direction-auto', 'data': {'direction': direcao, 'tradingAsset': mercado, 'time': unidade_tempo_invertida}})
-                logger.info(payload)
+                # logger.info(payload)
 
                 segundos_restantes = calcular_segundos_restantes(signal_info['hora'])
 
                 await client.send_message(-1001509473574, mensagem_sem_links)
-                logger.info('Iniciando contagem regressiva para expiração do sinal')
+                # logger.info('Iniciando contagem regressiva para expiração do sinal')
                 logger.info(f'Segundos restantes para expiração: {segundos_restantes}')
                 await asyncio.sleep(segundos_restantes)
-                logger.info('Contagem regressiva encerrada')
+                # logger.info('Contagem regressiva encerrada')
                 await post_webhook(payload)
                 
             else:
-                logger.info('Mensagem recebida, mas NÃO é sinal.')
+                # logger.info('Mensagem recebida, mas NÃO é sinal.')
 
         # Executar o cliente em segundo plano
         await client.run_until_disconnected()
