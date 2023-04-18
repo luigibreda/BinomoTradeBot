@@ -106,11 +106,6 @@ const changeTime = (time) => {
     Number(currentHour.replace(":", "")) - Number(timeShouldBe.replace(":", ""))
   );
 
-  console.log("distance", distance);
-  console.log("currentHour", currentHour);
-  console.log("hourNow", hourNow);
-  console.log("timeShouldBe", timeShouldBe);
-
   for (let i = 0; i < distance; i++) {
     if (
       Number(currentHour.replace(":", "")) >
