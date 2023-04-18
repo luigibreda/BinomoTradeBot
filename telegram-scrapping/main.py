@@ -43,7 +43,7 @@ async def post_webhook(payload):
         # Adiciona o mercado modificado ao payload
         payload_dict = json.loads(payload)
         payload_dict['data']['tradingAsset'] = mercado
-        payload = json.dumps(payload_dict)
+        payload = json.dumps(payload_dict) 
         logger.info(f'JSON: {payload}') 
         try:
             async with aiohttp.ClientSession() as session:
