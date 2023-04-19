@@ -14,6 +14,41 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  history: {
+    type: Array,
+    required: false,
+    default: [],
+    fill: {
+      timeStart: {
+        type: String,
+        required: true,
+      },
+      timeEnd: {
+        type: String,
+        required: true,
+      },
+      initialBalance: {
+        type: Number,
+        required: true,
+      },
+      finalBalance: {
+        type: Number,
+        required: true,
+      },
+      count: {
+        type: Number,
+        required: true,
+      },
+      profit: {
+        type: Number,
+        required: true,
+      },
+      isProfit: {
+        type: Boolean,
+        required: true,
+      },
+    },
+  },
   entries: {
     type: Array,
     required: false,

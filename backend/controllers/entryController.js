@@ -2,8 +2,6 @@ import { User } from "../models/User.js";
 import { Entry } from "../models/Entry.js";
 
 export const registerEntry = async (req, res) => {
-  const { direction, tradingAsset, type, time, _id } = req.body;
-
   try {
     const { id } = req.user;
     const user = await User.findByIdAndUpdate(id, {
@@ -11,11 +9,7 @@ export const registerEntry = async (req, res) => {
         entries: {
           $each: [
             {
-              direction,
-              tradingAsset,
-              type,
-              time,
-              _id,
+              ...req.body,
               createdAt: new Date().toISOString(),
             },
           ],

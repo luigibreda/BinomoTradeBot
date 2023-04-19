@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import { connectDb } from "./db/index.js";
 import authRoutes from "./routes/authRoutes.js";
 import entryRoutes from "./routes/entryRoutes.js";
+import registryRoutes from "./routes/registryRoutes.js";
 import { Entry } from "./models/Entry.js";
 
 dotenv.config();
@@ -29,6 +30,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/entry", entryRoutes);
+app.use("/api/registry", registryRoutes);
 
 io.on("connection", (socket) => {
   socket.emit("online-users", io.engine.clientsCount - 1);

@@ -1,9 +1,9 @@
 {
-  "name": "Binomo Crypto Trader Client",
-  "version": "0.0.1",
+  "name": "AlienCash Client",
+  "version": "1.0.0",
   "manifest_version": 3,
   "action": {
-    "default_title": "Binomo Crypto Trader",
+    "default_title": "AlienCash",
     "default_popup": "index.html"
   },
   "background": {

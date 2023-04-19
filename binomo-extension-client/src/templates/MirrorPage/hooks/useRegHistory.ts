@@ -37,8 +37,6 @@ export const useRegHistory = () => {
       isProfit: false,
       initialBalance: response.balance,
     };
-
-    console.log("history iniciou", history.current);
   };
 
   const finishReg = async () => {
@@ -53,7 +51,6 @@ export const useRegHistory = () => {
       finalBalance: response.balance,
       timeEnd: new Date().toISOString(),
     };
-    console.log("history finalizou", history.current);
     registerHistory();
   };
 

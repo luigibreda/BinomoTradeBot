@@ -27,7 +27,8 @@ export const entryServices = {
   },
   registerHistory: async (data: any) => {
     try {
-      console.log(data);
+      const res = await api.post("/history", data);
+      return res.data;
     } catch (error: any) {
       throw new Error(error.message);
     }
