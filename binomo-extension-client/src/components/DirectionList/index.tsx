@@ -68,7 +68,7 @@ export const DirectionsList = ({ lastOperations, limited = false }: Props) => {
           </div>
           <div className="flex flex-col justify-end items-end">
             <Bagde color="emerald" placeholder={operation.type.toUpperCase()} />
-            <p className="text-xs text-neutral-400">
+            <p className="text-xs font-bold text-neutral-500">
               {moment(operation.createdAt).locale("pt-br").fromNow()}
             </p>
           </div>
