@@ -1,8 +1,9 @@
 import { useRef } from "react";
 import { entryServices } from "../../../services/http/entry";
 import { sendMessageToCurrentTab } from "../../../functions";
+import { useQueryClient } from "@tanstack/react-query";
 
-type History = {
+export type History = {
   timeStart: string;
   timeEnd?: string;
   initialBalance: number;
@@ -14,10 +15,12 @@ type History = {
 
 export const useRegHistory = () => {
   const history = useRef<History>({} as History);
+  const queryClient = useQueryClient();
 
   const registerHistory = async () => {
     try {
       const res = await entryServices.registerHistory(history.current);
+      queryClient.invalidateQueries(["me"]);
     } catch (error: any) {
       console.log(error);
     }
@@ -46,8 +49,8 @@ export const useRegHistory = () => {
 
     history.current = {
       ...history.current,
-      profit: response.balance - history.current.initialBalance,
-      isProfit: response.balance - history.current.initialBalance > 0,
+      profit: history.current.initialBalance - response.balance,
+      isProfit: history.current.initialBalance - response.balance > 0,
       finalBalance: response.balance,
       timeEnd: new Date().toISOString(),
     };

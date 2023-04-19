@@ -1,11 +1,8 @@
 import { DirectionsList } from "../../components/DirectionList";
-import { Loading } from "../Loading";
 import { useHistory } from "./hooks/useHistory";
 
 export const History = () => {
-  const { data, isLoading } = useHistory();
-
-  if (isLoading) return <Loading />;
+  const { data } = useHistory();
 
   return (
     <div className="pt-2">

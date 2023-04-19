@@ -6,6 +6,8 @@ import { Option } from "./components/Option";
 import { DirectionsList } from "../../components/DirectionList";
 import { ActionButton } from "../../components/ActionButton";
 import { Bagde } from "../../components/Bagde";
+import moment from "moment";
+import { Registry } from "./components/Registry";
 
 export const MirrorPage = () => {
   const { data, isLoading } = useMe();
@@ -14,7 +16,7 @@ export const MirrorPage = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="flex h-full  flex-col gap-2">
+    <div className="flex h-full  flex-col gap-1">
       <div className="flex gap-2">
         <Option
           isActive={mirror.type === "auto"}
@@ -38,27 +40,21 @@ export const MirrorPage = () => {
         <span className="font-bold"> {daysDifference(data.expiresAt)}</span>
       </p>
 
-      <div className="h-96 flex flex-col gap-2">
-        <div className="overflow-y-hidden">
-          <p className="text-sm text-neutral-500 font-bold">
+      <div className="h-[375px] flex flex-col justify-center gap-3">
+        <div className="overflow-y-hidden ">
+          <p className="text-sm  text-neutral-500 font-bold">
             Últimas operações
           </p>
           <DirectionsList limited={true} lastOperations={data.entries} />
         </div>
-
-        <div className="h-1/2 overflow-y-auto">
+        <div className="h-1/2  overflow-y-auto">
           <p className="text-sm text-neutral-500 font-bold">
             Historico de ganhos/perdas
           </p>
-          <div>
-            <p className="text-sm">
-              De 13:00 até 13:40 - 15 jogadas -
-              <span className="text-green-400 font-bold"> 130R$</span>
-            </p>
-            <p className="text-sm">
-              De 13:00 até 13:40 - 15 jogadas -
-              <span className="text-red-500 font-bold"> 130R$</span>
-            </p>
+          <div className="flex flex-col gap-2">
+            {data.history.map((item: any) => (
+              <Registry item={item} />
+            ))}
           </div>
         </div>
       </div>

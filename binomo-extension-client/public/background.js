@@ -24,7 +24,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     const callback = actions[type];
     if (!callback) return;
     callback(data).then((result) => {
-      console.log("result in background", result);
       sendResponse(result);
     });
   } catch (error) {
