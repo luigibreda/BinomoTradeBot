@@ -49,8 +49,8 @@ export const useRegHistory = () => {
 
     history.current = {
       ...history.current,
-      profit: history.current.initialBalance - response.balance,
-      isProfit: history.current.initialBalance - response.balance > 0,
+      profit: response.balance - history.current.initialBalance,
+      isProfit: response.balance - history.current.initialBalance > 0,
       finalBalance: response.balance,
       timeEnd: new Date().toISOString(),
     };
