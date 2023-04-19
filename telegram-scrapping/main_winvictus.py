@@ -79,11 +79,9 @@ async def main():
         # Obter os grupos desejados
         group_entities = []
         group_entities.append(await client.get_entity(-961285460))
-        group_entities.append(await client.get_entity(-1001858577085))
         group_entities.append(await client.get_entity(-1001935115707))
         group_entities.append(await client.get_entity(-1001922822962))
         group_entities.append(await client.get_entity(-1001924036057))
-        group_entities.append(await client.get_entity(-1001517778355))
 
         # Receber e imprimir todas as novas mensagens dos grupos
         @client.on(events.NewMessage(chats=group_entities))

@@ -36,7 +36,7 @@ async def post_webhook(payload):
         mercado = ativo[:3] + '/' + ativo[3:]
     else:
         logger.warning(f'O ativo {ativo} não está na lista de mercados válidos')
-        return
+        return False
 
     # print(mercado)
     if mercado in mercados_validos:
@@ -50,12 +50,16 @@ async def post_webhook(payload):
                 async with session.post(webhook_url, data=payload, headers={'Content-Type': 'application/json'}) as response:
                     if response.status == 200:
                         logger.info('Mensagem enviada com sucesso para o webhook')
+                        return True
                     else:
                         logger.error('Erro ao enviar mensagem para o webhook: %d %s', response.status, response.reason)
+                        return False
         except Exception as e:
             logger.exception(f'Não foi possível enviar mensagem para o webhook: {str(e)}')
+            return False
     else:
         logger.error(f'O ativo {mercado} não está na lista de mercados válidos')
+        return False
 
 async def main():
     # payload = json.dumps({"emit": "direction-auto", "data": {"direction": "DOWN", "tradingAsset": "USDCAD ", "time": "5M"}})
@@ -128,15 +132,23 @@ async def main():
                 # payload = json.dumps({'emit': 'direction-auto', 'data': {'direction': direcao, 'tradingAsset': mercado, 'time': unidade_tempo_invertida}})
                 # logger.info(payload)
 
-                segundos_restantes = calcular_segundos_restantes(signal_info['hora'])
+                # segundos_restantes = calcular_segundos_restantes(signal_info['hora'])
 
-                await client.send_message(-1001509473574, mensagem_sem_links)
-                # logger.info('Iniciando contagem regressiva para expiração do sinal')
+                # await client.send_message(-1001509473574, mensagem_sem_links)
+                # # logger.info('Iniciando contagem regressiva para expiração do sinal')
+                # logger.info(f'Segundos restantes para executar o sinal: {segundos_restantes}')
+                # await asyncio.sleep(segundos_restantes)
+                # # logger.info('Contagem regressiva encerrada')
+                # await post_webhook(payload)
+
+                # trecho de código modificado
+                
                 logger.info(f'Segundos restantes para executar o sinal: {segundos_restantes}')
                 await asyncio.sleep(segundos_restantes)
-                # logger.info('Contagem regressiva encerrada')
-                await post_webhook(payload)
-                
+                enviado = await post_webhook(payload)
+                if enviado:
+                    await client.send_message(-1001509473574, mensagem_sem_links)
+
             # else:
                 # logger.info('Mensagem recebida, mas NÃO é sinal.')
 
