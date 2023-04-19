@@ -20,7 +20,7 @@ export const Login = () => {
         type="password"
         register={register}
       />
-      <ActionButton color="emerald" placeholder="Entrar" />
+      <ActionButton color="lime" placeholder="Entrar" />
       {error && <p className="text-red-500 text-sm mx-auto">{error}</p>}
     </form>
   );

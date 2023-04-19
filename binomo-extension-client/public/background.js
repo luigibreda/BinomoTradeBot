@@ -22,7 +22,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   try {
     const { type, data } = request;
     const callback = actions[type];
-    callback(data);
+    if (!callback) return;
+    callback(data).then((result) => {
+      console.log("result in background", result);
+      sendResponse(result);
+    });
   } catch (error) {
     console.log("Error in background.js", error);
   }

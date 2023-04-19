@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import logoBinomo from "../../assets/binomo.png";
+import logo from "../../assets/logo.png";
 import { FaHistory, FaInfo } from "react-icons/fa";
 
 export const Header = () => {
@@ -13,8 +13,8 @@ export const Header = () => {
       <div className="w-1/4 flex items-center justify-center">
         <img
           onClick={() => navigate("/")}
-          className="w-3/4 cursor-pointer"
-          src={logoBinomo}
+          className="w-full cursor-pointer"
+          src={logo}
           alt="Logo"
         />
       </div>

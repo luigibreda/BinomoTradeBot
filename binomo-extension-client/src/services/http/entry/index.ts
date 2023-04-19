@@ -25,4 +25,11 @@ export const entryServices = {
       throw new Error(error.message);
     }
   },
+  registerHistory: async (data: any) => {
+    try {
+      console.log(data);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  },
 };

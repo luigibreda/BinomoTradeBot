@@ -16,7 +16,7 @@ export const ActionButton = ({
       <button
         onClick={onClick}
         disabled={disabled}
-        className={`bg-${color}-500 disabled:opacity-60 font-bold w-full p-2 rounded-md hover:bg-${color}-600 transition-all active:scale-95`}
+        className={`bg-${color}-500 text-${color}-200 disabled:opacity-60 font-bold w-full p-2 rounded-md hover:bg-${color}-600 transition-all active:scale-95`}
       >
         {placeholder}
       </button>

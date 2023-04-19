@@ -8,9 +8,9 @@ export const ExtensionWrapper = ({
   children?: React.ReactNode;
   header?: boolean;
 }) => (
-  <div className="w-80 font-poppins flex justify-between flex-col text-white h-[530px] bg-binomo">
+  <div className="w-[340px] font-poppins flex justify-between flex-col text-white h-[580px] bg-zinc-950">
     {header && <Header />}
-    <div className="mx-5 min-h-[400px] overflow-auto ">
+    <div className="mx-5 min-h-[480px] overflow-auto">
       <Outlet />
     </div>
     <Footer />

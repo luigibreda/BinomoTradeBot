@@ -173,14 +173,25 @@ const actions = {
     console.log("MARTINGALE");
     await makeMartingale();
   },
+  GET_CURRENT_BALANCE: async () => {
+    const currentBalance = await extractNumbers(
+      document.querySelector("#qa_trading_balance").textContent
+    );
+    console.log("GET_CURRENT_BALANCE", currentBalance);
+    return currentBalance;
+  },
 };
 
-chrome.runtime.onMessage.addListener((request, sender) => {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   try {
     const { type, data } = request;
     const callback = actions[type];
     if (!callback) return;
-    callback(data);
+    callback(data).then((result) => {
+      sendResponse({
+        balance: result,
+      });
+    });
   } catch (error) {
     console.log(error);
   }

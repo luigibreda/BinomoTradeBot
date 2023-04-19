@@ -11,23 +11,28 @@ export type Direction = {
 
 type Props = {
   lastOperations: Direction[];
+  limited?: boolean;
 };
 
-export const DirectionsList = ({ lastOperations }: Props) => {
+export const DirectionsList = ({ lastOperations, limited = false }: Props) => {
+  const oprations = limited ? lastOperations.slice(0, 2) : lastOperations;
+
   return (
-    <div className="flex mt-4 flex-col gap-2">
-      {lastOperations.map((operation: any, index: number) => (
+    <div className={`flex flex-col gap-2 h-full overflow-y-auto`}>
+      {oprations.map((operation: any, index: number) => (
         <div
           key={operation._id}
-          className="border flex justify-between border-neutral-600 px-2 py-2 rounded-md"
+          className={`border flex justify-between border-neutral-600 px-2 py-2 rounded-md`}
         >
           <div>
             <div className="border-b-neutral-600">
-              <span className="font-bold text-sm">Asset:</span>{" "}
+              <span className="font-bold text-neutral-500 text-sm">Asset:</span>{" "}
               {operation.tradingAsset}
             </div>
             <div>
-              <span className="font-bold text-sm">Direction: </span>
+              <span className="font-bold text-neutral-500 text-sm">
+                Direction:{" "}
+              </span>
               {operation.direction}
             </div>
           </div>

@@ -13,3 +13,10 @@ export function daysDifference(date: any) {
     return "hoje";
   }
 }
+
+export const sendMessageToCurrentTab = async (message: any) => {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  if (!tab) throw new Error("No active tab found");
+  const response = await chrome.tabs.sendMessage(tab.id as number, message);
+  return response;
+};

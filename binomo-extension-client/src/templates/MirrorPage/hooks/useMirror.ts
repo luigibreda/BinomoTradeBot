@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useExtensionStore } from "../../../store/extensionStore";
 import { socket } from "../../../libs/socket";
 import { entryServices } from "../../../services/http/entry";
-import useMe from "../../../hooks/useMe";
 import { useQueryClient } from "@tanstack/react-query";
 import { v4 } from "uuid";
+import { useRegHistory } from "./useRegHistory";
 
 type Direction = {
   direction: string;
@@ -17,9 +17,11 @@ export const useMirror = () => {
   const queryClient = useQueryClient();
   const operatorIsOnline = useExtensionStore((state) => state.operatorIsOnline);
   const [type, setType] = useState<"auto" | "manual">("auto");
+  const { initReg, finishReg, incrementReg } = useRegHistory();
 
   const handleDirection = async (direction: Direction) => {
     try {
+      incrementReg();
       const id = v4();
       queryClient.setQueryData(["me"], (oldData: any) => {
         return {
@@ -35,14 +37,14 @@ export const useMirror = () => {
           ],
         };
       });
-      const res = await entryServices.registerEntry({
-        ...direction,
-        type,
-        _id: id,
-      });
       chrome.runtime.sendMessage({
         type: "DIRECTION",
         data: direction,
+      });
+      await entryServices.registerEntry({
+        ...direction,
+        type,
+        _id: id,
       });
     } catch (error) {
       console.log(error);
@@ -50,6 +52,11 @@ export const useMirror = () => {
   };
 
   const handleWatch = () => {
+    if (!isWatching) {
+      initReg();
+    } else {
+      finishReg();
+    }
     setIsWatching((isWatching) => !isWatching);
   };
 
