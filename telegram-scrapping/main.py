@@ -15,7 +15,7 @@ api_hash = '3192725f34fc40a99185242c5c7572e9'
 phone_number = '+5547991049102'  # Seu número de telefone, incluindo código do país
 
 # Configure a sessão abaixo com o nome da sessão que você escolheu anteriormente
-session_name = 'session_name'
+session_name = 'session_name_felipe'
 
 # Configure o webhook abaixo com a URL do seu webhook
 webhook_url = 'https://binomotradebot-production.up.railway.app/webhook'
