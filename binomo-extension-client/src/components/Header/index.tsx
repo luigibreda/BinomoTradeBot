@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/cashalien-logo.jpg";
 import { FaHistory, FaInfo } from "react-icons/fa";
 
 export const Header = () => {
