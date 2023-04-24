@@ -20,29 +20,31 @@ session_name = 'session_name_felipe'
 # Configure o webhook abaixo com a URL do seu webhook
 webhook_url = 'https://binomotradebot-production.up.railway.app/webhook'
 mercados_validos = ["Crypto IDX", "EUR/USD", "USD/CAD", "USD/JPY", "EUR/MNX", "USD/CHF", "AUD/NZD", "NDX/USD", "EUR/NZD", "EUR/JPY", "EUR IXD", "AUD/USD", "AUD/CAD", "AUD/JPY", "DJI/USD (OTC)", "CHF/JPY", "NZD/USD", "NZD/JPY", "ADA/USD"]
-novos_mercados = ["EUR/USD (OTC)", "GBP/USD (OTC)", "USD/JPY (OTC)", "GBP/JPY (OTC)", "AUD/CAD (OTC)", "EUR/CAD (OTC)", "NDX/USD (OTC)", "DJI/USD (OTC)", "SPX/USD (OTC)"]
-mercados_validos.extend(novos_mercados)
+# novos_mercados = ["EUR/USD (OTC)", "GBP/USD (OTC)", "USD/JPY (OTC)", "GBP/JPY (OTC)", "AUD/CAD (OTC)", "EUR/CAD (OTC)", "NDX/USD (OTC)", "DJI/USD (OTC)", "SPX/USD (OTC)"]
+# mercados_validos.extend(novos_mercados)
 
 # Configurar o logger
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 async def post_webhook(payload):
-    ativo = json.loads(payload)['data']['tradingAsset']
+    ativo = json.loads(payload)['data']['tradingAsset'].replace(" ", "")
+
     if '-OTC' in ativo:
         ativo = ativo.replace('-OTC', '')
-        mercado = ativo[:3] + '/' + ativo[3:] + ' (OTC)'
+        ativo = ativo[:3] + '/' + ativo[3:] + ' (OTC)'
     elif len(ativo) == 6:
-        mercado = ativo[:3] + '/' + ativo[3:]
+        ativo = ativo[:3] + '/' + ativo[3:]
+        print('chegou no if')
     else:
         logger.warning(f'O ativo {ativo} não está na lista de mercados válidos')
         return False
 
     # print(mercado)
-    if mercado in mercados_validos:
+    if ativo in mercados_validos:
         # Adiciona o mercado modificado ao payload
         payload_dict = json.loads(payload)
-        payload_dict['data']['tradingAsset'] = mercado
+        payload_dict['data']['tradingAsset'] = ativo
         payload = json.dumps(payload_dict) 
         logger.info(f'JSON: {payload}') 
         try:
@@ -58,11 +60,11 @@ async def post_webhook(payload):
             logger.exception(f'Não foi possível enviar mensagem para o webhook: {str(e)}')
             return False
     else:
-        logger.error(f'O ativo {mercado} não está na lista de mercados válidos')
+        logger.error(f'O ativo {ativo} não está na lista de mercados válidos #2')
         return False
 
 async def main():
-    # payload = json.dumps({"emit": "direction-auto", "data": {"direction": "DOWN", "tradingAsset": "USDCAD ", "time": "5M"}})
+    # payload = json.dumps({"emit": "direction-auto", "data": {"direction": "UP", "tradingAsset": "USDCHF", "time": "5M"}})
     # await post_webhook(payload)
     # return
     async with TelegramClient(session_name, api_id, api_hash) as client:
@@ -121,7 +123,7 @@ async def main():
                 payload = build_payload(direcao_formatada, signal_info['mercado'], unidade_tempo_invertida)
 
                 logger.warning(f"Sinal encontrado: Mercado: {signal_info['mercado']} Direção: {direcao_formatada} Tempo de expiração: {unidade_tempo_invertida} Martingale: {signal_info['martingale']} Hora: {signal_info['hora']}")
-
+                print(payload)
 
                 # # Trata a direção para enviar de acordo com nossa API
                 # direcao = 'DOWN' if direcao == 'PUT' else 'UP' if direcao == 'CALL' else direcao
