@@ -132,8 +132,6 @@ async def main():
                 # payload = json.dumps({'emit': 'direction-auto', 'data': {'direction': direcao, 'tradingAsset': mercado, 'time': unidade_tempo_invertida}})
                 # logger.info(payload)
 
-                # segundos_restantes = calcular_segundos_restantes(signal_info['hora'])
-
                 # await client.send_message(-1001509473574, mensagem_sem_links)
                 # # logger.info('Iniciando contagem regressiva para expiração do sinal')
                 # logger.info(f'Segundos restantes para executar o sinal: {segundos_restantes}')
@@ -143,6 +141,7 @@ async def main():
 
                 # trecho de código modificado
                 
+                segundos_restantes = calcular_segundos_restantes(signal_info['hora'])
                 logger.info(f'Segundos restantes para executar o sinal: {segundos_restantes}')
                 await asyncio.sleep(segundos_restantes)
                 enviado = await post_webhook(payload)
