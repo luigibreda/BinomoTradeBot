@@ -35,7 +35,7 @@ async def post_webhook(payload):
     elif len(ativo) == 6:
         mercado = ativo[:3] + '/' + ativo[3:]
     else:
-        logger.warning(f'O ativo {ativo} não está na lista de mercados válidos')
+        logger.warning(f'O ativo {mercado} não está na lista de mercados válidos')
         return False
 
     # print(mercado)
