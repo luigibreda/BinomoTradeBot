@@ -35,9 +35,9 @@ async def post_webhook(payload):
         ativo = ativo[:3] + '/' + ativo[3:] + ' (OTC)'
     elif len(ativo) == 6:
         ativo = ativo[:3] + '/' + ativo[3:]
-        print('chegou no if')
+        # print('chegou no if')
     else:
-        logger.warning(f'O ativo {ativo} não está na lista de mercados válidos')
+        logger.warning(f'O ativo {ativo} não está no formato que reconhecemos como mercado.')
         return False
 
     # print(mercado)
@@ -46,7 +46,7 @@ async def post_webhook(payload):
         payload_dict = json.loads(payload)
         payload_dict['data']['tradingAsset'] = ativo
         payload = json.dumps(payload_dict) 
-        logger.info(f'JSON: {payload}') 
+        # logger.info(f'JSON: {payload}') 
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.post(webhook_url, data=payload, headers={'Content-Type': 'application/json'}) as response:
@@ -60,7 +60,7 @@ async def post_webhook(payload):
             logger.exception(f'Não foi possível enviar mensagem para o webhook: {str(e)}')
             return False
     else:
-        logger.error(f'O ativo {ativo} não está na lista de mercados válidos #2')
+        logger.error(f'O ativo {ativo} não está na lista de mercados válidos #1')
         return False
 
 async def main():
@@ -123,7 +123,7 @@ async def main():
                 payload = build_payload(direcao_formatada, signal_info['mercado'], unidade_tempo_invertida)
 
                 logger.warning(f"Sinal encontrado: Mercado: {signal_info['mercado']} Direção: {direcao_formatada} Tempo de expiração: {unidade_tempo_invertida} Martingale: {signal_info['martingale']} Hora: {signal_info['hora']}")
-                print(payload)
+                # print(payload)
 
                 # # Trata a direção para enviar de acordo com nossa API
                 # direcao = 'DOWN' if direcao == 'PUT' else 'UP' if direcao == 'CALL' else direcao
@@ -144,7 +144,7 @@ async def main():
                 # trecho de código modificado
                 
                 segundos_restantes = calcular_segundos_restantes(signal_info['hora'])
-                logger.info(f'Segundos restantes para executar o sinal: {segundos_restantes}')
+                # logger.info(f'Segundos restantes para executar o sinal: {segundos_restantes}')
                 await asyncio.sleep(segundos_restantes)
                 enviado = await post_webhook(payload)
                 if enviado:
