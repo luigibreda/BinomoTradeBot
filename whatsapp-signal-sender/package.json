@@ -1,0 +1,12 @@
+{
+  "name": "whatsapp-signal-sender",
+  "version": "1.0.0",
+  "description": "Replica mensagens no grupo do Whatsapp",
+  "main": "envia-whatsapp.js",
+  "dependencies": {
+    "express": "^4.17.2",
+    "whatsapp-web.js": "^1.13.4"
+  },
+  "author": "Luigi Matheus Afornalli Breda",
+  "license": "MIT"
+}
