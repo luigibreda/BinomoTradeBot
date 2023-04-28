@@ -4,8 +4,11 @@
   "description": "Replica mensagens no grupo do Whatsapp",
   "main": "envia-whatsapp.js",
   "dependencies": {
-    "express": "^4.17.2",
-    "whatsapp-web.js": "^1.13.4"
+    "express": "^4.18.2",
+    "puppeteer": "^2.1.1",
+    "qrcode-terminal": "^0.12.0",
+    "rimraf": "^3.0.2",
+    "rxjs": "^6.5.5"
   },
   "author": "Luigi Matheus Afornalli Breda",
   "license": "MIT"
