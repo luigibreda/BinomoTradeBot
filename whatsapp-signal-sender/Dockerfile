@@ -11,3 +11,11 @@ RUN mkdir -p /home/node/.config/google-chrome \
     && chown -R node:node /home/node/.config
 
 USER node
+# Copia os arquivos para dentro do container
+WORKDIR /app
+COPY package.json .
+RUN npm install --only=production
+COPY . .
+
+# Executa o script envia-whatsapp.js
+CMD ["node", "envia-whatsapp.js"]
