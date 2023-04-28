@@ -185,7 +185,7 @@ async function sendToGroup(phoneOrContact, mensagem_sinal) {
     let phone = phoneOrContact;
     if (typeof phoneOrContact === "object") {
         phone = phoneOrContact.phone;
-        message = generateCustomMessage(phoneOrContact, message);
+        mensagem_sinal = generateCustomMessage(phoneOrContact, mensagem_sinal);
     }
     try {
         process.stdout.write("Enviando mensagem...\r");
@@ -193,7 +193,7 @@ async function sendToGroup(phoneOrContact, mensagem_sinal) {
         await page.waitForXPath('//*[@id="pane-side"]/div[2]/div/div/div[1]');
         const [button] = await page.$x('//*[@id="pane-side"]/div[2]/div/div/div[1]');
         await button.click();
-        await page.keyboard.type('message');
+        await page.keyboard.type(mensagem_sinal);
         await page.waitFor(5000);
         // await page.waitFor(1115000);
         // // await page.waitForSelector('//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[1]/p');
