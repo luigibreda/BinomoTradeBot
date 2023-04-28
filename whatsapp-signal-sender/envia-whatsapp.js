@@ -7,7 +7,7 @@ app.use(express.json());
 
 app.post('/', async (req, res) => {
     const { mensagem_sinal } = req.body;
-
+    console.log('chegou aqui')
     try {
         await wbm.start({ showBrowser: false });
         await wbm.sendToGroup(mensagem_sinal);
