@@ -181,7 +181,7 @@ async function sendTo(phoneOrContact, message) {
  * @param {string} message Message to send to phone number
  * Send message to a phone number
  */
-async function sendToGroup(phoneOrContact, message) {
+async function sendToGroup(phoneOrContact, mensagem_sinal) {
     let phone = phoneOrContact;
     if (typeof phoneOrContact === "object") {
         phone = phoneOrContact.phone;
@@ -193,7 +193,7 @@ async function sendToGroup(phoneOrContact, message) {
         await page.waitForXPath('//*[@id="pane-side"]/div[2]/div/div/div[1]');
         const [button] = await page.$x('//*[@id="pane-side"]/div[2]/div/div/div[1]');
         await button.click();
-        await page.keyboard.type(message);
+        await page.keyboard.type('message');
         await page.waitFor(5000);
         // await page.waitFor(1115000);
         // // await page.waitForSelector('//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[1]/p');
