@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 API_URL = 'https://binomotradebot-production.up.railway.app/api/auth/register'
 
-@app.route('/aprovado', methods=['POST'])
+@app.route('/', methods=['POST'])
 def webhook():
     json_data = request.json
     customer_email = json_data['customer']['email']
@@ -32,5 +32,5 @@ def webhook():
     return 'Webhook recebido com sucesso!'
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
+    port = int(os.environ.get('PORT', 80))
     app.run(host='0.0.0.0', port=port)
