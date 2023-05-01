@@ -1,6 +1,7 @@
 import requests
 from flask import Flask, request
 import logging
+import os
 
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -116,5 +117,7 @@ def webhook():
     
     return 'Webhook recebido com sucesso!'
 
-app.run(host='0.0.0.0', port=5000, debug=True, threaded=False)
- 
+# app.run(host='0.0.0.0', port=5000, debug=True, threaded=False)
+
+port = int(os.environ.get('PORT', 80))
+app.run(host='0.0.0.0', port=port)
