@@ -80,3 +80,12 @@ FileNotFoundError: [Errno 2] No such file or directory: 'cliente.zip'
 2023-05-01 14:54:13 [INFO] Webhook recebido para o email luigimatheus@hotmail.com
 2023-05-01 14:54:14 [INFO] Usuário criado com sucesso para o email: luigimatheus@hotmail.com - Login: luigimatheus e Senha: Senha123Padrao
 2023-05-01 14:54:18 [INFO] Email enviado com sucesso: luigimatheus@hotmail.com
+2023-05-01 15:17:10 [INFO] Webhook recebido para o email luigimatheus@hotmail.com
+2023-05-01 15:17:11 [INFO] Usuário criado com sucesso para o email: luigimatheus@hotmail.com - Login: luigimatheus e Senha: Senha123Padrao
+2023-05-01 15:17:15 [INFO] Email enviado com sucesso: luigimatheus@hotmail.com
+2023-05-01 15:19:00 [INFO] Webhook recebido para o email luigimatheus@hotmail.com
+2023-05-01 15:19:01 [INFO] Usuário criado com sucesso para o email: luigimatheus@hotmail.com - Login: luigimatheus e Senha: Senha123Padrao
+2023-05-01 15:19:04 [INFO] Email enviado com sucesso: luigimatheus@hotmail.com
+2023-05-01 15:20:20 [INFO] Webhook recebido para o email luigimatheus@hotmail.com
+2023-05-01 15:20:21 [INFO] Usuário criado com sucesso para o email: luigimatheus@hotmail.com - Login: luigimatheus e Senha: Senha123Padrao
+2023-05-01 15:20:24 [INFO] Email enviado com sucesso: luigimatheus@hotmail.com

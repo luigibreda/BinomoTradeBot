@@ -57,7 +57,7 @@ def webhook():
         receiver_email = customer_email
         email_subject = 'Bem-vindo ao CashAlien!'
         email_greeting = 'Olá,'
-        email_message = 'Obrigado por comprar nosso robô de negociação. Aqui estão as informações de login para começar:\n\nLogin: {username}\nSenha: {password}'.format(username=username, password=password)
+        email_message = 'Obrigado por comprar nosso robô de negociação. Aqui estão as informações de login para começar:\n\nLogin: {username}\nSenha: {password}\n\nPara usar o robô, você também precisa baixar nossa extensão. Clique no botão abaixo para baixar:\n\n https://www.mediafire.com/file/tm6npjgyea8wwz6/cliente-extensao.zip/file'.format(username=username, password=password)
 
         # Cria o objeto MIMEMultipart para o e-mail
         message = MIMEMultipart('related')
@@ -67,11 +67,11 @@ def webhook():
         email_text = MIMEText(email_greeting + '\n\n' + email_message)
         message.attach(email_text)
 
-        # Carrega o arquivo "cliente.zip" e adiciona-o ao corpo do e-mail
-        with open('cliente.zip', 'rb') as f:
-            attachment = MIMEApplication(f.read(), _subtype='zip')
-            attachment.add_header('content-disposition', 'attachment', filename='cliente.zip')
-            message.attach(attachment)
+        # # Carrega o arquivo "cliente.zip" e adiciona-o ao corpo do e-mail
+        # with open('cliente.zip', 'rb') as f:
+        #     attachment = MIMEApplication(f.read(), _subtype='zip')
+        #     attachment.add_header('content-disposition', 'attachment', filename='cliente.zip')
+        #     message.attach(attachment)
 
         # Cria uma tabela HTML com as informações de login do usuário e adiciona-a ao corpo do e-mail
         login_table = """
