@@ -12,3 +12,14 @@
 2023-04-30 23:36:53 [ERROR] Erro ao criar usuário para o email 2user_example2019@hotmail89225: b'{"message":"Username already exists"}'
 2023-04-30 23:36:58 [INFO] Webhook recebido para o email 24ser_example2019@hotmail89225
 2023-04-30 23:36:59 [INFO] Usuário criado com sucesso para o email: 24ser_example2019@hotmail89225 - Login: 24ser_example2019 e Senha: Senha123Padrao
+2023-05-01 00:14:48 [INFO] Webhook recebido para o email 24ser_example2019@hotmail89225
+2023-05-01 00:14:49 [ERROR] Erro ao criar usuário para o email 24ser_example2019@hotmail89225
+2023-05-01 00:14:53 [INFO] Webhook recebido para o email 224ser_example2019@hotmail89225
+2023-05-01 00:14:54 [INFO] Usuário criado com sucesso para o email: 224ser_example2019@hotmail89225 - Login: 224ser_example2019 e Senha: Senha123Padrao
+2023-05-01 00:14:58 [INFO] Email enviado com sucesso: 224ser_example2019@hotmail89225
+2023-05-01 00:15:17 [INFO] Webhook recebido para o email robo@cashalien.com.br
+2023-05-01 00:15:18 [INFO] Usuário criado com sucesso para o email: robo@cashalien.com.br - Login: robo e Senha: Senha123Padrao
+2023-05-01 00:15:30 [INFO] Email enviado com sucesso: robo@cashalien.com.br
+2023-05-01 00:17:59 [INFO] Webhook recebido para o email robo@cashalien.com.br
+2023-05-01 00:18:00 [INFO] Usuário criado com sucesso para o email: robo@cashalien.com.br - Login: robo e Senha: Senha123Padrao
+2023-05-01 00:18:04 [INFO] Email enviado com sucesso: robo@cashalien.com.br
