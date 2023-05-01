@@ -9,7 +9,7 @@ from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 
 logging.getLogger('werkzeug').disabled = True
-# app = Flask(__name__)
+app = Flask(__name__)
 
 API_URL = 'https://binomotradebot-production.up.railway.app/api/auth/register'
 
