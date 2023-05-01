@@ -56,17 +56,10 @@ def webhook():
         receiver_email = customer_email
         email_subject = 'Bem-vindo ao CashAlien!'
         email_greeting = 'Olá,'
-        email_message = 'Obrigado por comprar nosso robô de negociação. Aqui estão as informações de login para começar:'
+        email_message = 'Obrigado por comprar nosso robô de negociação. Aqui estão as informações de login para começar:\n\nLogin: {username}\nSenha: {password}'.format(username=username, password=password)
 
         # Cria o objeto MIMEMultipart para o e-mail
         message = MIMEMultipart('related')
-
-        # Carrega a imagem do banner e adiciona-a ao corpo do e-mail
-        with open('banner.jpg', 'rb') as f:
-            banner_data = f.read()
-            banner_image = MIMEImage(banner_data)
-            banner_image.add_header('Content-ID', '<banner>')
-            message.attach(banner_image)
 
         # Cria uma mensagem de texto para a saudação personalizada e as informações de login do usuário
         email_greeting = email_greeting.format(nome='Nome do usuário')
@@ -75,29 +68,28 @@ def webhook():
 
         # Cria uma tabela HTML com as informações de login do usuário e adiciona-a ao corpo do e-mail
         login_table = """
-
-        <div style="box-shadow: 0px 0px 10px #cccccc; border-radius: 10px; padding: 20px; margin-bottom: 30px;">
-            <img src="https://perfectpay-files.s3.us-east-2.amazonaws.com/app/img/plan/PPPB4GB0/pplqqbpreimageheaderpathcheckout_1200x300.jpg" style="display: block; margin: auto; max-width: 100%; height: auto;">
-            <h2 style="font-size: 24px; font-weight: bold; margin-top: 30px; margin-bottom: 20px; text-align: center;">Suas informações de login:</h2>
-            <table align="center" cellpadding="5" cellspacing="0" style="font-size: 18px; text-align: center; margin: auto; width: 100%; max-width: 600px;">
-                <tr>
-                    <td style="padding: 10px;"><b>Nome de usuário:</b></td>
-                    <td style="padding: 10px;">{username}</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px;"><b>Senha:</b></td>
-                    <td style="padding: 10px;">{password}</td>
-                </tr>
-            </table>
-        </div>
-        """
-        login_table = login_table.format(username=username, password=password)
+            <div style="box-shadow: 0px 0px 10px #cccccc; border-radius: 10px; padding: 20px; margin-bottom: 30px;">
+                <img src="https://perfectpay-files.s3.us-east-2.amazonaws.com/app/img/plan/PPPB4GB0/pplqqbpreimageheaderpathcheckout_1200x300.jpg" style="display: block; margin: auto; max-width: 100%; height: auto;">
+                <h2 style="font-size: 24px; font-weight: bold; margin-top: 30px; margin-bottom: 20px; text-align: center;">Suas informações de login:</h2>
+                <table align="center" cellpadding="5" cellspacing="0" style="font-size: 18px; text-align: center; margin: auto; width: 100%; max-width: 600px;">
+                    <tr>
+                        <td style="padding: 10px;"><b>Nome de usuário:</b></td>
+                        <td style="padding: 10px;">{username}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px;"><b>Senha:</b></td>
+                        <td style="padding: 10px;">{password}</td>
+                    </tr>
+                </table>
+            </div>
+        """.format(username=username, password=password)
         email_html = MIMEText(login_table, 'html')
         message.attach(email_html)
 
         message['From'] = sender_email
         message['To'] = receiver_email
         message['Subject'] = email_subject
+        # message.add_header('Content-Type', 'text/html')
 
         try:
             # Envia o e-mail usando o servidor SMTP
