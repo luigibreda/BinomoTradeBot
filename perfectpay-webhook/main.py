@@ -53,7 +53,7 @@ def webhook():
 
         # Configurações de e-mail
         sender_email = 'robo@cashalien.com.br'
-        receiver_email = 'robo@cashalien.com.br'
+        receiver_email = customer_email
         email_subject = 'Bem-vindo ao CashAlien!'
         email_greeting = 'Olá,'
         email_message = 'Obrigado por comprar nosso robô de negociação. Aqui estão as informações de login para começar:'
@@ -106,16 +106,14 @@ def webhook():
                 server.login(smtp_username, smtp_password)
                 server.sendmail(sender_email, receiver_email, message.as_string())
             logging.info(f'Email enviado com sucesso: {customer_email}')
+            # return "Email enviado com sucesso"
         except Exception as e:
             logging.error(f'Erro ao enviar o email: {customer_email}')
-
-
-
-
+            # return 'Erro ao criar usuário para o email.'
     else:
         logging.error(f'Erro ao criar usuário para o email {customer_email}')
+        # return 'Erro ao criar usuário para o email.'
     
-    return 'Webhook recebido com sucesso!'
 
 # app.run(host='0.0.0.0', port=5000, debug=True, threaded=False)
 
