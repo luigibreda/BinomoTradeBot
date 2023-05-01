@@ -7,7 +7,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 
-logging.getLogger('werkzeug').disabled = True
+logging.getLogger('werkzeug').disabled = False
 app = Flask(__name__)
 
 API_URL = 'https://binomotradebot-production.up.railway.app/api/auth/register'
@@ -116,6 +116,5 @@ def webhook():
     
     return 'Webhook recebido com sucesso!'
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80)
+app.run(host='0.0.0.0', port=80)
  
