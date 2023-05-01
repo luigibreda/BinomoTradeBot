@@ -2,3 +2,20 @@
 2023-05-01 02:52:22 [ERROR] Erro ao criar usuário para o email robo33@cashalien.com.br
 2023-05-01 02:52:23 [INFO] Webhook recebido para o email robo33@cashalien.com.br
 2023-05-01 02:52:24 [ERROR] Erro ao criar usuário para o email robo33@cashalien.com.br
+2023-05-01 03:07:47 [INFO] Webhook recebido para o email robo33@cashalien.com.br
+2023-05-01 03:07:48 [INFO] Usuário criado com sucesso para o email: robo33@cashalien.com.br - Login: robo33 e Senha: Senha123Padrao
+2023-05-01 03:07:52 [INFO] Email enviado com sucesso: robo33@cashalien.com.br
+2023-05-01 03:07:52 [ERROR] Exception on / [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/flask/app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.10/dist-packages/flask/app.py", line 1487, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "/usr/local/lib/python3.10/dist-packages/flask/app.py", line 1506, in finalize_request
+    response = self.make_response(rv)
+  File "/usr/local/lib/python3.10/dist-packages/flask/app.py", line 1801, in make_response
+    raise TypeError(
+TypeError: The view function for 'webhook' did not return a valid response. The function either returned None or ended without a return statement.
+2023-05-01 03:08:52 [INFO] Webhook recebido para o email robo33@cashalien.com.br
+2023-05-01 03:08:53 [INFO] Usuário criado com sucesso para o email: robo33@cashalien.com.br - Login: robo33 e Senha: Senha123Padrao
+2023-05-01 03:08:57 [INFO] Email enviado com sucesso: robo33@cashalien.com.br

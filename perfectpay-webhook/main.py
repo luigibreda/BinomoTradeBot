@@ -113,7 +113,7 @@ def webhook():
     else:
         logging.error(f'Erro ao criar usuário para o email {customer_email}')
         # return 'Erro ao criar usuário para o email.'
-    
+    return "Webhook chamado com sucesso."
 
 # app.run(host='0.0.0.0', port=5000, debug=True, threaded=False)
 
