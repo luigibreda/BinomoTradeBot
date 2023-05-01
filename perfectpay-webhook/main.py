@@ -12,12 +12,11 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def handle_post():
-    if request.method == 'POST':
 
-        json_data = request.json
-        customer_email = json_data['customer']['email']
-        print('Received a POST request!')
-        print(customer_email)
+    json_data = request.json
+    customer_email = json_data['customer']['email']
+    print('Received a POST request!')
+    print(customer_email)
     return 'ok2'
 
 if __name__ == '__main__':
