@@ -33,7 +33,7 @@ def webhook():
     
     # Cria o payload com os dados do usuário
     username = customer_email.split('@')[0]  # Usa o email do cliente como nome de usuário
-    password = 'Senha123Padrao'  # Define uma senha padrão
+    password = 'senha1234'  # Define uma senha padrão
     payload = {
         'username': username,
         'password': password,
