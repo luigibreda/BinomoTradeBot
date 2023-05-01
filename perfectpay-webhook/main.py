@@ -37,9 +37,9 @@ def webhook():
     # Envia a requisição POST para criar o usuário
     response = requests.post(API_URL, json=payload)
     if response.status_code == 201:
-        logging.info(f'Usuário criado com sucesso para o email {customer_email}')
+        logging.info(f'Usuário criado com sucesso para o email: {customer_email} - Login: {username} e Senha: {password}')
     else:
-        logging.error(f'Erro ao criar usuário para o email {customer_email}: {response.content}')
+        logging.error(f'Erro ao criar usuário para o email {customer_email}')
     
     return 'Webhook recebido com sucesso!'
 
