@@ -3,7 +3,7 @@ import os
 
 app = Flask(__name__)
 
-@app.route('/', methods=['POST'])
+@app.route('/', methods=['GET', 'POST'])
 def handle_post():
     print('Received a POST request!')
     return 'OK'
