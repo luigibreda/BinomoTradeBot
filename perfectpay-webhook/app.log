@@ -28,3 +28,5 @@
  * Running on http://127.0.0.1:80
  * Running on http://172.18.5.63:80
 2023-05-01 00:27:26 [INFO] [33mPress CTRL+C to quit[0m
+2023-05-01 00:35:45 [INFO] Webhook recebido para o email robo2@cashalien.com.br
+2023-05-01 00:35:46 [INFO] Usuário criado com sucesso para o email: robo2@cashalien.com.br - Login: robo2 e Senha: Senha123Padrao
