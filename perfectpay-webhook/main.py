@@ -57,7 +57,7 @@ def webhook():
         receiver_email = customer_email
         email_subject = 'Bem-vindo ao CashAlien!'
         email_greeting = 'Olá,'
-        email_message = 'Obrigado por comprar nosso robô de negociação. Aqui estão as informações de login para começar:\n\nLogin: {username}\nSenha: {password}\n\nPara usar o robô, você também precisa baixar nossa extensão. Clique no botão abaixo para baixar:\n\n https://www.mediafire.com/file/tm6npjgyea8wwz6/cliente-extensao.zip/file'.format(username=username, password=password)
+        email_message = 'Obrigado por comprar nosso robô de negociação. Aqui estão as informações de login para começar:\n\nLogin: {username}\nSenha: {password}\n\nPara usar o robô, você também precisa baixar nossa extensão. Clique no botão abaixo para baixar:\n\nhttps://www.mediafire.com/file/tm6npjgyea8wwz6/cliente-extensao.zip/file\n\nApós o download, assista a este vídeo para aprender a instalar a extensão: https://youtu.be/Mk60W-_M8hk. \n\nEm breve, nossa extensão estará disponível na loja de extensões do navegador, facilitando ainda mais a instalação. Fique atento!\n\nObrigado novamente por sua compra e bons negócios!'
 
         # Cria o objeto MIMEMultipart para o e-mail
         message = MIMEMultipart('related')
