@@ -18,7 +18,7 @@ logging.basicConfig(
     ]
 )
 
-@app.route('/', methods=['POST'])
+@app.route('perfectpay-webhook-production.up.railway.app/', methods=['POST'])
 def webhook():
     json_data = request.json
     customer_email = json_data['customer']['email']
