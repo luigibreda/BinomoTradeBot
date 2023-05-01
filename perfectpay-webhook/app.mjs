@@ -46,7 +46,7 @@ app.post('/', async (req, res) => {
 
 const server = createServer(app);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 80;
 server.listen(PORT, () => {
   console.log(`Servidor iniciado na porta ${PORT}`);
 });
