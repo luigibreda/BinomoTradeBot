@@ -8,21 +8,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 
-logging.getLogger('werkzeug').disabled = True
 app = Flask(__name__)
-
-API_URL = 'https://binomotradebot-production.up.railway.app/api/auth/register'
-
-# Configura o logger
-logging.basicConfig(
-    format='%(asctime)s [%(levelname)s] %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S',
-    level=logging.INFO,
-    handlers=[
-        logging.StreamHandler(),
-        logging.FileHandler('app.log')
-    ]
-)
 
 @app.route('/', methods=['GET', 'POST'])
 def handle_post():
