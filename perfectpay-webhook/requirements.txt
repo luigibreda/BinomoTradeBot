@@ -1,6 +1,4 @@
 flask
 requests
 logging 
-smtplib
-MIMEText
-MIMEMultipart
+smtplib==3.3.1
