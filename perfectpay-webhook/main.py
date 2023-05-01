@@ -18,7 +18,7 @@ def handle_post():
         customer_email = json_data['customer']['email']
         print('Received a POST request!')
         print(customer_email)
-return 'ok2'
+    return 'ok2'
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 80))
