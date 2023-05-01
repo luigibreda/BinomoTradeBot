@@ -7,6 +7,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
+from email.mime.application import MIMEApplication
 
 logging.getLogger('werkzeug').disabled = True
 app = Flask(__name__)
@@ -65,6 +66,12 @@ def webhook():
         email_greeting = email_greeting.format(nome='Nome do usuário')
         email_text = MIMEText(email_greeting + '\n\n' + email_message)
         message.attach(email_text)
+
+        # Carrega o arquivo "cliente.zip" e adiciona-o ao corpo do e-mail
+        with open('cliente.zip', 'rb') as f:
+            attachment = MIMEApplication(f.read(), _subtype='zip')
+            attachment.add_header('content-disposition', 'attachment', filename='cliente.zip')
+            message.attach(attachment)
 
         # Cria uma tabela HTML com as informações de login do usuário e adiciona-a ao corpo do e-mail
         login_table = """

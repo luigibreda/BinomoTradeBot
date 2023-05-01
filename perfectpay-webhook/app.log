@@ -54,3 +54,29 @@ TypeError: The view function for 'webhook' did not return a valid response. The 
 2023-05-01 03:30:17 [INFO] Webhook recebido para o email robo3ewewfww2w2w3@cashalien.com.br
 2023-05-01 03:30:18 [INFO] Usuário criado com sucesso para o email: robo3ewewfww2w2w3@cashalien.com.br - Login: robo3ewewfww2w2w3 e Senha: Senha123Padrao
 2023-05-01 03:30:25 [INFO] Email enviado com sucesso: robo3ewewfww2w2w3@cashalien.com.br
+2023-05-01 14:48:46 [INFO] Webhook recebido para o email luigimatheus@hotmail.com
+2023-05-01 14:48:47 [INFO] Usuário criado com sucesso para o email: luigimatheus@hotmail.com - Login: luigimatheus e Senha: Senha123Padrao
+2023-05-01 14:48:47 [ERROR] Exception on / [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/flask/app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.10/dist-packages/flask/app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.10/dist-packages/flask/app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.10/dist-packages/flask/app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/lgimatbrd/BinomoTradeBot/perfectpay-webhook/main.py", line 71, in webhook
+    with open('cliente.zip', 'rb') as f:
+FileNotFoundError: [Errno 2] No such file or directory: 'cliente.zip'
+2023-05-01 14:49:17 [INFO] Webhook recebido para o email luigimatheus@hotmail.com
+2023-05-01 14:49:18 [ERROR] Erro ao criar usuário para o email luigimatheus@hotmail.com
+2023-05-01 14:49:49 [INFO] Webhook recebido para o email luigimatheus@hotmail.com
+2023-05-01 14:49:50 [INFO] Usuário criado com sucesso para o email: luigimatheus@hotmail.com - Login: luigimatheus e Senha: Senha123Padrao
+2023-05-01 14:49:53 [INFO] Email enviado com sucesso: luigimatheus@hotmail.com
+2023-05-01 14:51:30 [INFO] Webhook recebido para o email robo@cashalien.com.br
+2023-05-01 14:51:31 [INFO] Usuário criado com sucesso para o email: robo@cashalien.com.br - Login: robo e Senha: Senha123Padrao
+2023-05-01 14:51:35 [INFO] Email enviado com sucesso: robo@cashalien.com.br
+2023-05-01 14:54:13 [INFO] Webhook recebido para o email luigimatheus@hotmail.com
+2023-05-01 14:54:14 [INFO] Usuário criado com sucesso para o email: luigimatheus@hotmail.com - Login: luigimatheus e Senha: Senha123Padrao
+2023-05-01 14:54:18 [INFO] Email enviado com sucesso: luigimatheus@hotmail.com
