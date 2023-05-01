@@ -24,7 +24,7 @@ logging.basicConfig(
     ]
 )
 
-@app.route('/', methods=['POST'])
+@app.route('/', methods=['GET', 'POST'])
 def webhook():
     json_data = request.json
     customer_email = json_data['customer']['email']
