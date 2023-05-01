@@ -147,8 +147,9 @@ async def main():
                 # logger.info(f'Segundos restantes para executar o sinal: {segundos_restantes}')
                 await asyncio.sleep(segundos_restantes)
                 enviado = await post_webhook(payload)
+                await client.send_message(-1001509473574, mensagem_sem_links)
                 if enviado:
-                    await client.send_message(-1001509473574, mensagem_sem_links)
+                    # await client.send_message(-1001509473574, mensagem_sem_links)
 
             # else:
                 # logger.info('Mensagem recebida, mas NÃO é sinal.')
