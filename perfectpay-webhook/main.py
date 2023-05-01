@@ -30,9 +30,9 @@ def handle_post():
 
         json_data = request.json
         customer_email = json_data['customer']['email']
-        logging.info(f'Webhook recebido para o email {customer_email}')
         print('Received a POST request!')
-        return 'OK'
+        print(customer_email)
+        return customer_email
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 80))
