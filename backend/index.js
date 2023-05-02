@@ -8,6 +8,7 @@ import authRoutes from "./routes/authRoutes.js";
 import entryRoutes from "./routes/entryRoutes.js";
 import registryRoutes from "./routes/registryRoutes.js";
 import { Entry } from "./models/Entry.js";
+import { delay } from "./utils/delay.js";
 
 dotenv.config();
 
@@ -60,17 +61,17 @@ app.post("/webhook", async (req, res) => {
     });
   }
 
-  setTimeout(() => {
-    const timeEnd = new Date().getTime();
-    console.log("console-webhook: ", {
-      data,
-      timeInit,
-      timeEnd,
-      delay: timeEnd - timeInit,
-    });
-    io.emit(emit, data);
-    res.json({ message: "ok", delay: timeEnd - timeInit });
-  }, 1000);
+  await delay(1000);
+
+  const timeEnd = new Date().getTime();
+  console.log("console-webhook: ", {
+    data,
+    timeInit,
+    timeEnd,
+    delay: timeEnd - timeInit,
+  });
+  io.emit(emit, data);
+  res.json({ message: "ok", delay: timeEnd - timeInit });
 });
 
 app.post("/operator-online", (req, res) => {
