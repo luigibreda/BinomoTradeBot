@@ -29,22 +29,15 @@ logger = logging.getLogger(__name__)
 
 async def post_webhook(payload):
     ativo = json.loads(payload)['data']['tradingAsset'].replace(" ", "")
+    ativo_formatado = format_ativo(ativo)
 
-    if '-OTC' in ativo:
-        ativo = ativo.replace('-OTC', '')
-        ativo = ativo[:3] + '/' + ativo[3:] + ' (OTC)'
-    elif len(ativo) == 6:
-        ativo = ativo[:3] + '/' + ativo[3:]
-        # print('chegou no if')
-    else:
-        logger.warning(f'O ativo {ativo} não está no formato que reconhecemos como mercado.')
+    if not ativo_formatado:
         return False
 
-    # print(mercado)
-    if ativo in mercados_validos:
+    if ativo_formatado in mercados_validos:
         # Adiciona o mercado modificado ao payload
         payload_dict = json.loads(payload)
-        payload_dict['data']['tradingAsset'] = ativo
+        payload_dict['data']['tradingAsset'] = ativo_formatado
         payload = json.dumps(payload_dict) 
         # logger.info(f'JSON: {payload}') 
         try:
@@ -60,8 +53,9 @@ async def post_webhook(payload):
             logger.exception(f'Não foi possível enviar mensagem para o webhook: {str(e)}')
             return False
     else:
-        logger.error(f'O ativo {ativo} não está na lista de mercados válidos #1')
+        logger.error(f'O ativo {ativo_formatado} não está na lista de mercados válidos #1')
         return False
+
 
 async def main():
     # payload = json.dumps({"emit": "direction-auto", "data": {"direction": "UP", "tradingAsset": "USDCHF", "time": "5M"}})
@@ -144,11 +138,28 @@ async def main():
                 # trecho de código modificado
                 # mensagem = mensagem_sem_links + "\n\n 🚀 Sinal enviado para o Robô 🚀\n[🤖 ](https://cashalien.com.br/)[Clique para comprar o Robô](https://cashalien.com.br/)"
                 # logging.warning(mensagem_sem_links)
-                await client.send_message(-1001509473574, mensagem_sem_links) # Grupo Produção
+                # await client.send_message(-1001509473574, mensagem_sem_links) # Grupo Produção
                 # await client.send_message(-1001814246476, mensagem) # Grupo Teste
 
+                ativo = json.loads(payload)['data']['tradingAsset'].replace(" ", "")
+                ativo_formatado = format_ativo(ativo)
+
+                if not ativo_formatado:
+                    return False
+
+                if ativo_formatado in mercados_validos:
+                    # print("mercado válido")
+                    mensagem = mensagem_sem_links + "\n\n 🚀 **Sinal enviado para o Robô** 🚀\n[🤖](https://cashalien.com.br/)[Clique para comprar o Robô](https://cashalien.com.br/)"
+                    await client.send_message(-1001509473574, mensagem, parse_mode='md') # Grupo Produção
+                    await client.send_message(-1001814246476, mensagem, parse_mode='md') # Grupo Teste
+                else:
+                    # print("inválido")
+                    await client.send_message(-1001509473574, mensagem_sem_links) # Grupo Produção
+                    await client.send_message(-1001814246476, mensagem_sem_links) # Grupo Teste
+
+
                 segundos_restantes = calcular_segundos_restantes(signal_info['hora'])
-                # logger.info(f'Segundos restantes para executar o sinal: {segundos_restantes}')
+                logger.info(f'Segundos restantes para executar o sinal: {segundos_restantes}')
                 await asyncio.sleep(segundos_restantes)
                 enviado = await post_webhook(payload)
                 # if enviado:
@@ -173,6 +184,19 @@ def calcular_segundos_restantes(hora_encontrada):
     diferenca = expiracao_completa - agora
     segundos_restantes = diferenca.seconds
     return segundos_restantes
+
+def format_ativo(ativo):
+    if '-OTC' in ativo:
+        ativo = ativo.replace('-OTC', '')
+        ativo = ativo[:3] + '/' + ativo[3:] + ' (OTC)'
+    elif len(ativo) == 6:
+        ativo = ativo[:3] + '/' + ativo[3:]
+        # print('chegou no if')
+    else:
+        logging.warning(f'O ativo {ativo} não está no formato que reconhecemos como mercado.')
+        return False
+    
+    return ativo
 
 def replace_links(mensagem):
     nova_mensagem = re.sub(r'https://bit\.ly/CriarConta-PocketOption', 'https://bit.ly/binomo_brazill', mensagem)
