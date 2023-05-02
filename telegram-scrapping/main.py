@@ -143,11 +143,11 @@ async def main():
 
                 # trecho de código modificado
                 
+                await client.send_message(-1001509473574, mensagem_sem_links)
                 segundos_restantes = calcular_segundos_restantes(signal_info['hora'])
                 # logger.info(f'Segundos restantes para executar o sinal: {segundos_restantes}')
                 await asyncio.sleep(segundos_restantes)
                 enviado = await post_webhook(payload)
-                await client.send_message(-1001509473574, mensagem_sem_links)
                 # if enviado:
                     # await client.send_message(-1001509473574, mensagem_sem_links)
 
