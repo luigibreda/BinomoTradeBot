@@ -8,6 +8,7 @@ import authRoutes from "./routes/authRoutes.js";
 import entryRoutes from "./routes/entryRoutes.js";
 import registryRoutes from "./routes/registryRoutes.js";
 import { Entry } from "./models/Entry.js";
+import { delay } from "./utils/delay.js";
 
 dotenv.config();
 
@@ -46,12 +47,13 @@ io.on("connection", (socket) => {
 
 app.post("/webhook", async (req, res) => {
   const { emit, data } = req.body;
+  const timeInit = new Date().getTime();
 
   if (!emit || !data)
     return res.status(403).json({ message: "Invalid request" });
 
   if (emit.startsWith("direction")) {
-    const entry = await Entry.create({
+    await Entry.create({
       direction: data.direction,
       type: emit.split("-")[1],
       tradingAsset: data.tradingAsset,
@@ -59,8 +61,17 @@ app.post("/webhook", async (req, res) => {
     });
   }
 
+  await delay(1000);
+
+  const timeEnd = new Date().getTime();
+  console.log("console-webhook: ", {
+    data,
+    timeInit,
+    timeEnd,
+    delay: timeEnd - timeInit,
+  });
   io.emit(emit, data);
-  res.json({ message: "ok" });
+  res.json({ message: "ok", delay: timeEnd - timeInit });
 });
 
 app.post("/operator-online", (req, res) => {
