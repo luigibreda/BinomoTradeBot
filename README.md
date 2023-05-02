@@ -13,9 +13,19 @@ O projeto do robô de trade automático para Binomo é uma solução inovadora p
 - Sistema de login e assinaturas.
 
 
-## Melhorias
+## Versões
 
-Que melhorias você fez no seu código? Ex: refatorações, melhorias de performance, acessibilidade, etc
+- 30/04/2023 - 1.0.0 - Lançamento versão inicial do sistema.
+- 02/05/2023 - 1.0.1 - Removido delay da sala de sinais do telegram.
+
+#### Próximas melhorias
+
+- Melhoria em delay de operações
+- Lançamento da extensão na loja de extensão da Google
+- Interface do usuário do app
+- Melhoria interface app
+- Melhoria no e-mail de envio de dados
+- Criação de webhook para atualizar assinatura e excluir usuário
 
 
 ## Screenshots
