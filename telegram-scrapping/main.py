@@ -142,8 +142,11 @@ async def main():
                 # await post_webhook(payload)
 
                 # trecho de código modificado
-                
-                await client.send_message(-1001509473574, mensagem_sem_links)
+                # mensagem = mensagem_sem_links + "\n\n 🚀 Sinal enviado para o Robô 🚀\n[🤖 ](https://cashalien.com.br/)[Clique para comprar o Robô](https://cashalien.com.br/)"
+                # logging.warning(mensagem_sem_links)
+                await client.send_message(-1001509473574, mensagem_sem_links) # Grupo Produção
+                # await client.send_message(-1001814246476, mensagem) # Grupo Teste
+
                 segundos_restantes = calcular_segundos_restantes(signal_info['hora'])
                 # logger.info(f'Segundos restantes para executar o sinal: {segundos_restantes}')
                 await asyncio.sleep(segundos_restantes)
