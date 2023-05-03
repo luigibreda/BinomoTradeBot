@@ -17,6 +17,7 @@ O projeto do robô de trade automático para Binomo é uma solução inovadora p
 
 - 30/04/2023 - 1.0.0 - Lançamento versão inicial do sistema.
 - 02/05/2023 - 1.0.1 - Removido delay da sala de sinais do telegram.
+- 02/05/2023 - 1.0.2 - Aviso no sinal do telegram que será enviado para o Robô.
 
 #### Próximas melhorias
 
