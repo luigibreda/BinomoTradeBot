@@ -22,6 +22,7 @@ const io = new Server(httpServer, {
     origin: "*",
   },
 });
+
 app.use(
   cors({
     origin: "*",
@@ -61,7 +62,7 @@ app.post("/webhook", async (req, res) => {
     });
   }
 
-  await delay(1000);
+  await delay(700);
 
   const timeEnd = new Date().getTime();
   console.log("console-webhook: ", {
