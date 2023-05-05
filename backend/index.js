@@ -22,6 +22,7 @@ const io = new Server(httpServer, {
     origin: "*",
   },
 });
+
 app.use(
   cors({
     origin: "*",
@@ -61,7 +62,7 @@ app.post("/webhook", async (req, res) => {
     });
   }
 
-  await delay(1000);
+  await delay(700);
 
   const timeEnd = new Date().getTime();
   console.log("console-webhook: ", {
@@ -79,6 +80,16 @@ app.post("/operator-online", (req, res) => {
   operatorOnline = online;
   io.emit("operator-online", { online });
   res.json({ message: "ok" });
+});
+
+app.get("/api/currenttime", async (req, res) => {
+  const hour = new Date().toLocaleTimeString("en-US", {
+    hour12: false,
+    hour: "numeric",
+    minute: "numeric",
+  });
+  const timestamp = new Date().getTime();
+  res.json({ hour, timestamp });
 });
 
 httpServer.listen(port, () => {

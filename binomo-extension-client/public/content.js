@@ -2,6 +2,11 @@ console.log("Hello from client extension binomo");
 
 // utils
 
+const sendMessageToBackground = async (message) => {
+  const response = await chrome.runtime.sendMessage(message);
+  return response;
+};
+
 const clearInput = (element) => {
   return new Promise((resolve) => {
     element.value = " ";
@@ -75,19 +80,21 @@ const makeMartingale = async () => {
   await type(input, martingaleValue);
 };
 
-const changeTime = (time) => {
+const changeTime = async (minutes) => {
   const buttons = document.querySelectorAll(".number_icon__1HoIp");
   const upBtn = buttons[2];
   const downBtn = buttons[3];
 
-  const hourNow = new Date().toLocaleTimeString("en-US", {
-    hour12: false,
-    hour: "numeric",
-    minute: "numeric",
+  const { response } = await chrome.runtime.sendMessage({
+    type: "GET_CURRENT_TIME",
   });
 
-  const timeShouldBe = new Date(
-    new Date().getTime() + Number(time.slice(0, -1)) * 60000
+  console.log(response);
+
+  const hourNow = response.hour;
+
+  const hourShouldBe = new Date(
+    response.timestamp + Number(minutes.slice(0, -1)) * 60000
   ).toLocaleTimeString("en-US", {
     hour12: false,
     hour: "numeric",
@@ -98,18 +105,20 @@ const changeTime = (time) => {
     ".input_input-helper__17cT2 .hydrated input"
   )[1].value;
 
-  const isSameTime = hourNow === timeShouldBe;
-  if (currentHour === timeShouldBe) return;
+  const isSameTime = hourNow === hourShouldBe;
+  if (currentHour == hourShouldBe) return;
   if (isSameTime) return;
 
   const distance = Math.abs(
-    Number(currentHour.replace(":", "")) - Number(timeShouldBe.replace(":", ""))
+    Number(currentHour.replace(":", "")) - Number(hourShouldBe.replace(":", ""))
   );
+
+  console.log({ distance, currentHour, hourShouldBe, hourNow });
 
   for (let i = 0; i < distance; i++) {
     if (
       Number(currentHour.replace(":", "")) >
-      Number(timeShouldBe.replace(":", ""))
+      Number(hourShouldBe.replace(":", ""))
     ) {
       downBtn.click();
     } else {
@@ -167,6 +176,7 @@ const execute = async (data) => {
 
 const actions = {
   EXECUTE: async (data) => {
+    console.log("EXECUTE", data);
     await execute(data);
   },
   MARTINGALE: async () => {
