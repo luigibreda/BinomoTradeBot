@@ -81,6 +81,16 @@ app.post("/operator-online", (req, res) => {
   res.json({ message: "ok" });
 });
 
+app.get("/api/currenttime", async (req, res) => {
+  const hour = new Date().toLocaleTimeString("en-US", {
+    hour12: false,
+    hour: "numeric",
+    minute: "numeric",
+  });
+  const timestamp = new Date().getTime();
+  res.json({ hour, timestamp });
+});
+
 httpServer.listen(port, () => {
   connectDb();
   console.log("listening on *:" + port);
