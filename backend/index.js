@@ -33,6 +33,10 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/entry", entryRoutes);
 app.use("/api/registry", registryRoutes);
+app.use((err, req, res, next) => {
+  console.log(err);
+  res.status(500).json({ message: err.message });
+});
 
 io.on("connection", (socket) => {
   socket.emit("online-users", io.engine.clientsCount - 1);
