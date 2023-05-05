@@ -10,7 +10,7 @@ const genHashedString = async (string) => {
 
 const genJWT = async (payload) => {
   const token = await jwt.sign(payload, process.env.JWT_SECRET, {
-    expiresIn: "1d",
+    expiresIn: "5d",
   });
   return token;
 };

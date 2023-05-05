@@ -13,6 +13,6 @@ export const authGuard = async (req, res, next) => {
     next();
   } catch (error) {
     console.log(error);
-    res.status(401).json({ message: "You are not authorized" });
+    return res.status(401).json({ error: "Not authorized" });
   }
 };
