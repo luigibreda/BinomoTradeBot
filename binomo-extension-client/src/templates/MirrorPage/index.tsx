@@ -40,16 +40,16 @@ export const MirrorPage = () => {
         <span className="font-bold"> {daysDifference(data.expiresAt)}</span>
       </p>
 
-      <div className="h-[375px] flex flex-col justify-center gap-3">
+      <div className="h-[525px] flex flex-col justify-center gap-3">
         <div className="overflow-y-hidden ">
-          <p className="text-sm  text-neutral-500 font-bold">
-            Últimas operações
+          <p className="text-sm  text-neutral-500 font-normal text-slate-100">
+            Últimas operações:
           </p>
           <DirectionsList limited={true} lastOperations={data.entries} />
         </div>
         <div className="h-1/2  overflow-y-auto">
-          <p className="text-sm text-neutral-500 font-bold">
-            Historico de ganhos/perdas
+          <p className="text-sm text-neutral-500 font-normal text-slate-100">
+            Historico de ganhos/perdas:
           </p>
           <div className="flex flex-col gap-2">
             {data.history.map((item: any) => (
