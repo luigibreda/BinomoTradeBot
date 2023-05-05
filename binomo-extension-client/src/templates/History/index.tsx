@@ -6,7 +6,7 @@ export const History = () => {
 
   return (
     <div className="pt-2">
-      <h2 className="text-neutral-400 font-bold">As ultimas 50 entradas</h2>
+      <h2 className="text-sm text-neutral-500 font-normal text-slate-100">As últimas 50 entradas:</h2>
       <DirectionsList lastOperations={data} />
     </div>
   );
