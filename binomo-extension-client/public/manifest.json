@@ -1,9 +1,9 @@
 {
-  "name": "AlienCash Client",
-  "version": "1.0.0",
+  "name": "CashAlien Client",
+  "version": "1.0.1",
   "manifest_version": 3,
   "action": {
-    "default_title": "AlienCash",
+    "default_title": "CashAlien",
     "default_popup": "index.html"
   },
   "background": {
