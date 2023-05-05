@@ -13,7 +13,7 @@ export const Registry = ({ item }: { item: History }) => (
         {item.count} Entradas
       </p>
     </div>
-    <p>
+    <p className="w-[80px]">
       <span
         className={`
         font-normal

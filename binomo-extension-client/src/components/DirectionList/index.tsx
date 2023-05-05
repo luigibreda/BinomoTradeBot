@@ -23,11 +23,11 @@ export const Skeleton = () => (
       >
         <div>
           <div className="flex items-center gap-2">
-            <span className="font-bold text-neutral-500 text-sm">Asset:</span>{" "}
+            <span className="font-thin text-neutral-500 text-sm">Asset:</span>{" "}
             <div className="w-20 h-2 bg-neutral-600 rounded-md"></div>
           </div>
           <div className="flex items-center gap-2">
-            <span className="font-bold text-neutral-500 text-sm">
+            <span className="font-thin text-neutral-500 text-sm">
               Direction:{" "}
             </span>
             <div className="w-20 h-2 bg-neutral-600 rounded-md"></div>
@@ -48,27 +48,24 @@ export const DirectionsList = ({ lastOperations, limited = false }: Props) => {
   if (!operations || operations.length == 0) return <Skeleton />;
 
   return (
-    <div className={`flex flex-col gap-2 h-full overflow-y-auto`}>
+    <div className={`flex flex-col gap-3 h-full overflow-y-auto`}>
       {operations.map((operation: any, index: number) => (
         <div
           key={operation._id}
-          className={`border flex text-sm items-center justify-between border-neutral-600 px-2 py-2 rounded-md`}
+          className={`border flex text-sm border-neutral-600 px-2 py-1 rounded-md justify-between items-center`}
         >
           <div>
-            <div className="border-b-neutral-600">
-              <span className="font-bold text-neutral-500 text-sm">Asset:</span>{" "}
-              {operation.tradingAsset}
+            <div className="border-b-neutral-600 ">
+              <span className="font-normal text-neutral-500 text-sm ">Asset:</span>{" "} {operation.tradingAsset}
+              <span className="font-normal text-neutral-500 text-sm">{" "}Direction:{" "} </span> {operation.direction}
             </div>
             <div>
-              <span className="font-bold text-neutral-500 text-sm">
-                Direction:{" "}
-              </span>
-              {operation.direction}
+              
             </div>
           </div>
-          <div className="flex flex-col justify-end items-end">
+          <div className="flex justify-center items-end items-center justify-center gap-3">
             <Bagde color="emerald" placeholder={operation.type.toUpperCase()} />
-            <p className="text-xs font-bold text-neutral-500">
+            <p className="text-xs font-thin text-neutral-300 w-[120px] text-end">
               {moment(operation.createdAt).locale("pt-br").fromNow()}
             </p>
           </div>

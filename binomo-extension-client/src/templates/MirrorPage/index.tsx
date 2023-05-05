@@ -31,7 +31,7 @@ export const MirrorPage = () => {
         {mirror.type === "manual" && (
           <Bagde
             color={mirror.operatorIsOnline ? "emerald" : "rose"}
-            placeholder={mirror.operatorIsOnline ? "OP online" : "OP offline"}
+            placeholder={mirror.operatorIsOnline ? "Operador Online" : "Operador Offline"}
           />
         )}
       </div>
@@ -40,7 +40,7 @@ export const MirrorPage = () => {
         <span className="font-bold"> {daysDifference(data.expiresAt)}</span>
       </p>
 
-      <div className="h-[525px] flex flex-col justify-center gap-3">
+      <div className="h-[325px] flex flex-col justify-center gap-3">
         <div className="overflow-y-hidden ">
           <p className="text-sm  text-neutral-500 font-normal text-slate-100">
             Últimas operações:
