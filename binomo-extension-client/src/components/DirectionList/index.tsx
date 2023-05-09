@@ -1,7 +1,9 @@
 import moment from "moment";
 import { Bagde } from "../Bagde";
+import { BsFillCaretDownFill, BsFillCaretUpFill } from "react-icons/bs";
 
 export type Direction = {
+  _id: string;
   direction: string;
   time: string;
   tradingAsset: string;
@@ -43,30 +45,30 @@ export const Skeleton = () => (
 );
 
 export const DirectionsList = ({ lastOperations, limited = false }: Props) => {
-  const operations = limited ? lastOperations.slice(0, 2) : lastOperations;
+  const operations = limited ? lastOperations.slice(0, 3) : lastOperations;
 
   if (!operations || operations.length == 0) return <Skeleton />;
 
   return (
-    <div className={`flex flex-col gap-3 h-full overflow-y-auto`}>
-      {operations.map((operation: any, index: number) => (
-        <div
-          key={operation._id}
-          className={`border flex text-sm border-neutral-600 px-2 py-1 rounded-md justify-between items-center`}
-        >
-          <div>
-            <div className="border-b-neutral-600 ">
-              <span className="font-normal text-neutral-500 text-sm ">Asset:</span>{" "} {operation.tradingAsset}
-              <span className="font-normal text-neutral-500 text-sm">{" "}Direction:{" "} </span> {operation.direction}
-            </div>
-            <div>
-              
-            </div>
+    <div
+      className={`flex rounded-xl flex-col bg-dark-900 gap-3 h-full overflow-y-auto py-2`}
+    >
+      {operations.map((operation) => (
+        <div className="flex items-center justify-between px-4 py-3">
+          <div className="w-full gap-3 flex items-center">
+            {operation.direction == "UP" ? (
+              <BsFillCaretDownFill size={22} color="red" />
+            ) : (
+              <BsFillCaretUpFill size={22} color="#A9EE00" />
+            )}
+            <p className="font-bold">{operation.tradingAsset}</p>
+            <p className="text-xs font-bold text-neutral-400">
+              {moment(operation.createdAt).fromNow()}
+            </p>
           </div>
-          <div className="flex justify-center items-end items-center justify-center gap-3">
-            <Bagde color="emerald" placeholder={operation.type.toUpperCase()} />
-            <p className="text-xs font-thin text-neutral-300 w-[120px] text-end">
-              {moment(operation.createdAt).locale("pt-br").fromNow()}
+          <div>
+            <p className="text-primary font-bold">
+              {operation.type.toUpperCase()}
             </p>
           </div>
         </div>

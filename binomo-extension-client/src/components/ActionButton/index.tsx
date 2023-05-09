@@ -3,6 +3,7 @@ type ActionButtonProps = {
   color: string;
   placeholder: string;
   disabled?: boolean;
+  outlined?: boolean;
 };
 
 export const ActionButton = ({
@@ -10,13 +11,16 @@ export const ActionButton = ({
   color,
   placeholder,
   disabled = false,
+  outlined = false,
 }: ActionButtonProps) => {
   return (
     <div>
       <button
         onClick={onClick}
         disabled={disabled}
-        className={`bg-${color}-500 text-black disabled:opacity-60 font-bold w-full p-2 rounded-md hover:bg-${color}-600 transition-all active:scale-95`}
+        className={`bg-${color} text-black text-sm disabled:opacity-60 font-bold w-full p-3 rounded-xl hover:bg-${color} transition-all active:scale-95  ${
+          outlined && `border-2 border-${color} text-${color} bg-transparent`
+        } `}
       >
         {placeholder}
       </button>

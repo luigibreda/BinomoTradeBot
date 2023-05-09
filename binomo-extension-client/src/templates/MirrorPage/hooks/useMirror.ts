@@ -60,6 +60,10 @@ export const useMirror = () => {
     setIsWatching((isWatching) => !isWatching);
   };
 
+  const toggleType = () => {
+    setType((type) => (type === "auto" ? "manual" : "auto"));
+  };
+
   useEffect(() => {
     if (isWatching) {
       console.log(`watching-${type}`);
@@ -77,6 +81,6 @@ export const useMirror = () => {
     handleWatch,
     operatorIsOnline,
     type,
-    setType,
+    toggleType,
   };
 };

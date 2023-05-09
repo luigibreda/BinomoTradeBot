@@ -1,5 +1,4 @@
 import { Outlet } from "react-router-dom";
-import { Footer } from "../Footer";
 import { Header } from "../Header";
 
 export const ExtensionWrapper = ({
@@ -8,11 +7,10 @@ export const ExtensionWrapper = ({
   children?: React.ReactNode;
   header?: boolean;
 }) => (
-  <div className="w-[540px] font-poppins flex justify-between flex-col text-slate-50 min-h-[600px] h-[600px] bg-black">
+  <div className="w-[548px] font-poppins px-10 flex flex-col text-slate-50 h-[600px] bg-dark-700">
     {header && <Header />}
-    <div className="mx-5 min-h-[480px] overflow-auto">
+    <div className="px-1 h-[500px] overflow-auto">
       <Outlet />
     </div>
-    <Footer />
   </div>
 );

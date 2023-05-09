@@ -7,7 +7,12 @@ export default {
         poppins: ["Poppins", "sans-serif"],
       },
       colors: {
-        binomo: "#2a2b30",
+        dark: {
+          700: "#1e1e1e",
+          900: "#171717",
+          600: "#2D2D2D",
+        },
+        primary: "#A9EE00",
       },
     },
   },
