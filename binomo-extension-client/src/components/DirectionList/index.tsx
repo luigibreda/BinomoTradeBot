@@ -56,15 +56,20 @@ export const DirectionsList = ({ lastOperations, limited = false }: Props) => {
       {operations.map((operation) => (
         <div className="flex items-center justify-between px-4 py-3">
           <div className="w-full gap-3 flex items-center">
-            {operation.direction == "UP" ? (
-              <BsFillCaretDownFill size={22} color="red" />
-            ) : (
-              <BsFillCaretUpFill size={22} color="#A9EE00" />
-            )}
-            <p className="font-bold">{operation.tradingAsset}</p>
-            <p className="text-xs font-bold text-neutral-400">
-              {moment(operation.createdAt).fromNow()}
-            </p>
+            <div className="flex items-center gap-2 w-[125px]">
+              {operation.direction == "UP" ? (
+                <BsFillCaretDownFill size={22} color="red" />
+              ) : (
+                <BsFillCaretUpFill size={22} color="#A9EE00" />
+              )}
+              <p className="font-bold">{operation.tradingAsset}</p>
+            </div>
+
+            <div>
+              <p className="text-xs font-bold text-neutral-400">
+                {moment(operation.createdAt).fromNow()}
+              </p>
+            </div>
           </div>
           <div>
             <p className="text-primary font-bold">

@@ -19,6 +19,8 @@ export const MirrorPage = () => {
         type={mirror.type}
         operatorOnline={mirror.operatorIsOnline}
         onToggle={mirror.toggleType}
+        handleWatch={mirror.handleWatch}
+        isWatching={mirror.isWatching}
       />
       <div className="flex flex-col gap-2">
         <h1 className="text-base text-neutral-400 font-bold">
