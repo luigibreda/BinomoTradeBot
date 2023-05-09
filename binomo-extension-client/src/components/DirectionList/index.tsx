@@ -17,27 +17,24 @@ type Props = {
 };
 
 export const Skeleton = () => (
-  <div className={`flex flex-col gap-2 h-full overflow-y-auto`}>
+  <div
+    className={`flex rounded-xl flex-col bg-dark-900 gap-3 h-full overflow-y-auto py-2 `}
+  >
     {[1, 2].map((item) => (
-      <div
-        key={item}
-        className={`border animate-pulse flex justify-between border-neutral-600 px-2 py-2 rounded-md`}
-      >
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="font-thin text-neutral-500 text-sm">Asset:</span>{" "}
-            <div className="w-20 h-2 bg-neutral-600 rounded-md"></div>
+      <div className="flex items-center justify-between px-4 py-3">
+        <div className="w-full gap-3 flex items-center ">
+          <div className="flex items-center gap-2 w-[125px]">
+            <BsFillCaretDownFill size={22} color="red" />
+
+            <div className="w-12 bg-white h-3 animate-pulse rounded-lg"></div>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="font-thin text-neutral-500 text-sm">
-              Direction:{" "}
-            </span>
-            <div className="w-20 h-2 bg-neutral-600 rounded-md"></div>
+
+          <div>
+            <div className="w-16 h-3 bg-neutral-400 animate-pulse rounded-lg"></div>
           </div>
         </div>
-        <div className="flex flex-col justify-end items-end">
-          <Bagde color="emerald" placeholder="..." />
-          <p className="text-xs text-neutral-400">...</p>
+        <div>
+          <div className="w-16 h-3 bg-primary animate-pulse rounded-lg"></div>
         </div>
       </div>
     ))}
