@@ -1,9 +1,9 @@
 {
-  "name": "CashAlien Client",
-  "version": "1.0.2",
+  "name": "Cash Alien - The Best Binary Bot",
+  "version": "1.0.3",
   "manifest_version": 3,
   "action": {
-    "default_title": "CashAlien",
+    "default_title": "Cash Alien - The Best Binary Bot",
     "default_popup": "index.html"
   },
   "background": {
@@ -15,5 +15,8 @@
       "js": ["content.js"]
     }
   ],
-  "permissions": ["tabs", "activeTab", "storage"]
+  "permissions": ["tabs", "activeTab", "storage"],
+  "icons": { "16": "icon16.png",
+           "48": "icon48.png",
+          "128": "icon128.png" }
 }
