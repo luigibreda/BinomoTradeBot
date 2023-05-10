@@ -54,7 +54,7 @@ export const DirectionsList = ({ lastOperations, limited = false }: Props) => {
         <div className="flex items-center justify-between px-4 py-3">
           <div className="w-full gap-3 flex items-center">
             <div className="flex items-center gap-2 w-[125px]">
-              {operation.direction == "UP" ? (
+              {operation.direction == "DOWN" ? (
                 <BsFillCaretDownFill size={22} color="red" />
               ) : (
                 <BsFillCaretUpFill size={22} color="#A9EE00" />
