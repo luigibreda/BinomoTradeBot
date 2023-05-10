@@ -20,7 +20,7 @@ export const Skeleton = () => (
   <div
     className={`flex rounded-xl flex-col bg-dark-900 gap-3 h-full overflow-y-auto py-2 `}
   >
-    {[1, 2].map((item) => (
+    {[1, 2, 3].map((item) => (
       <div className="flex items-center justify-between px-4 py-3">
         <div className="w-full gap-3 flex items-center ">
           <div className="flex items-center gap-2 w-[125px]">
