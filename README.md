@@ -24,10 +24,10 @@ O projeto do robô de trade automático para Binomo é uma solução inovadora p
 
 #### Próximas melhorias
 
-- Melhoria em delay de operações
-- Lançamento da extensão na loja de extensão da Google
-- Interface do usuário do app
-- Melhoria interface app
+- Melhoria em delay de operações ✔️
+- Lançamento da extensão na loja de extensão da Google ✔️
+- Interface do usuário do app ✔️
+- Melhoria interface app ✔️
 - Melhoria no e-mail de envio de dados
 - Criação de webhook para atualizar assinatura e excluir usuário
 
