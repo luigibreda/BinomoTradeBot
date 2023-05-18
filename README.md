@@ -31,7 +31,14 @@ O projeto do robô de trade automático para Binomo é uma solução inovadora p
 - Melhoria interface app ✔️
 - Melhoria no e-mail de envio de dados
 - Criação de webhook para atualizar assinatura e excluir usuário ✔️
-
+- Tela de informações básicas do user e botão de deslogar com a versão atualizar
+- Endpoint para deslogar
+- Botão alterar senha
+- Esqueci minha senha
+- Comprar acesso ao robo sem link
+- Cadastre-se sem link
+- Ajuda não leva a lugar nenhum
+- Ao abrir a 1 vez tem step by step de como usar o robo
 
 ## Screenshots
 
@@ -49,7 +56,7 @@ O projeto do robô de trade automático para Binomo é uma solução inovadora p
 
 * ### REGISTRAR NOVO USUÁRIO
 
-```http
+```
   POST /api/auth/register
 ```
 
@@ -75,7 +82,7 @@ Este endpoint é usado para excluir um usuário. Ele requer um objeto JSON da Pe
 
 * ### ATUALIZAR ASSINATURA DO USUÁRIO
 
-```http
+```
   POST /api/auth/update
 ```
 
@@ -86,7 +93,7 @@ Este endpoint é usado para atualizar a assinatura do usuário, aumentando o tem
 | Parâmetro   | Tipo       | Descrição                                                        |
 | :---------- | :--------- | :--------------------------------------------------------------- |
 | `email`     | `string`   | **Obrigatório**. O email do usuário para atualizar a assinatura. |
-| `expiração` | `integer`  | **Opcional**. O tempo de expiração em dias a ser adicionado.      |
+
 
 #### Retorno
 
@@ -99,6 +106,39 @@ Este endpoint é usado para atualizar a assinatura do usuário, aumentando o tem
 
 ```json
 {
-  "email": "usuario@email.com",
-  "expiracao": 30
+  "customers": {
+    "email": "exemplo@email.com"
+  }
 }
+```
+
+* ### REMOVER USUÁRIO
+
+```
+POST /api/auth/remove
+```
+
+Este endpoint é usado para remover um usuário.
+
+#### Parâmetros
+
+| Parâmetro | Tipo     | Descrição                                   |
+| :-------- | :------- | :------------------------------------------ |
+| `email`   | `string` | **Obrigatório**. O email do usuário a ser removido. |
+
+#### Retorno
+
+| Resposta de sucesso                        | Resposta de erro                                       |
+| ----------------------------------------- | ------------------------------------------------------ |
+| **Status**: 200 OK                        | **Status**: 400 Bad Request                            |
+| **Corpo da resposta**: Vazio              | **Corpo da resposta**: Um objeto JSON contendo detalhes do erro |
+
+#### Exemplo do JSON a ser enviado
+
+```json
+{
+  "customers": {
+    "email": "exemplo@email.com"
+  }
+}
+```
