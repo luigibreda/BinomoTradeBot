@@ -49,7 +49,7 @@ O projeto do robô de trade automático para Binomo é uma solução inovadora p
 
 * ### REGISTRAR NOVO USUÁRIO
 
-```http
+```
   POST /api/auth/register
 ```
 
@@ -75,7 +75,7 @@ Este endpoint é usado para excluir um usuário. Ele requer um objeto JSON da Pe
 
 * ### ATUALIZAR ASSINATURA DO USUÁRIO
 
-```http
+```
   POST /api/auth/update
 ```
 
