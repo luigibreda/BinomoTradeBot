@@ -102,3 +102,35 @@ Este endpoint é usado para atualizar a assinatura do usuário, aumentando o tem
   "email": "usuario@email.com",
   "expiracao": 30
 }
+```
+
+* ### REMOVER USUÁRIO
+
+```
+POST /api/auth/remove
+```
+
+Este endpoint é usado para remover um usuário.
+
+#### Parâmetros
+
+| Parâmetro | Tipo     | Descrição                                   |
+| :-------- | :------- | :------------------------------------------ |
+| `email`   | `string` | **Obrigatório**. O email do usuário a ser removido. |
+
+#### Retorno
+
+| Resposta de sucesso                        | Resposta de erro                                       |
+| ----------------------------------------- | ------------------------------------------------------ |
+| **Status**: 200 OK                        | **Status**: 400 Bad Request                            |
+| **Corpo da resposta**: Vazio              | **Corpo da resposta**: Um objeto JSON contendo detalhes do erro |
+
+#### Exemplo do JSON a ser enviado
+
+```json
+{
+  "customers": {
+    "email": "exemplo@email.com"
+  }
+}
+```
