@@ -86,7 +86,7 @@ Este endpoint é usado para atualizar a assinatura do usuário, aumentando o tem
 | Parâmetro   | Tipo       | Descrição                                                        |
 | :---------- | :--------- | :--------------------------------------------------------------- |
 | `email`     | `string`   | **Obrigatório**. O email do usuário para atualizar a assinatura. |
-| `expiração` | `integer`  | **Opcional**. O tempo de expiração em dias a ser adicionado.      |
+
 
 #### Retorno
 
@@ -99,8 +99,9 @@ Este endpoint é usado para atualizar a assinatura do usuário, aumentando o tem
 
 ```json
 {
-  "email": "usuario@email.com",
-  "expiracao": 30
+  "customers": {
+    "email": "exemplo@email.com"
+  }
 }
 ```
 
