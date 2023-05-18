@@ -31,6 +31,10 @@ O projeto do robô de trade automático para Binomo é uma solução inovadora p
 - Melhoria interface app ✔️
 - Melhoria no e-mail de envio de dados
 - Criação de webhook para atualizar assinatura e excluir usuário ✔️
+- Tela de informações básicas do user e botão de deslogar com a versão atualizar
+- Endpoint para deslogar
+- Botão alterar senha
+- Esqueci minha senha
 
 
 ## Screenshots
