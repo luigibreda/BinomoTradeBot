@@ -14,7 +14,7 @@ dotenv.config();
 
 let operatorOnline;
 const port = process.env.PORT || 3000;
-const app = express();
+export const app = express();
 
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
@@ -98,5 +98,4 @@ app.get("/api/currenttime", async (req, res) => {
 
 httpServer.listen(port, () => {
   connectDb();
-  console.log("listening on *:" + port);
 });
