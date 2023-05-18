@@ -35,7 +35,10 @@ O projeto do robô de trade automático para Binomo é uma solução inovadora p
 - Endpoint para deslogar
 - Botão alterar senha
 - Esqueci minha senha
-
+- Comprar acesso ao robo sem link
+- Cadastre-se sem link
+- Ajuda não leva a lugar nenhum
+- Ao abrir a 1 vez tem step by step de como usar o robo
 
 ## Screenshots
 
