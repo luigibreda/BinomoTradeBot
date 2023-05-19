@@ -95,6 +95,9 @@ export const me = async (req, res) => {
 
 export const remove = async (req, res) => {
   try {
+    if (!req.body.customer || !req.body.customer.email) {
+      return res.status(400).json({ message: "Invalid request body" });
+    }
     const { email } = req.body.customer;
     const username = email.split('@')[0];
 
