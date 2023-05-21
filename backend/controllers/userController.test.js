@@ -5,6 +5,8 @@ import moment from "moment";
 jest.mock("../models/User.js");
 import { User } from "../models/User.js";
 
+describe('User Controller', () => {
+
 describe('Remove User Endpoint', () => {
   afterEach(() => {
     jest.clearAllMocks();
@@ -79,4 +81,51 @@ describe('Remove User Endpoint', () => {
     expect(response.body).toEqual({ message: errorMessage });
     expect(User.findOneAndDelete).toHaveBeenCalledWith({ username: 'test' });
   });
+});
+
+describe('Update User Endpoint', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should return status 200 and message "User update" when user exists', async () => {
+    // Mock do valor retornado pela função findOneAndDelete
+    User.findOne.mockResolvedValueOnce({});
+
+    const requestBody = {
+      customer: {
+        email: 'test@example.com',
+      },
+    };
+
+    const response = await request(app)
+      .post('/api/auth/update')
+      .send(requestBody);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({ message: 'User updated' });
+    expect(User.findOne).toHaveBeenCalledWith({ username: 'test' });
+  });
+
+  it('should return status 404 and message "User not found" when user does not exist', async () => {
+    // Mock do valor retornado pela função findOne
+    User.findOne.mockResolvedValueOnce(null);
+  
+    const requestBody = {
+      customer: {
+        email: 'test@example.com',
+      },
+    };
+  
+    const response = await request(app)
+      .put('/api/auth/update')
+      .send(requestBody);
+  
+    expect(response.status).toBe(404);
+    expect(response.body).toEqual({});
+    expect(User.findOneAndUpdate).not.toHaveBeenCalled();
+  });
+
+});
+
 });
