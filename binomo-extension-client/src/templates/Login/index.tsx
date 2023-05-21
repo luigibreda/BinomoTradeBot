@@ -34,6 +34,7 @@ export const Login = () => {
             color="primary"
             placeholder="Comprar acesso ao robô"
             outlined
+            link="https://cashalien.com.br/"
           />
         </div>
         <div className="text-center ">
