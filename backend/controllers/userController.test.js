@@ -1,5 +1,5 @@
 import request from "supertest";
-import { app } from "../index.js";
+import { app } from "../app";
 import moment from "moment";
 
 jest.mock("../models/User.js");
