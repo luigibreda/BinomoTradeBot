@@ -22,6 +22,7 @@ O projeto do robô de trade automático para Binomo é uma solução inovadora p
 - 09/05/2023 - 1.0.3 - Nova logo adicionada, ícones adicionados e prepação para novo layout.
 - 10/05/2023 - 1.0.4 - Novo Layout, melhorias do código, melhorias na assetividade do Robô.
 - 18/05/2023 - 1.0.5 - Criação de endpoints na API e melhoria na Integração com a perfectpay.
+- 20/05/2023 - 1.0.6 - Criação de testes unitários paras funções, login, register, update e remove.
 
 #### Próximas melhorias
 
