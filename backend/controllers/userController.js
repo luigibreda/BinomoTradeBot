@@ -1,5 +1,6 @@
 import { User } from "../models/User.js";
 import bcrypt from "bcrypt";
+import { json } from "express";
 import jwt from "jsonwebtoken";
 import moment from 'moment';
 
@@ -96,7 +97,7 @@ export const me = async (req, res) => {
 export const remove = async (req, res) => {
   try {
     if (!req.body.customer || !req.body.customer.email) {
-      return res.status(400).json({ message: "Invalid request body" });
+      return res.status(400).json({ message: "Invalid body receive parameters" });
     }
     const { email } = req.body.customer;
     const username = email.split('@')[0];

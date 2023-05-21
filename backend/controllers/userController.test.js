@@ -5,56 +5,78 @@ import moment from "moment";
 jest.mock("../models/User.js");
 import { User } from "../models/User.js";
 
-describe("Check Updates Functions User Controller", () => {
-  it("updates user expiry date if user exists", async () => {
-    // const userMock = {
-    //   username: "luigimatheus@hotmail.com"
-    // };
-
-    // User.findOne.mockResolvedValue(userMock);
-    // console.log(User.findOne.mockResolvedValue(userMock));
-    // const res = await request(app)
-    //   .get("/api/currenttime");
-    const requestBody = {
-      username: "john_doe",
-      password: "password123",
-      plan: 2,
-      expiresIn: 30,
-    };
-
-    const res = await request(app)
-      .post("/api/auth/register") // Substitua pelo caminho da rota do seu endpoint POST
-      .send(requestBody);
-
-    await console.log(res.body);  
-    await expect(res.statusCode).toEqual(200);
-    
-    // expect(res.body).toHaveProperty("message", "User updated");
-    // expect(User.findOneAndUpdate).toHaveBeenCalledWith(
-    //   { username: "luigimatheus" },
-    //   { expiresAt: expect.anything() }
-    // );
+describe('Remove User Endpoint', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
-  // it("returns 404 if user does not exist", async () => {
-  //   User.findOne.mockResolvedValue(null);
+  it('should return status 200 and message "User deleted" when user exists', async () => {
+    // Mock do valor retornado pela função findOneAndDelete
+    User.findOneAndDelete.mockResolvedValueOnce({});
 
-  //   const res = await request(app)
-  //     .put("/api/auth/update") // change this to your actual route
-  //     .send({ customer: { email: "luigimatheus@hotmail.com" } });
+    const requestBody = {
+      customer: {
+        email: 'test@example.com',
+      },
+    };
 
-  //   expect(res.statusCode).toEqual(404);
-  //   expect(res.body).toHaveProperty("message", "User not found");
-  //   expect(User.findOneAndUpdate).not.toHaveBeenCalled();
-  // });
+    const response = await request(app)
+      .post('/api/auth/remove')
+      .send(requestBody);
 
-  // it("returns 500 if database error occurs", async () => {
-  //   User.findOne.mockRejectedValue(new Error("Database error"));
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({ message: 'User deleted' });
+    expect(User.findOneAndDelete).toHaveBeenCalledWith({ username: 'test' });
+  });
 
-  //   const res = await request(app)
-  //     .put("/api/auth/update") // change this to your actual route
-  //     .send({ customer: { email: "luigimatheus@hotmail.com" } });
+  it('should return status 404 and message "User not found" when user does not exist', async () => {
+    // Mock do valor retornado pela função findOneAndDelete
+    User.findOneAndDelete.mockResolvedValueOnce(null);
 
-  //   expect(res.statusCode).toEqual(500);
-  // });
+    const requestBody = {
+      customer: {
+        email: 'test@example.com',
+      },
+    };
+
+    const response = await request(app)
+      .post('/api/auth/remove')
+      .send(requestBody);
+
+    expect(response.status).toBe(404);
+    expect(response.body).toEqual({ message: 'User not found' });
+    expect(User.findOneAndDelete).toHaveBeenCalledWith({ username: 'test' });
+  });
+
+  it('should return status 400 and message "Invalid body receive parameters" when request body is invalid', async () => {
+    const requestBody = {};
+
+    const response = await request(app)
+      .post('/api/auth/remove')
+      .send(requestBody);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({ message: 'Invalid body receive parameters' });
+    expect(User.findOneAndDelete).not.toHaveBeenCalled();
+  });
+
+  it('should return status 500 and error message when an error occurs', async () => {
+    // Mock do lançamento de um erro pela função findOneAndDelete
+    const errorMessage = 'Database error';
+    User.findOneAndDelete.mockRejectedValueOnce(new Error(errorMessage));
+
+    const requestBody = {
+      customer: {
+        email: 'test@example.com',
+      },
+    };
+
+    const response = await request(app)
+      .post('/api/auth/remove')
+      .send(requestBody);
+
+    expect(response.status).toBe(500);
+    expect(response.body).toEqual({ message: errorMessage });
+    expect(User.findOneAndDelete).toHaveBeenCalledWith({ username: 'test' });
+  });
 });
