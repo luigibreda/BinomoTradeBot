@@ -7,6 +7,10 @@ import { IoHelpCircle } from "react-icons/io5";
 export const Login = () => {
   const { error, handleLogin, register } = useLogin();
 
+  const handleSignUpClick = () => {
+    chrome.tabs.create({ url: 'https://bit.ly/binomo_brazill' });
+  };
+
   return (
     <div className="h-full  pt-5 relative">
       <h1 className="font-bold text-center text-xl">Faça login para entrar</h1>
@@ -40,7 +44,13 @@ export const Login = () => {
         <div className="text-center ">
           <p className="font-bold">
             Não tem uma conta?{" "}
-            <span className="text-primary font-bold">Cadastre-se</span>
+            {/* <span className="text-primary font-bold">Cadastre-se</span> */}
+            <span
+              className="text-primary font-bold hover:underline cursor-pointer"
+              onClick={handleSignUpClick}
+            >
+              Cadastre-se
+            </span>
           </p>
 
           <div
