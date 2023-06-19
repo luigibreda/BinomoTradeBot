@@ -8,7 +8,7 @@ export const Login = () => {
   const { error, handleLogin, register } = useLogin();
 
   const handleSignUpClick = () => {
-    chrome.tabs.create({ url: 'https://bit.ly/binomo_brazill' });
+    chrome.tabs.create({ url: "https://bit.ly/binomo_brazill" });
   };
 
   return (
@@ -38,7 +38,9 @@ export const Login = () => {
             color="primary"
             placeholder="Comprar acesso ao robô"
             outlined
-            link="https://cashalien.com.br/"
+            onClick={() =>
+              chrome.tabs.create({ url: "https://cashalien.com.br" })
+            }
           />
         </div>
         <div className="text-center ">
