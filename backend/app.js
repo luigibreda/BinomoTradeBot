@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
 import entryRoutes from "./routes/entryRoutes.js";
 import registryRoutes from "./routes/registryRoutes.js";
+import runRoutes from "./routes/runRoutes.js";
 import { Entry } from "./models/Entry.js";
 import { delay } from "./utils/delay.js";
 
@@ -30,6 +31,8 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/entry", entryRoutes);
 app.use("/api/registry", registryRoutes);
+app.use("/api/run", runRoutes);
+
 app.use((err, req, res, next) => {
   console.log(err);
   res.status(500).json({ message: err.message });
