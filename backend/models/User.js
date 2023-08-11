@@ -76,6 +76,11 @@ const userSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  active: {
+    type: Boolean,
+    default: false, // Padrão é false
+    required: true,
+  },
 });
 
 export const User = mongoose.model("User", userSchema);

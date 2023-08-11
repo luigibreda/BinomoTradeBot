@@ -42,7 +42,7 @@ export const register = async (req, res) => {
     });
   } catch (error) {
     if (error.code === 11000) {
-      return res.status(400).json({ message: "Username already exists" });
+      return res.status(400).json({ message: "Usuário já cadastrado" });
     }
     res.status(500).json({ message: error.message });
   }
@@ -54,16 +54,16 @@ export const login = async (req, res) => {
 
     const user = await User.findOne({ username });
     if (!user) {
-      return res.status(404).json({ message: "Invalid password or username" });
+      return res.status(404).json({ message: "Usuário e/ou senha incorretos." });
     }
 
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
-      return res.status(400).json({ message: "Invalid password or username" });
+      return res.status(400).json({ message: "Usuário e/ou senha incorretos." });
     }
 
     if (user.expiresAt < new Date())
-      return res.status(400).json({ message: "Your subscription has expired" });
+      return res.status(400).json({ message: "Sua assinatura expirou!" });
 
     const jwt = await genJWT({ id: user._id });
 
@@ -83,7 +83,7 @@ export const me = async (req, res) => {
     const { id } = req.user;
     const user = await User.findById(id);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "Usuário não encontrado." });
     }
 
     const { password, ...rest } = user._doc;
@@ -107,7 +107,7 @@ export const remove = async (req, res) => {
     if (user) {
       return res.status(200).json({ message: "User deleted" });
     } else {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "Usuário não encontrado." });
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -132,7 +132,80 @@ export const update = async (req, res) => {
 
       return res.status(200).json({ message: "User updated" });
     } else {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "Usuário não encontrado." });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const renewUser = async (req, res) => {
+  try {
+    const { email } = req.body.customer;
+    const username = email.split('@')[0];
+
+    const user = await User.findOne({ username: username });
+
+    if (user) {
+      const newExpiresAt = moment().add(30, 'days');
+      
+      await User.findOneAndUpdate(
+        { username: username },
+        { expiresAt: newExpiresAt },
+        { active: true }
+      );
+
+      return res.status(200).json({ message: `${username} - Usuário renovado por mais 30 dias.` });
+    } else {
+      return res.status(404).json({ message: `${username} - Usuário não encontrado.` });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const desactiveUser = async (req, res) => {
+  try {
+    const { email } = req.body.customer;
+    const username = email.split('@')[0];
+
+    const user = await User.findOne({ username: username });
+
+    if (user) {
+      const newExpiresAt = moment().subtract(1, 'days'); // Subtrai 1 dia da data atual
+      
+      await User.findOneAndUpdate(
+        { username: username },
+        { expiresAt: newExpiresAt },
+        { new: true }
+      );
+
+      return res.status(200).json({ message: `${username} - Usuário desativado.` });
+    } else {
+      return res.status(404).json({ message: `${username} - Usuário não encontrado.` });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const desactivateExpiredUsers = async (req, res) => {
+  try {
+    const currentDate = new Date();
+    
+    // Busque todos os usuários
+    const allUsers = await User.find();
+
+    // Filtra os usuários cuja data de expiração seja anterior à data atual
+    const expiredUsers = allUsers.filter(user => user.expiresAt < currentDate);
+
+    if (expiredUsers.length > 0) {
+      // Atualize o campo "active" para false em todos os usuários expirados
+      await User.updateMany({ _id: { $in: expiredUsers.map(user => user._id) } }, { active: false });
+
+      return res.status(200).json({ message: "Expired users deactivated" });
+    } else {
+      return res.status(200).json({ message: "No expired users found" });
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });
