@@ -186,6 +186,7 @@ def calcular_segundos_restantes(hora_encontrada):
     return segundos_restantes
 
 def format_ativo(ativo):
+    ativo = ativo.strip()
     if '-OTC' in ativo:
         ativo = ativo.replace('-OTC', '')
         ativo = ativo[:3] + '/' + ativo[3:] + ' (OTC)'
@@ -195,7 +196,7 @@ def format_ativo(ativo):
     else:
         logging.warning(f'O ativo {ativo} não está no formato que reconhecemos como mercado.')
         return False
-    
+
     return ativo
 
 def replace_links(mensagem):
