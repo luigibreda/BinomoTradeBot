@@ -200,8 +200,9 @@ def format_ativo(ativo):
     return ativo
 
 def replace_links(mensagem):
-    nova_mensagem = re.sub(r'https://bit\.ly/CriarConta-PocketOption', 'https://bit.ly/binomo_brazill', mensagem)
-    nova_mensagem = re.sub(r'https://bit\.ly/CadastroPocket', 'https://bit.ly/binomo_brazill', nova_mensagem)
+    nova_mensagem = re.sub(r'https://bit\.ly/CriarConta-PocketOption', 'https://bit.ly/binomo_oficialbr', mensagem) 
+    nova_mensagem = re.sub(r'https://bit\.ly/CadastroPocket', 'https://bit.ly/binomo_oficialbr', nova_mensagem)
+    nova_mensagem = re.sub(r'https://bit\.ly/CadastrarPocketOption', 'https://bit.ly/binomo_oficialbr', nova_mensagem)
     return nova_mensagem
 
 def extract_signal_info(mensagem):
